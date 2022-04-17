@@ -13,13 +13,8 @@
 # General Public License along with Marpa::R2.  If not, see
 # http://www.gnu.org/licenses/.
 
-all: ah2002_notes.pdf recce.pdf finite.pdf
+all: recce.pdf
 
 recce.pdf: recce.ltx
 	pdflatex $?
 
-finite.pdf: finite.ltx
-	pdflatex $?
-
-ah2002_notes.pdf: ah2002_notes.ltx
-	pdflatex $?
