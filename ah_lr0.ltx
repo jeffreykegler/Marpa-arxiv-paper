@@ -8,14 +8,32 @@
 
 % This is actually a Cweb file, which needs to be convered to Latex
 
-@*0 About this document.
+\begin{document}
 
-The document contains materials that do not describe the Marpa
-algorithm in its latest form.
-They are useful as background,
-or for understanding why Marpa has changed in the way it has.
+\date{\today}
 
-@*0 The Aycock-Horspool finite automata.
+\title{The Aycock-Horspool AHFA: some practical experience}
+
+\author{Jeffrey Kegler}
+\thanks{%
+Copyright \copyright\ 2013 Jeffrey Kegler.
+}
+\thanks{%
+This document is licensed under
+a Creative Commons Attribution-NoDerivs 3.0 United States License.
+}
+
+\begin{abstract}
+In the course of developing the Marpa parser,
+we implemented the 
+AHFA state-based parsing described in Aycock and Horspool's 2002 paper.
+This allowed us to test its effectiveness in practice.
+This paper reports our results.
+\end{abstract}
+
+\maketitle
+
+\section{ The Aycock-Horspool finite automata. }
 
 Most of the material in this document describes the behavior of
 Marpa when it used the states of
@@ -26,11 +44,11 @@ While not relevant to the current version of Marpa,
 it may be useful for anyone else wanting to experiment with
 the use of LR states in Earley items.
 
-@*0 Some statistics on AHFA states.
+\section{ Some statistics on AHFA states. }
 
-@*1 Discovered states.
+\subsection{Discovered states.}
 
-@ For Perl's grammar, the discovered states range in size from 1 to 20 items,
+For Perl's grammar, the discovered states range in size from 1 to 20 items,
 but the numbers are heavily skewed toward the low
 end.  Here are the item counts that appear, with the percent of the total
 discovered AHFA states with that item count in parentheses.
@@ -63,7 +81,7 @@ just one or two items.
 The average size is 1.5235,
 and the average of the $|size|^2$ is 3.9405.
 
-@ For HTML, I looked at a parser which generates grammars on
+For HTML, I looked at a parser which generates grammars on
 the fly, aggregating the states in all of them.
 For the the HTML grammars I used, the totals are even more lopsided:
 80.96\% of all discovered states have only 1 item.
@@ -71,7 +89,7 @@ All the others (19.04\%) have 2 items.
 The average size is 1.1904,
 and the average of the $|size|^2$ is 1.5712.
 
-@ For a compiler-quality C grammar,
+For a compiler-quality C grammar,
 the discovered states range in size from 1 to 15 items but again,
 the numbers are heavily skewed toward the low
 end.  Here are the item counts that appear, with the percent of the total
@@ -105,16 +123,16 @@ There were 970 discovered C states.
 The average size was 1.52.
 The average of the size squared was 3.98.
 
-@*1 Predicted states.
+\subsection{Predicted states.}
 
-@ The number of predicted states tends to be much more
+The number of predicted states tends to be much more
 evenly distributed.
 It also tends to be much larger, and
 the average for practical grammars may be $O(s)$,
 where $s$ is the size of the grammar.
 This is the same as the theoretical worst case.
 
-@ Here are the number of items for predicted states for the Perl grammar.
+Here are the number of items for predicted states for the Perl grammar.
 Here in tabular form are the sizes most common sizes, in order of
 decreasing frequency:
 \par
@@ -170,11 +188,11 @@ the following sizes:
 224, and
 225.
 
-@ The number of predicted states in the Perl grammar was 58.
+The number of predicted states in the Perl grammar was 58.
 The average size was 83.59 AHFA items.
 The average of the size squared was 11356.41.
 
-@ And here is the same data for the collection of HTML grammars:
+And here is the same data for the collection of HTML grammars:
 \par
 \vskip\baselineskip
 \vbox{\offinterlineskip
@@ -204,32 +222,34 @@ The average of the size squared was 11356.41.
 }
 \vskip\baselineskip
 
-@
 The total number of predicted states in the HTML grammars was 1855.
 Their average size was 14.60.
 Their average size squared was 250.93.
 
-@ The number of predicted states in the C grammar was 114.
+The number of predicted states in the C grammar was 114.
 The average size was 54.81.
 The average size squared was 5361.28.
 The sizes of the predicted states for the C grammar were spread from 1 
 to 222.
-\li The most frequent sizes were 2 and 3, tied at
+
+\begin{itemize}
+\item The most frequent sizes were 2 and 3, tied at
 six states each.
-\li There were five states of size 8.
-\li There were four states in each of the sizes 4 and 90.
-\li There were three states in each of the following sizes:
+\item There were five states of size 8.
+\item There were four states in each of the sizes 4 and 90.
+\item There were three states in each of the following sizes:
       6, 11, 31, and 47
-\li There were two states in each of the following sizes:
+\item There were two states in each of the following sizes:
            5, 14, 42, 64, 68, 78, 91, 95, and 98.
-\li There was a single state of each of the following sizes:
+\item There was a single state of each of the following sizes:
      1, 7, 9, 12, 15, 17, 18, 19, 21, 22, 25, 28, 29, 33, 34, 36,
     37, 40, 43, 44, 45, 46, 52, 53, 54, 57, 58, 61, 65, 66, 69, 72,
     74, 76, 80, 81, 86, 87, 89, 94, 96, 97, 99, 102, 105, 108,
    115, 117, 119, 123, 125, 127, 144, 149, 150, 154, 181, 219,
    and 222.
+\end{itemize}
 
-@*0 Statistics on completed LHS symbols per AHFA state.
+\section{ Statistics on completed LHS symbols per AHFA state. }
 An AHFA state may contain completions for more than one LHS,
 but that is rare in practical use, and the number of completed
 LHS symbols in the exceptions remains low.
@@ -237,10 +257,11 @@ The very complex Perl AHFA contains 271 states with completions.
 Of these 268 have only one completed symbol.
 The other three AHFA states complete only two different LHS symbols.
 Two states have completions with both
-a |term_hi| and a |indirob| on the LHS.
+a $term_hi$ and a ``indirob'' on the LHS.
 One state has completions for both a
-|sideff| and an |mexpr|.
-@ My HTML test grammars make the
+``sideff'' and an ``mexpr''.
+
+My HTML test grammars make the
 same point more strongly.
 My HTML parser generates grammars on the fly.
 These HTML grammars can differ from each other.
@@ -250,3 +271,54 @@ In my HTML test suite,
 every single one
 of the 14,782 AHFA states
 has only one completed LHS symbol.
+
+\bibliographystyle{plain}
+
+\begin{thebibliography}{10}
+
+\bibitem{AU1972}
+Alfred H.~Aho and Jeffrey D.~Ullman.
+\newblock The Theory of Parsing, Translation, and Computing
+\newblock Prentice-Hall, Englewood Cliff, N.J., 1972.
+
+\bibitem{AH2002}
+John~Aycock and R.~Nigel~Horspool.
+\newblock Practical Earley Parsing
+\newblock {\em The Computer Journal},
+    Vol. 45, No. 6, 2002, pp. 620-630.
+
+\bibitem{Earley1970}
+J.~Earley.
+\newblock An efficient context-free parsing algorithm.
+\newblock {\em Communications of the Association for Computing Machinery},
+  13(2):94--102, 1970.
+
+\bibitem{GJ2008}
+Dirk~Grune and Ceriel~J.H Jacobs.
+\newblock {\em Parsing Techniques: A Practical Guide}.
+\newblock Springer, Amsterdam, 2008.
+
+\bibitem{Marpa-HTML}
+Jeffrey~Kegler, 2011: Marpa-HTML.
+\newblock \url{http://search.cpan.org/dist/Marpa-HTML/}.
+
+\bibitem{Marpa-R2}
+Jeffrey~Kegler, 2013: Marpa-R2.
+\newblock \url{http://search.cpan.org/dist/Marpa-R2/}.
+
+\bibitem{Marpa-XS}
+Jeffrey~Kegler, 2011: Marpa-XS-1.002000.
+\newblock \url{http://search.cpan.org/dist/Marpa-XS/}.
+
+\bibitem{Leo1991}
+J.~M. I.~M. Leo.
+\newblock A general context-free parsing algorithm running in linear time on
+  every {LR($k$)} grammar without using lookahead.
+\newblock {\em Theoretical Computer Science}, 82:165--176, 1991.
+
+\end{thebibliography}
+
+\clearpage
+\tableofcontents
+
+\end{document}
