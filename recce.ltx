@@ -998,7 +998,7 @@ in an Earley set \Ves{i}:
 \begin{equation*}
 \begin{gathered}
 \mymathop{Penult-Unique}(\Vsym{penult},\Ves{i}) \defined \\
-\forall \; \Vdr{x} \; \forall \; \Vdr{y} \; \mid \\
+\forall \; \Vdr{x} \; \forall \; \Vdr{y} \\
 \left( \; \begin{gathered}
 \mymathop{Contains}(\Ves{i}, \Vdr{x})
   \land \mymathop{Contains}(\Ves{i}, \Vdr{y})  \\
@@ -1014,7 +1014,7 @@ in the Earley set at location \Vloc{current}:
 \LeoUnique{\Vdr{x},\Vloc{current}} \defined \\
 \mymathop{Contains}(\Ves{current}, \Vdr{x})  \\
 \land \; \Penult{\Vdr{x}} \neq \Lambda \\
-\land \; \mymathop{Penult-Unique}({\Penult{\Vdr{x}}}, \Ves{current})
+\land \; \mymathop{Penult-Unique}({\Penult{\Vdr{x}}}, \Ves{current}).
 \end{gathered}
 \end{equation*}
 And we define the Leo eligibility
@@ -1022,7 +1022,7 @@ of the dotted rule \Vdr{x} at location \Vloc{current}:
 \begin{equation*}
 \begin{gathered}
 \LeoEligible{\Vdr{x},\Vloc{current}} \defined \\
-\exists \; \Vrule{x}, \var{i} \; \mid \\
+\exists \; \Vrule{x}, \var{i} \\
 \left( \; \begin{gathered}
 \Vdr{x} = [ \Vrule{x}, \var{i} ] \\
 \land \; \RightRecursive{\Vrule{x}} \\
