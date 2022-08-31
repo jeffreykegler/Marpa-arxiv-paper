@@ -857,10 +857,10 @@ of Earley items.
 Leo items only memoize unambiguous (or
 deterministic) sequences,
 so that the top of the sequence can represent
-the entire sequence --
-the only role the other EIMT's in the sequence
-play in the parse is to derive the top EIMT.
+the entire sequence.
 We will call these memoized sequences, Leo sequences.
+All the other EIMT's in a Leo sequence
+can be derived from the top EIMT of the sequence.
 
 To quarantee that a Leo sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
