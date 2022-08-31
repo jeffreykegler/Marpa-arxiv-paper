@@ -624,8 +624,12 @@ An Earley parser builds a table of Earley sets,
 0 \le \Vloc{i} \le \size{\Cw}.
 \end{equation*}
 Earley sets are of type \type{ES}.
-Earley sets are often named by their location,
-so that \Ves{i} means the Earley set at \Vloc{i}.
+Earley sets are often named by their location:
+That is,
+the bijection betwen \Ves{i} and \Vloc{i}
+allows locations to be treated as the ``names'' of Earley sets.
+We often write \Ves{i} to mean the Earley set at \Vloc{i},
+and \Vloc{x} to mean the location of Earley set \Ves{x}.
 The type designator \type{ES} is often omitted to avoid clutter,
 especially in cases where the Earley set is not
 named by location.
@@ -682,6 +686,9 @@ The Earley sets correspond to parse locations,
 and for any Earley operation there is a
 current parse location, \Vloc{current}, and
 a current Earley set, \Ves{current}.
+Recall that, when the meaning is clear in context,
+we often find it convenient to write \Ves{i} for
+the Earley set at \Vloc{i}.
 
 Each location starts with an empty Earley set.
 For the purposes of this description of
