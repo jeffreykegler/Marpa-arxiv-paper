@@ -1,9 +1,10 @@
-% Copyright 2013 Jeffrey Kegler
+% Copyright 2022 Jeffrey Kegler
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{xspace}
 \usepackage{url}
 
 % This is now a "paper", but may be a chapter
@@ -17,6 +18,7 @@
 % For a type name, when it occurs in text
 \newcommand{\type}[1]{\ensuremath{#1}}
 
+\newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
 \newcommand{\dfn}[1]{{\bf #1}}
 \newcommand{\sep}{\,\mid\,}
@@ -66,6 +68,7 @@
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
 \newcommand{\Vlimt}[1]{\ensuremath{\var{#1}_{LIMT}}}
+\newcommand{\Vlimtset}[1]{\ensuremath{\var{#1}_{\set{LIMT}}}}
 \newcommand{\Eloc}[1]{\ensuremath{{#1}_{LOC}}}
 \newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
 \newcommand{\Ves}[1]{\Ees{\var{#1}}}
@@ -103,6 +106,7 @@
 \newcommand{\RightNN}[1]{\mymathop{Right-NN}(#1)}
 \newcommand{\LeoEligible}[1]{\mymathop{Leo-Eligible}(#1)}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
+\newcommand{\LIMTMap}[1]{\mymathop{LIMT-Map}(#1)}
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
 \newcommand{\myL}[1]{\mymathop{L}(#1)}
@@ -839,8 +843,12 @@ will be type \type{LIM}.
 that is, those of the form used in Leo's paper\cite{Leo1991},
 will be type \type{LIMT}.
 
-In each Earley set, there is at most one Leo item per symbol.
-A traditional Leo item (LIMT) is the triple
+Let $\mymathop{LIMT-Map}$ be
+a partial function from the Cartesian product of natural
+numbers and symbols to the Leo items:
+$$\mymathop{LIMT-Map} : \naturals \times \var{vocab} \mapsto \Vlimtset{limts},$$
+where \var{limts} is the set of traditional Leo items.
+A traditional Leo item (LIMT) is a triple
 \begin{equation*}
 [ \Vdr{top}, \Vsym{transition}, \Vorig{top} ]
 \end{equation*}
@@ -851,6 +859,39 @@ and
 \end{equation*}
 is the Earley item to be added on reductions over
 \Vsym{transition}.
+That $\mymathop{LIMT-Map}$ is a partial function implies that,
+in each Earley set, there is at most one Leo item per symbol.
+
+Pedantically, \type{LIMT}s are not member of Earley sets.
+But, as an alternative to $\mymathop{LIMT-Map}$,
+we will often find it convenient and natural to overload
+the notion and notation for Earley set membership,
+so that,
+for an Earley set \Ves{i},
+if \Vlimt{x} is such that%
+\footnote{
+  The reader may note in
+  equation \ref{e:limtmap-overload},
+  that $\mymathop{LIMT-Map}$ is a partial function
+  and that therefore its value is not
+  necessarily defined.
+  We follow the traditional convention that
+  a formula with an undefined operand is false.
+  This tradition, while entrenched, was poorly
+  documented until
+  Farmer 2004 \cite{Farmer2004}
+  performed the immense service of
+  describing and formalizing it.
+}
+\begin{equation}
+\label{e:limtmap-overload}
+\exists \, \var{postdot} \in \var{vocab} \mid
+     \var{x} = \LIMTMap{\Vloc{i}, \Vsym{postdot}},
+\end{equation}
+then we say that \Vlimt{x} is \dfn{in}
+the Earley set \Ves{i},
+and we write
+$$\Vlimt{x} \in \Ves{i}.$$
 
 Leo items memoize what would otherwise be sequences
 of Earley items.
