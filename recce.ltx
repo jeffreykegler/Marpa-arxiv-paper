@@ -866,7 +866,7 @@ Pedantically, \type{LIMT}s are not member of Earley sets.
 But, as an alternative to $\mymathop{LIMT-Map}$,
 we will often find it convenient and natural to overload
 the notion and notation for Earley set membership.
-This is,
+That is,
 if an Earley set \Ves{i},
 and a LIMT \Vlimt{x} is such that
 \begin{equation}
@@ -879,14 +879,14 @@ the Earley set \Ves{i},
 and we write
 $$\Vlimt{x} \in \Ves{i}.$$
 Note that in equation \ref{e:limtmap-overload},
-$\mymathop{LIMTMap}$ is a partial function,
+$\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
 In this paper, we handle undefinedness in the traditional way.%
 \footnote{
-  According to the traditional convention,
+  Traditionally,
   a formula with an undefined operand is false.
-  This tradition, while entrenched, was poorly
-  documented until
+  The traditional handling of undefinedness,
+  while entrenched, was poorly documented until
   Farmer~2004~\cite{Farmer2004}
   performed the immense service of
   describing and formalizing it.
