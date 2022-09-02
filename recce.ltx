@@ -18,6 +18,7 @@
 % For a type name, when it occurs in text
 \newcommand{\type}[1]{\ensuremath{#1}}
 
+\newcommand{\mult}{\mathbin{\ast}}
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
 \newcommand{\dfn}[1]{{\bf #1}}
@@ -310,7 +311,7 @@ Multi-character variable names will be common,
 and operations will never be implicit.
 \begin{center}
 \begin{tabular}{ll}
-Multiplication &  $\var{a} \times \var{b}$ \\
+Multiplication &  $\var{a} \mult \var{b}$ \\
 Concatenation & $\var{a} \cat \var{b}$ \\
 Subtraction & $\var{symbol-count} \subtract \var{terminal-count}$ \\
 \end{tabular}
@@ -2099,7 +2100,7 @@ which depends on \Cg{}.
 Since duplicate EIM's are never added to an Earley set,
 the maximum size of Earley set \Vloc{i} is therefore
 \begin{equation*}
-\Vloc{i} \times \size{\Cfa} = \order{\Vloc{i}}.\qedhere
+\Vloc{i} \mult \size{\Cfa} = \order{\Vloc{i}}.\qedhere
 \end{equation*}
 \end{proof}
 
@@ -2674,7 +2675,7 @@ theoretical apparatus of this section.
 \begin{theorem}\label{t:marpa-O-leo}
 \begin{equation*}
 \textup{
-    $\Rtablesize{\Marpa} < \var{c} \times \Rtablesize{\Leo}$,
+    $\Rtablesize{\Marpa} < \var{c} \mult \Rtablesize{\Leo}$,
 }
 \end{equation*}
 where \var{c} is a constant that depends on the grammar.
@@ -2696,7 +2697,7 @@ traditional Earley item must be less
 than $\size{\Cfa}$.
 Therefore,
 \begin{equation*}
-    \Rtablesize{\Marpa} < \size{\Cfa} \times \Rtablesize{\Leo}\qedhere
+    \Rtablesize{\Marpa} < \size{\Cfa} \mult \Rtablesize{\Leo}\qedhere
 \end{equation*}
 \end{proof}
 
@@ -2739,7 +2740,7 @@ the number of attempts to add
 Earley items will be less than or equal to
 \begin{equation*}
 \textup{
-    $\var{c} \times \Rtablesize{\Marpa}$,
+    $\var{c} \mult \Rtablesize{\Marpa}$,
 }
 \end{equation*}
 where \var{c} is a constant
@@ -2768,7 +2769,7 @@ we know there will be at most one Leo reduction for
 each each dotted rule in the current Earley set,
 \Vloc{j}.
 \begin{equation*}
-\var{leo-tries} \le \var{max-AHFA} \times \bigsize{\Vtable{j}}
+\var{leo-tries} \le \var{max-AHFA} \mult \bigsize{\Vtable{j}}
 \end{equation*}
 
 Let \var{scan-tries} be the number of attempted scan operations in
@@ -2860,9 +2861,9 @@ each \Veim{component} are
 \begin{alignedat}{2}
 & \Vsize{fa} &&
 \qquad \text{choices of \Veim{predecessor}} \\
-\times \; & \Vsize{symbols} &&
+\mult \; & \Vsize{symbols} &&
 \qquad \text{choices of \Vsym{transition}} \\
-\times \; & \size{\Ves{j}} &&
+\mult \; & \size{\Ves{j}} &&
 \qquad \text{choices of \Veim{component}} \\
 \end{alignedat}
 \end{equation*}
@@ -2870,7 +2871,7 @@ each \Veim{component} are
 
 The number of reduction attempts will therefore be at most
 \begin{equation*}
-\var{reduction-tries} \leq \Vsize{fa} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
+\var{reduction-tries} \leq \Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}.
 \end{equation*}
 
 Summing
@@ -2890,14 +2891,14 @@ the size of the input,
 & \bigsize{\Vtable{0}} & \quad &
 \qquad \text{initial EIM's} \\
 + \; & \sum\limits_{i=0}^{n}{
-\var{max-AHFA} \times \bigsize{\Vtable{j}}
+\var{max-AHFA} \mult \bigsize{\Vtable{j}}
 } &&
 \qquad \text{LIM's} \\
-+ \; & 2 \times \sum\limits_{i=1}^{n}{
++ \; & 2 \mult \sum\limits_{i=1}^{n}{
 \bigsize{\Etable{\var{j} \subtract 1}}
 } &&
 \qquad \text{scanned EIM's} \\
-+ \; & 2 \times \sum\limits_{i=0}^{n}{\Vsize{fa} \times \Vsize{symbols} \times \bigsize{\Ves{j}}} &&
++ \; & 2 \mult \sum\limits_{i=0}^{n}{\Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}} &&
 \qquad \text{reduction EIM's}.
 \end{alignedat}
 \end{equation*}
@@ -2910,11 +2911,11 @@ if we collect the terms of the summation,
 we will find a constant \var{c}
 such that
 \begin{equation*}
-\var{tries} \leq \var{c} \times \sum\limits_{i=0}^{n}{\bigsize{\Vtable{j}}},
+\var{tries} \leq \var{c} \mult \sum\limits_{i=0}^{n}{\bigsize{\Vtable{j}}},
 \end{equation*}
 and
 \begin{equation*}
-\var{tries} \leq \var{c} \times \Rtablesize{\Marpa},
+\var{tries} \leq \var{c} \mult \Rtablesize{\Marpa},
 \end{equation*}
 where \var{c} is a constant that depends on \Cg{}.\qedhere
 \end{proof}
@@ -2970,7 +2971,7 @@ By Theorem \ref{t:eim-count},
 \end{equation*}
 and by Theorem \ref{t:tries-O-eims},
 \begin{equation*}
-\var{other-tries} \le \var{c} \times \Rtablesize{\Marpa},
+\var{other-tries} \le \var{c} \mult \Rtablesize{\Marpa},
 \end{equation*}
 so that
 $\var{other-tries} = \order{\var{n}^2}$.
@@ -2998,14 +2999,14 @@ the number of possibilities for \Veim{predecessor} now grows to
 \size{\Ves{component-origin}}, and
 \begin{equation*}
 \var{reduction-tries} =
-\bigsize{\Ves{component-origin}} \times \Vsize{symbols} \times \bigsize{\Ves{j}}.
+\bigsize{\Ves{component-origin}} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}.
 \end{equation*}
 \end{sloppypar}
 
 In the worst case $\var{component-origin} \simeq \var{j}$,
 so that by Theorem \ref{t:es-count},
 \begin{equation*}
-\size{\Ves{component-origin}} \times \size{\Ves{j}} = \order{\var{j}^2}.
+\size{\Ves{component-origin}} \mult \size{\Ves{j}} = \order{\var{j}^2}.
 \end{equation*}
 Adding \var{other-tries}
 and summing over the Earley sets,
@@ -3126,7 +3127,7 @@ Therefore the number of EIM's per Earley set
 for an LR-regular grammar in a \Marpa{} parse
 is less than
 \begin{equation*}
-    \var{c1} \times \var{c2} \times \order{\var{n}} = \order{\var{n}}.
+    \var{c1} \mult \var{c2} \mult \order{\var{n}} = \order{\var{n}}.
 \end{equation*}
 
 LR-regular grammar are unambiguous, so that
@@ -3141,7 +3142,7 @@ and \ref{t:O1-links-per-eim},
 the time and space complexity of \Marpa{} for LR-regular
 grammars is
 \begin{equation*}
-    \var{c3} \times \order{\var{n}}
+    \var{c3} \mult \order{\var{n}}
     = \order{\var{n}}.\qedhere
 \end{equation*}
 \end{proof}
@@ -3158,7 +3159,7 @@ and Theorem \ref{t:eim-count},
 the number of attempts that \Marpa{} will make to add
 EIM's is
 \begin{equation*}
-\var{c} \times \order{\var{n}^2},
+\var{c} \mult \order{\var{n}^2},
 \end{equation*}
 where \var{c} is a constant that depends on \Cg{}.
 Therefore,
