@@ -846,7 +846,7 @@ will be type \type{LIMT}.
 Let $\mymathop{LIMT-Map}$ be
 a partial function from the Cartesian product of natural
 numbers and symbols to the Leo items:
-$$\mymathop{LIMT-Map} : \naturals \times \var{vocab} \mapsto \Vlimtset{limts},$$
+$$\mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \Vlimtset{limts},$$
 where \var{limts} is the set of traditional Leo items.
 A traditional Leo item (LIMT) is a triple
 \begin{equation*}
@@ -865,24 +865,10 @@ in each Earley set, there is at most one Leo item per symbol.
 Pedantically, \type{LIMT}s are not member of Earley sets.
 But, as an alternative to $\mymathop{LIMT-Map}$,
 we will often find it convenient and natural to overload
-the notion and notation for Earley set membership,
-so that,
-for an Earley set \Ves{i},
-if \Vlimt{x} is such that%
-\footnote{
-  The reader may note in
-  equation \ref{e:limtmap-overload},
-  that $\mymathop{LIMT-Map}$ is a partial function
-  and that therefore its value is not
-  necessarily defined.
-  We follow the traditional convention that
-  a formula with an undefined operand is false.
-  This tradition, while entrenched, was poorly
-  documented until
-  Farmer 2004 \cite{Farmer2004}
-  performed the immense service of
-  describing and formalizing it.
-}
+the notion and notation for Earley set membership.
+This is,
+if an Earley set \Ves{i},
+and a LIMT \Vlimt{x} is such that
 \begin{equation}
 \label{e:limtmap-overload}
 \exists \, \var{postdot} \in \var{vocab} \mid
@@ -892,6 +878,19 @@ then we say that \Vlimt{x} is \dfn{in}
 the Earley set \Ves{i},
 and we write
 $$\Vlimt{x} \in \Ves{i}.$$
+Note that in equation \ref{e:limtmap-overload},
+$\mymathop{LIMTMap}$ is a partial function,
+and therefore its value is not necessarily defined.
+In this paper, we handle undefinedness in the traditional way.%
+\footnote{
+  According to the traditional convention,
+  a formula with an undefined operand is false.
+  This tradition, while entrenched, was poorly
+  documented until
+  Farmer~2004~\cite{Farmer2004}
+  performed the immense service of
+  describing and formalizing it.
+}
 
 Leo items memoize what would otherwise be sequences
 of Earley items.
