@@ -1051,7 +1051,7 @@ We define uniqueness of a penult \Vsym{penult}
 in an Earley set \Ves{i}:
 \begin{equation*}
 \begin{gathered}
-\mymathop{Penult-Unique}(\Vsym{penult},\Ves{i}) \defined \\
+\mymathop{Penult-Unique}(\Ves{i}, \Vsym{penult}) \defined \\
 \forall \; \Vdr{x} \; \forall \; \Vdr{y} \\
 \left( \; \begin{gathered}
 \mymathop{Contains}(\Ves{i}, \Vdr{x})
@@ -1065,10 +1065,10 @@ We define the Leo uniqueness of a dotted rule \Vdr{x}
 in the Earley set at location \Vloc{current}:
 \begin{equation*}
 \begin{gathered}
-\LeoUnique{\Vdr{x},\Vloc{current}} \defined \\
+\LeoUnique{\Vloc{current}, \Vdr{x}} \defined \\
 \mymathop{Contains}(\Ves{current}, \Vdr{x})  \\
 \land \; \Penult{\Vdr{x}} \neq \Lambda \\
-\land \; \mymathop{Penult-Unique}({\Penult{\Vdr{x}}}, \Ves{current}).
+\land \; \mymathop{Penult-Unique}({\Ves{current}, \Penult{\Vdr{x}}}).
 \end{gathered}
 \end{equation*}
 And we define the Leo eligibility
