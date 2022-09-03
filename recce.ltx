@@ -1075,7 +1075,7 @@ And we define the Leo eligibility
 of the dotted rule \Vdr{x} at location \Vloc{current}:
 \begin{equation*}
 \begin{gathered}
-\LeoEligible{\Vdr{x},\Vloc{current}} \defined \\
+\LeoEligible{ \Vloc{current}, \Vdr{x} } \defined \\
 \exists \; \Vrule{x}, \var{i} \\
 \left( \; \begin{gathered}
 \Vdr{x} = [ \Vrule{x}, \var{i} ] \\
@@ -1090,7 +1090,7 @@ an EIMT, and false otherwise:
 \begin{equation*}
 \begin{split}
 & \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \defined \\
-& \quad \exists \Ves{bottom-origin}, \Vdr{bottom}, \Vdr{pred}, \\
+& \quad \exists \; \Ves{bottom-origin}, \Vdr{bottom}, \Vdr{pred}, \\
 & \quad \qquad \Vloc{pred-origin}, \Vloc{bottom-origin} \quad \text{such that}  \\
 & \quad \qquad \qquad \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom-origin} ] \\
 & \quad \qquad \qquad \land \Vlimt{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vloc{pred-origin} ] \\
@@ -1100,14 +1100,16 @@ an EIMT, and false otherwise:
 
 We are now ready to define an inference rule which holds if
 a LIMT predecessor can be found for an EIMT \Veimt{bottom}
+in \Ves{current}:
 \begin{equation*}
 \inference{
     \begin{array}{c}
+    \Veimt{bottom} \in \Ves{current} \\
     \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
     \Vlimt{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vorig{pred} ] \\
     \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom} ] \\
     \Veimt{bottom} \in \Ves{current} \\
-    \LeoEligible{\Vdr{bottom}}
+    \LeoEligible{\Ves{current}, \Vdr{bottom}}
     \end{array}
 }{
     \left \lbrace [ \Vdr{pred}, \Penult{\Vdr{bottom}}, \Vorig{pred} ] \right \rbrace
@@ -1118,10 +1120,11 @@ and another, which holds if
 \begin{equation*}
 \inference{
     \begin{array}{c}
+    \Veimt{bottom} \in \Ves{current} \\
     \neg \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
     \Veimt{bottom} = [ \Vdr{bottom}, \Vorig{bottom} ] \\
     \Veimt{bottom} \in \Ves{current} \\
-    \LeoEligible{\Vdr{bottom}}
+    \LeoEligible{\Ves{current}, \Vdr{bottom}}
     \end{array}
 }{
     \bigset{ [ \Next{\Vdr{bottom}}, \Penult{\Vdr{bottom}}, \Vorig{bottom} ] }
