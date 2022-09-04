@@ -190,10 +190,10 @@ Marpa::XS\cite{Marpa-XS},
 a stable version of this tool,
 was uploaded to the CPAN Perl archive
 on Solstice Day in 2011.
-This paper describes the algorithm of Marpa::R2\cite{Marpa-R2},
+This paper describes the algorithm of Marpa::R2~\cite{Marpa-R2},
 a later version.
 
-As implemented,
+As implemented in \cite{Marpa-R2},
 Marpa parses,
 without exception,
 all context-free grammars.
@@ -239,7 +239,7 @@ parse with a clean
 but oversimplified grammar,
 programming the lexical analyzer to make up for the grammar's
 short-comings on the fly.
-The author has implemented an HTML parser\cite{Marpa-HTML},
+The author has implemented an HTML parser~\cite{Marpa-HTML},
 based on a grammar that assumes that all start
 and end tags are present.
 Such an HTML grammar is too simple even to describe perfectly
@@ -327,7 +327,7 @@ let \size{\Vstr{s}} be its length, counted in symbols.
 Let $\var{vocab}^+$ be
 \begin{equation*}
 \bigl\{ \Vstr{x}
-\bigm| \Vstr{x} \in \var{vocab}* \land \Vsize{\Vstr{x}} > 0
+\bigm| \Vstr{x} \in \var{vocab}^\ast \land \Vsize{\Vstr{x}} > 0
 \bigr\}.
 \end{equation*}
 
@@ -426,10 +426,10 @@ if and only if is either directly or indirectly right-recursive.
 
 The definition of \Cg{} does not sharply distinguish terminals
 from non-terminals.
-\Marpa{}'s implementations allow terminals to be the LHS
+The implementation of \cite{Marpa-R2} allows terminals to be the LHS
 of rules,
 and every symbol except \Vsym{accept} can be a terminal.
-The implementations have options that allow
+\cite{Marpa-R2} has options that allow
 the user to reinstate
 the traditional restrictions,
 in part or in whole.
@@ -452,7 +452,7 @@ The alert reader may have noticed that the previous definition
 of \Cw{} did not allow zero-length inputs.
 To simplify the mathematics, we exclude null parses
 and trivial grammars from consideration.
-In its implementations,
+In the implementation of \cite{Marpa-R2},
 the Marpa parser
 deals with null parses and trivial grammars as special cases.
 (Trivial grammars are those that recognize only the null string.)
@@ -500,7 +500,7 @@ be ``wrapped'' to reassemble these lists
 into operands that are properly formed
 for that original semantics.
 
-As implemented,
+In the implementation of \cite{Marpa-R2},
 the Marpa parser allows users to associate
 semantics with an original grammar
 that has none of the restrictions imposed
@@ -511,7 +511,7 @@ including one with properly nullable symbols,
 empty rules, etc.
 The user specifies his semantics in terms
 of this original, ``free-form'', grammar.
-Marpa implements the rewrites,
+\cite{Marpa-R2} implements the rewrites,
 and performs evaluation,
 in such a way as to keep them invisible to
 the user.
@@ -1429,7 +1429,7 @@ The two notations should be regarded as interchangeable.
 The actual implementation of either
 should be the equivalent of a pointer to
 a data structure containing,
-at a minium,
+at a minimum,
 the Earley items,
 a memoization of the Earley set's location as an integer,
 and a per-set-list.
@@ -1672,7 +1672,7 @@ This requires that \Veim{work}
 in \call{Reduction pass}{}
 carry a link
 back to its origin.
-As implemented, Marpa's
+As implemented in \cite{Marpa-R2}, Marpa's
 Earley items have such links.
 
 Inclusive time
@@ -1914,7 +1914,7 @@ without loss of generality,
 contain neither empty rules or
 properly nullable symbols.
 This corresponds directly
-to a grammar rewrite in the \Marpa{} implementation,
+to a grammar rewrite in the implementation of \cite{Marpa-R2},
 and its reversal during \Marpa's evaluation phase.
 For the correctness and complexity proofs in this \doc{},
 we assume an additional rewrite,
@@ -1930,13 +1930,13 @@ Clearly, whether a grammar \Cg{} accepts
 an input \Cw{}
 will not depend on the nulling symbols in its rules.
 
-In its implementation,
+In \cite{Marpa-R2},
 \Marpa{} does not directly rewrite the grammar
 to eliminate nulling symbols.
 But nulling symbols are ignored in
 creating the AHFA states,
 and must be restored during \Marpa's evaluation phase,
-so that the implementation and
+so that the implementation of \cite{Marpa-R2} and
 this simplification for theory purposes
 track each other closely.
 
@@ -3221,7 +3221,7 @@ In this \doc{},
 up to this point,
 the traditional input stream model
 has been assumed.
-As implemented,
+As implemented in \cite{Marpa-R2},
 Marpa generalizes the idea of
 input streams beyond the traditional
 model.
