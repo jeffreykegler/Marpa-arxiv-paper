@@ -179,26 +179,26 @@ to the parser's expectations.
 Despite the promise of general context-free parsing,
 and the strong academic literature behind it,
 it has never been incorporated into a highly available tool
-like those that exist for LALR\cite{Johnson} or
+like those that exist for LALR~\cite{Johnson} or
 regular expressions.
 The Marpa project was intended
 to take the best results from the literature
 on Earley parsing off the pages
 of the journals and bring them
 to a wider audience.
-Marpa::XS\cite{Marpa-XS},
+Marpa::XS~\cite{Marpa-XS},
 a stable version of this tool,
 was uploaded to the CPAN Perl archive
 on Solstice Day in 2011.
 This paper describes the algorithm of Marpa::R2~\cite{Marpa-R2},
 a later version.
 
-As implemented in \cite{Marpa-R2},
+As implemented in~\cite{Marpa-R2},
 Marpa parses,
 without exception,
 all context-free grammars.
-Time bounds are the best of Leo\cite{Leo1991}
-and Earley\cite{Earley1970}.
+Time bounds are the best of Leo~\cite{Leo1991}
+and Earley~\cite{Earley1970}.
 The Leo bound,
 \On{} for LR-regular grammars,
 is especially relevant to
@@ -284,7 +284,7 @@ an adequate literature survey
 would be as large as the rest of this paper.
 Instead, we have placed
 a full, if somewhat informal, literature survey
-online \cite{Timeline}.
+online~\cite{Timeline}.
 
 \section{Preliminaries}
 \label{s:preliminaries}
@@ -357,7 +357,7 @@ of \Vrule{r}.
 The LHS and RHS of \Vrule{r} may also be
 referred to as
 $\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
-This definition follows \cite{AH2002},
+This definition follows~\cite{AH2002},
 which departs from tradition by disallowing an empty RHS.
 
 The rules imply the traditional rewriting system,
@@ -371,10 +371,10 @@ states that \Vstr{x} derives \Vstr{y} in zero or more steps.
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
 \Vsym{x} is \dfn{nonnull} if and only if it is not nullable.
-Following Aycock and Horspool\cite{AH2002},
+Following Aycock and Horspool~\cite{AH2002},
 all nullable symbols in grammar \Cg{} are nulling -- every symbol
 which can derive the null string always derives the null string.
-It is shown in \cite{AH2002} how to do this without losing generality
+It is shown in~\cite{AH2002} how to do this without losing generality
 or the ability to efficiently evaluate a semantics that is
 defined in terms of an original grammar that includes symbols which
 are both nullable and non-nulling,
@@ -426,7 +426,7 @@ if and only if is either directly or indirectly right-recursive.
 
 The definition of \Cg{} does not sharply distinguish terminals
 from non-terminals.
-The implementation of \cite{Marpa-R2} allows terminals to be the LHS
+The implementation of~\cite{Marpa-R2} allows terminals to be the LHS
 of rules,
 and every symbol except \Vsym{accept} can be a terminal.
 \cite{Marpa-R2} has options that allow
@@ -452,14 +452,14 @@ The alert reader may have noticed that the previous definition
 of \Cw{} did not allow zero-length inputs.
 To simplify the mathematics, we exclude null parses
 and trivial grammars from consideration.
-In the implementation of \cite{Marpa-R2},
+In the implementation of~\cite{Marpa-R2},
 the Marpa parser
 deals with null parses and trivial grammars as special cases.
 (Trivial grammars are those that recognize only the null string.)
 
 In this \doc{},
 \Earley{} will refer to the Earley's original
-recognizer\cite{Earley1970}.
+recognizer~\cite{Earley1970}.
 \Leo{} will refer to Leo's revision of \Earley{}
 as described in~\cite{Leo1991}.
 \AH{} will refer to the Aycock and Horspool's revision
@@ -478,7 +478,7 @@ We have already noted
 that no rules of \Cg{}
 have a zero-length RHS,
 and that all symbols must be either nulling or non-nullable.
-These restrictions follow Aycock and Horspool\cite{AH2002}.
+These restrictions follow Aycock and Horspool~\cite{AH2002}.
 The elimination of empty rules and proper nullables
 is done by rewriting the grammar.
 \cite{AH2002} shows how to do this
@@ -500,7 +500,7 @@ be ``wrapped'' to reassemble these lists
 into operands that are properly formed
 for that original semantics.
 
-In the implementation of \cite{Marpa-R2},
+In the implementation of~\cite{Marpa-R2},
 the Marpa parser allows users to associate
 semantics with an original grammar
 that has none of the restrictions imposed
@@ -765,7 +765,7 @@ of the scanning operation.
 
 \Veimt{component} is called
 the component of the reduction operation.\footnote{
-The term ``component'' comes from Irons \cite{Irons}.
+The term ``component'' comes from Irons~\cite{Irons}.
 }
 \Veimt{predecessor} is the predecessor
 of the reduction operation.
@@ -817,7 +817,7 @@ is its \dfn{causation}.
 \section{The Leo algorithm}
 \label{s:leo}
 
-In \cite{Leo1991}, Joop Leo presented a method for
+In~\cite{Leo1991}, Joop Leo presented a method for
 dealing with right recursion in \On{} time.
 Leo shows that,
 with his modification, Earley's algorithm
@@ -839,7 +839,7 @@ will be called Leo items.
 Leo items in the form that Marpa uses
 will be type \type{LIM}.
 ``Traditional'' Leo items,
-that is, those of the form used in Leo's paper\cite{Leo1991},
+that is, those of the form used in Leo's paper~\cite{Leo1991},
 will be type \type{LIMT}.
 
 Let $\mymathop{LIMT-Map}$ be
@@ -986,11 +986,11 @@ Such cases are unusual, but may occur.
 
 Omission of a memoization does not affect correctness,
 so \Marpa{}'s restriction of Leo memoization
-preserves the correctness as shown in Leo\cite{Leo1991}.
+preserves the correctness as shown in Leo~\cite{Leo1991}.
 Later in this \doc{} we will
 show that this change also leaves
 the complexity results of
-Leo\cite{Leo1991} intact.
+Leo~\cite{Leo1991} intact.
 
 Implementing the Leo logic requires
 adding Leo reduction as a new basic operation,
@@ -1135,12 +1135,12 @@ and another, which holds if
 
 In this \doc{} a
 ``split LR(0) $\epsilon$-DFA''
-as described by Aycock and Horspool\cite{AH2002},
+as described by Aycock and Horspool~\cite{AH2002},
 will be called an Aycock-Horspool Finite Automaton,
 or AHFA.
 This section will
 summarize the ideas
-from \cite{AH2002}
+from~\cite{AH2002}
 that are central to Marpa.
 
 Aycock and Horspool based their AHFA's
@@ -1224,7 +1224,7 @@ it is called a \dfn{predicted} AHFA state.
 If an AHFA state is not a \dfn{predicted} AFHA state,
 it is called a \dfn{confirmed} AHFA state.
 The initial AHFA state is a confirmed AHFA state.
-(In \cite{AH2002} confirmed states are called ``kernel states'',
+(In~\cite{AH2002} confirmed states are called ``kernel states'',
 and predicted states are called ``non-kernel states''.)
 
 The states of an AHFA
@@ -1234,7 +1234,7 @@ a single dotted rule can occur
 in more than one AHFA state.
 In combining
 the improvements of Leo~\cite{Leo1991} and
-Aycock and Horspool\cite{AH2002},
+Aycock and Horspool~\cite{AH2002},
 the following theorem is crucial.
 
 \begin{theorem}\label{t:leo-singleton}
@@ -1672,7 +1672,7 @@ This requires that \Veim{work}
 in \call{Reduction pass}{}
 carry a link
 back to its origin.
-As implemented in \cite{Marpa-R2}, Marpa's
+As implemented in~\cite{Marpa-R2}, Marpa's
 Earley items have such links.
 
 Inclusive time
@@ -1795,7 +1795,7 @@ then a search can be made in \Oc{} time,
 using a data structure called a PSL.
 Data structures identical to or very similar to PSL's are
 briefly outlined in both
-\cite[p. 97]{Earley1970} and
+\cite[p. 97]{Earley1970}~and~%
 \cite[Vol. 1, pages 326-327]{AU1972}.
 But neither source gives them a name.
 The term PSL
@@ -1914,7 +1914,7 @@ without loss of generality,
 contain neither empty rules or
 properly nullable symbols.
 This corresponds directly
-to a grammar rewrite in the implementation of \cite{Marpa-R2},
+to a grammar rewrite in the implementation of~\cite{Marpa-R2},
 and its reversal during \Marpa's evaluation phase.
 For the correctness and complexity proofs in this \doc{},
 we assume an additional rewrite,
@@ -1930,13 +1930,13 @@ Clearly, whether a grammar \Cg{} accepts
 an input \Cw{}
 will not depend on the nulling symbols in its rules.
 
-In \cite{Marpa-R2},
+In~\cite{Marpa-R2},
 \Marpa{} does not directly rewrite the grammar
 to eliminate nulling symbols.
 But nulling symbols are ignored in
 creating the AHFA states,
 and must be restored during \Marpa's evaluation phase,
-so that the implementation of \cite{Marpa-R2} and
+so that the implementation of~\cite{Marpa-R2} and
 this simplification for theory purposes
 track each other closely.
 
@@ -1989,7 +1989,7 @@ and consistent.
 
 \subsection{About AHFA states}
 
-Several facts from \cite{AH2002}
+Several facts from~\cite{AH2002}
 will be heavily used in the following proofs.
 For convenience, they are restated here.
 
@@ -2546,7 +2546,7 @@ it follows that
 \begin{equation*}
 \myL{\Marpa,\Cg} = \myL{\Leo,\Cg}.
 \end{equation*}
-By Theorem 4.1 in \cite{Leo1991}, we know that
+By Theorem 4.1 in~\cite{Leo1991}, we know that
 \begin{equation*}
 \myL{\Leo,\Cg} = \myL{\Cg}.
 \end{equation*}
@@ -2645,11 +2645,11 @@ and from Lemma \ref{l:nulling-rewrite}.
 
 The same complexity results apply to \Marpa{} as to \Leo,
 and the proofs are very similar.
-\Leo's complexity results\cite{Leo1991}
+\Leo's complexity results~\cite{Leo1991}
 are based on charging
 resource to Earley items,
 as were the results
-in Earley's paper\cite{Earley1970}.
+in Earley's paper~\cite{Earley1970}.
 But both assume that there is one dotted rule
 per Earley item,
 which is not the case with \Marpa.
@@ -2703,7 +2703,7 @@ Therefore,
 \end{equation*}
 \end{proof}
 
-Earley\cite{Earley1970} shows that,
+Earley~\cite{Earley1970} shows that,
 for unambiguous grammars,
 every attempt to add
 an Earley item will actually add one.
@@ -2732,7 +2732,7 @@ will represent identical Earley causations,
 and therefore will be
 consistent with an unambiguous grammar.
 Dealing with this complication requires us
-to prove a result that is weaker than that of \cite{Earley1970},
+to prove a result that is weaker than that of~\cite{Earley1970},
 but that is
 still sufficient to produce the same complexity results.
 
@@ -3071,7 +3071,7 @@ For every LR-regular grammar,
 \end{theorem}
 
 \begin{proof}
-By Theorem 4.6 in \cite[p. 173]{Leo1991},
+By Theorem 4.6 in~\cite[p. 173]{Leo1991},
 the number of traditional Earley items produced by
 \Leo{} when parsing input \Cw{} with an LR-regular grammar \Cg{} is
 \begin{equation*}
@@ -3221,7 +3221,7 @@ In this \doc{},
 up to this point,
 the traditional input stream model
 has been assumed.
-As implemented in \cite{Marpa-R2},
+As implemented in~\cite{Marpa-R2},
 Marpa generalizes the idea of
 input streams beyond the traditional
 model.
