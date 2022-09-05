@@ -1435,6 +1435,7 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
 \begin{algorithm}[h]
 \caption{Marpa Top-level}
+\label{alg:top-level}
 \begin{algorithmic}[1]
 \Procedure{Main}{}
 \State \Call{Initial}{}
@@ -1458,6 +1459,9 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
 \subsection{Top-level code}
 
+The top-level code is
+Algorithm~\ref{alg:top-level}
+on page~\pageref{alg:top-level}.
 Exclusive time and space for the loop over the Earley sets
 is charged to the Earley sets.
 Inclusive time and space for the final loop to
@@ -1467,7 +1471,10 @@ Overhead is charged to the parse.
 All these resource charges are obviously \Oc.
 
 \subsection{Ruby Slippers parsing}
-This top-level code represents a significant change
+The top-level code of
+Algorithm~\ref{alg:top-level}
+(p.~\pageref{alg:top-level})
+represents a significant change
 from \AH~\cite{AH2002}.
 \call{Scan pass}{} and \call{Reduction pass}{}
 are separated.
@@ -1482,6 +1489,7 @@ including which tokens are acceptable during the scanning phase.
 
 \begin{algorithm}[h]
 \caption{Initialization}
+\label{alg:initialization}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
 \State \Call{Add EIM pair}{$0_{ES}, \ah{start}, 0$}
@@ -1492,11 +1500,15 @@ including which tokens are acceptable during the scanning phase.
 \subsection{Initialization}
 \label{p:initial-op}
 
+The initialization code is
+Algorithm~\ref{alg:initialization}
+on page~\pageref{alg:initialization}.
 Inclusive time and space is \Oc{}
 and is charged to the parse.
 
 \begin{algorithm}[h]
 \caption{Marpa Scan pass}
+\label{alg:scan-pass}
 \begin{algorithmic}[1]
 \Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
 \State Note: Each pass through this loop is an EIM attempt
@@ -1512,6 +1524,9 @@ and is charged to the parse.
 \subsection{Scan pass}
 \label{p:scan-op}
 
+The code for the scan pass is
+Algorithm~\ref{alg:scan-pass}
+on page~\pageref{alg:scan-pass}.
 \var{transitions} is a set of tables, one per Earley set.
 The tables in the set are indexed by symbol.
 Symbol indexing is \Oc, since the number of symbols
@@ -1533,6 +1548,7 @@ Overhead is charged to the Earley set at \Vloc{i}.
 
 \begin{algorithm}[h]
 \caption{Reduction pass}
+\label{alg:reduction-pass}
 \begin{algorithmic}[1]
 \Procedure{Reduction pass}{\Vloc{i}}
 \State Note: \Vtable{i} may include EIM's added by
@@ -1553,6 +1569,9 @@ Overhead is charged to the Earley set at \Vloc{i}.
 
 \subsection{Reduction pass}
 
+The code for the reduction pass is
+Algorithm~\ref{alg:reduction-pass}
+on page~\pageref{alg:reduction-pass}.
 The loop over \Vtable{i} must also include
 any items added by \call{Reduce one LHS}{}.
 This can be done by implementing \Vtable{i} as an ordered
@@ -1575,6 +1594,7 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 
 \begin{algorithm}[h]
 \caption{Memoize transitions}
+\label{alg:memoize-transitions}
 \begin{algorithmic}[1]
 \Procedure{Memoize transitions}{\Vloc{i}}
 \For{every \Vsym{postdot}, a postdot symbol of $\Ves{i}$}
@@ -1595,6 +1615,9 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 
 \subsection{Memoize transitions}
 
+The code for the memoization of transitions is
+Algorithm~\ref{alg:memoize-transitions}
+on page~\pageref{alg:memoize-transitions}.
 The \var{transitions} table for \Ves{i}
 is built once all EIMs have been
 added to \Ves{i}.
@@ -1636,6 +1659,7 @@ and can be charged to EIM being examined.
 
 \begin{algorithm}[h]
 \caption{Reduce one LHS symbol}
+\label{alg:reduce-one-LHS-symbol}
 \begin{algorithmic}[1]
 \Procedure{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
 \State Note: Each pass through this loop is an EIM attempt
@@ -1656,6 +1680,9 @@ and can be charged to EIM being examined.
 \subsection{Reduce one LHS}
 \label{p:reduce-one-lhs}
 
+The code to reduce a single LHS symbol is
+Algorithm~\ref{alg:reduce-one-LHS-symbol}
+on page~\pageref{alg:reduce-one-LHS-symbol}.
 To show that
 \begin{equation*}
 \var{transitions}(\Vloc{origin},\Vsym{lhs})
@@ -1680,6 +1707,7 @@ Overhead is \Oc{} and caller-included.
 
 \begin{algorithm}[h]
 \caption{Earley reduction operation}
+\label{alg:earley-reduction}
 \begin{algorithmic}[1]
 \Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
 \State $[\Vah{from}, \Vloc{origin}] \gets \Veim{from}$
@@ -1693,6 +1721,9 @@ Overhead is \Oc{} and caller-included.
 \label{p:reduction-op}
 
 \begin{sloppypar}
+The code that performs Earley reduction is
+Algorithm~\ref{alg:earley-reduction}
+on page~\pageref{alg:earley-reduction}.
 Exclusive time and space is clearly \Oc.
 \call{Earley reduction operation}{} is always
 called as part of an EIM attempt,
@@ -1702,6 +1733,7 @@ attempt.
 
 \begin{algorithm}[h]
 \caption{Leo reduction operation}
+\label{alg:leo-reduction}
 \begin{algorithmic}[1]
 \Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
 \State $[\Vah{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
@@ -1714,6 +1746,9 @@ attempt.
 \subsection{Leo reduction operation}
 \label{p:leo-op}
 
+The code that performs Leo reduction is
+Algorithm~\ref{alg:leo-reduction}
+on page~\pageref{alg:leo-reduction}.
 Exclusive time and space is clearly \Oc.
 \call{Leo reduction operation}{} is always
 called as part of an EIM attempt,
@@ -1721,7 +1756,8 @@ and inclusive time and space is charged to the EIM
 attempt.
 
 \begin{algorithm}[h]
-\caption{Add EIM pair}\label{a:pair}
+\caption{Add EIM pair}
+\label{alg:add-EIM-pair}
 \begin{algorithmic}[1]
 \Procedure{Add EIM pair}{$\Ves{i},\Vah{confirmed}, \Vloc{origin}$}
 \State $\Veim{confirmed} \gets [\Vah{confirmed}, \Vloc{origin}]$
@@ -1742,9 +1778,21 @@ attempt.
 \subsection{Adding a pair of Earley items}
 \label{p:add-eim-pair}
 
-This operation adds a confirmed EIM
-item and, if it exists, the EIM for
-its null-transition.
+The code in
+Algorithm~\ref{alg:add-EIM-pair}
+on page~\pageref{alg:add-EIM-pair}
+attempts to add a pair of Earley items (EIMs).
+one confirmed and the other a prediction.
+Algorithm~\ref{alg:add-EIM-pair}
+first attempts to add a confirmed EIM.
+Then
+Algorithm~\ref{alg:add-EIM-pair}
+checks for the existence of \Veim{predicted}, the EIM for
+the null-transition of the confirmed EIM.
+If \Veim{predicted} exists,
+Algorithm~\ref{alg:add-EIM-pair}
+attempts to add \Veim{predicted}.
+
 Inclusive time and space is charged to the
 calling procedure.
 Trivially, the space is \Oc{} per call.
