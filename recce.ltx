@@ -1422,7 +1422,7 @@ current procedure from called procedures.
 
 Recall that
 Earley sets may be represented by \Ves{i},
-where \var{i} is the Earley set's locaiton \Vloc{i}.
+where \var{i} is the Earley set's location \Vloc{i}.
 The two notations should be regarded as interchangeable.
 The actual implementation of either
 should be the equivalent of a pointer to
@@ -1781,7 +1781,7 @@ attempt.
 The code in
 Algorithm~\ref{alg:add-EIM-pair}
 on page~\pageref{alg:add-EIM-pair}
-attempts to add a pair of Earley items (EIMs).
+attempts to add a pair of Earley items (EIMs),
 one confirmed and the other a prediction.
 Algorithm~\ref{alg:add-EIM-pair}
 first attempts to add a confirmed EIM.
@@ -1886,27 +1886,34 @@ be the entry for integer \var{y} in the PSL in
 the Earley set at \Vloc{x}.
 
 Consider the case where Marpa is building \Ves{j}
-and wants to check whether Earley item \Veim{x} is new,
-where $\Veim{x} = [ \Vah{x}, \Vorig{x} ]$.
-To check if \Veim{x} is new,
-Marpa checks
+and wants to check whether Earley item
+$\Veim{x} = [\Vah{x}, \Vorig{x}]$ is new.
+\Marpa{} looks at
 \begin{equation*}
-\var{time-stamp} = \PSL{\Ves{x}}{\ID{\Vah{x}}}
+\Vloc{time-stamp} = \PSL{\Ves{x}}{\ID{\Vah{x}}},
 \end{equation*}
-If the entry has never been used,
-we assume that $\var{time-stamp} = \Lambda$.
-If $\var{time-stamp} \ne \Lambda \land \var{time-stamp} = \Vloc{j}$,
+and proceeds as follows:
+
+\begin{itemize}
+\item PSL entries are initially undefined.
+If \Vloc{time-stamp} is undefined,
+then the entry has never been used,
+and \Veim{x} is new.
+\Veim{x} will be added to \Ves{j}
+and the time stamp will be reset.
+\item If $\var{time-stamp} = \Vloc{j},$
 then \Veim{x} is not new,
-and will not be added to the Earley set.
-
-If $\Vloc{p} = \Lambda \lor \var{time-stamp} \ne \Vloc{j}$,
+and will not be added to \Ves{j}.
+The time stamp is left as it is.
+\item If
+$\var{time-stamp} \ne \Vloc{j}$,
 then \Veim{x} is new.
-\Veim{x} is added to the Earley set,
-and a new time-stamp is set, as follow:
-\begin{equation*}
-\PSL{\Ves{x}}{\ID{\Vah{x}}} \gets \Vloc{j}.
-\end{equation*}
+\Veim{x} will be added to \Ves{j}
+and the time stamp will be reset.
+\end{itemize}
 
+Resetting the time stamp is done as follows:
+$$\PSL{\Ves{x}}{\ID{\Vah{x}}} \gets \Vloc{j}.$$
 \subsection{Complexity summary}
 
 For convenience, we collect and summarize here
@@ -2712,13 +2719,11 @@ But it opens up the possibility
 that, in cases where \Earley{} and \Leo{} disposed
 of a dotted rule once and for all,
 \Marpa{} might have to deal with it multiple times.
-
-From an efficiency perspective,
 \Marpa's duplicate rules
-are by all the evidence, a plus.
-And they do not change the complexity results,
-although the price of showing this is the
-theoretical apparatus of this section.
+do not change the complexity results,
+although showing this requires some additional
+theoretical apparatus,
+which this section contains.
 
 \begin{theorem}\label{t:marpa-O-leo}
 \begin{equation*}
