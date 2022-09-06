@@ -1,4 +1,4 @@
-# Copyright 2012 Jeffrey Kegler
+# Copyright 2022 Jeffrey Kegler
 # This file is part of Marpa::R2.  Marpa::R2 is free software: you can
 # redistribute it and/or modify it under the terms of the GNU Lesser
 # General Public License as published by the Free Software Foundation,
@@ -13,8 +13,13 @@
 # General Public License along with Marpa::R2.  If not, see
 # http://www.gnu.org/licenses/.
 
+.phony: all clean aspell
+
 all: recce.pdf
 
 recce.pdf: recce.ltx
 	pdflatex $?
+
+aspell:
+	cat recce.ltx | aspell list --home-dir=. --personal=recce-aspell-ignore.txt -t | sort | uniq
 

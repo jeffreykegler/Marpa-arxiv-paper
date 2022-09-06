@@ -629,7 +629,7 @@ An Earley parser builds a table of Earley sets,
 Earley sets are of type \type{ES}.
 Earley sets are often named by their location:
 That is,
-the bijection betwen \Ves{i} and \Vloc{i}
+the bijection between \Ves{i} and \Vloc{i}
 allows locations to be treated as the ``names'' of Earley sets.
 We often write \Ves{i} to mean the Earley set at \Vloc{i},
 and \Vloc{x} to mean the location of Earley set \Ves{x}.
@@ -900,7 +900,7 @@ We will call these memoized sequences, Leo sequences.
 All the other EIMT's in a Leo sequence
 can be derived from the top EIMT of the sequence.
 
-To quarantee that a Leo sequence is deterministic,
+To guarantee that a Leo sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
 Define containment of a dotted rule in a Earley set
 of EIMT's as
@@ -1218,7 +1218,7 @@ $\GOTO(\Vah{from}, \epsilon)$ is a
 (AHFA's are not fully deterministic.)
 If \Vah{predicted} is the result of a null transition,
 it is called a \dfn{predicted} AHFA state.
-If an AHFA state is not a \dfn{predicted} AFHA state,
+If an AHFA state is not a \dfn{predicted} AHFA state,
 it is called a \dfn{confirmed} AHFA state.
 The initial AHFA state is a confirmed AHFA state.
 (In~\cite{AH2002} confirmed states are called ``kernel states'',
@@ -1651,7 +1651,7 @@ rule in \Ves{i} whose postdot symbol is
 This can be done
 in a single pass over the EIM's of \Ves{i}
 that notes the postdot symbols as they are encountered
-and whether any is enountered twice.
+and whether any is encountered twice.
 The time and space,
 including that for the creation of a LIM if necessary,
 will be \Oc{} time per EIM examined,
@@ -3036,7 +3036,7 @@ we need to look again at the triple
 \begin{equation*}
 [\Veim{predecessor}, \Vsym{transition}, \Veim{component}].
 \end{equation*}
-We did not use the fact that the grammar was unambigous in counting
+We did not use the fact that the grammar was unambiguous in counting
 the possibilities for \Vsym{transition} or \Veim{component}, but
 we did make use of it in determining the count of possibilities
 for \Veim{predecessor}.
