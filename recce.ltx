@@ -1239,7 +1239,7 @@ Aycock and Horspool~\cite{AH2002},
 the following theorem is crucial.
 
 \begin{theorem}\label{t:leo-singleton}
-If a Marpa Earley item (EIM) is the result of a
+If a \textnormal{\Marpa} Earley item (EIM) is the result of a
 Leo reduction,
 then its AHFA state contains only one dotted rule.
 \end{theorem}
@@ -2000,10 +2000,10 @@ track each other closely.
 \subsection{Comparing Earley items}
 
 \begin{definition}
-A Marpa Earley item \dfn{corresponds}
+A \textnormal{\Marpa} Earley item \dfn{corresponds}
 to a traditional Earley item
 $\Veimt{x} = [\Vdr{x}, \Vorig{x}]$
-if and only if the Marpa Earley item is a
+if and only if the \textnormal{\Marpa} Earley item is a
 $\Veim{y} = [\Vah{y}, \Vorig{x}]$
 such that $\Vdr{x} \in \Vah{y}$.
 A traditional Earley item, \Veimt{x}, corresponds to a
@@ -2017,7 +2017,7 @@ a set of EIMT's,
 if and only if each of the EIM's in the first set
 corresponds to at least one of the
 EIMT's in the second set.
-A Marpa Earley set \EVtable{\Marpa}{i}
+A \textnormal{\Marpa} Earley set \EVtable{\Marpa}{i}
 is \dfn{consistent} if and only if
 all of its EIM's correspond to
 EIMT's in
@@ -2030,7 +2030,7 @@ A set of EIM's is \dfn{complete} with respect to
 a set of EIMT's,
 if and only if for every EIMT in the second set,
 there is a corresponding EIM in the first set.
-A Marpa Earley set \EVtable{\Marpa}{i}
+A \textnormal{\Marpa} Earley set \EVtable{\Marpa}{i}
 is \dfn{complete} if and only if for every
 traditional Earley item in \EVtable{\Leo}{i}
 there is a corresponding Earley item in
@@ -2039,8 +2039,8 @@ there is a corresponding Earley item in
 \end{sloppypar}
 
 \begin{definition}
-A Marpa Earley set is \dfn{correct}
-if and only that Marpa Earley set is complete
+A \textnormal{\Marpa} Earley set is \dfn{correct}
+if and only that \textnormal{\Marpa} Earley set is complete
 and consistent.
 \end{definition}
 
@@ -2166,7 +2166,7 @@ the maximum size of Earley set \Vloc{i} is therefore
 \subsection{Marpa's Earley sets are correct}
 
 \begin{theorem}\label{t:table-correct}
-Marpa's Earley sets are correct.
+\textnormal{\Marpa}'s Earley sets are correct.
 \end{theorem}
 
 The proof
@@ -2661,7 +2661,7 @@ on the grammar.
 \end{proof}
 
 \begin{theorem}\label{t:O1-time-per-eim}
-All time in \Marpa{} can be allocated
+All time in \textnormal{\Marpa} can be allocated
 to the Earley items,
 in such a way that each Earley item,
 and each attempt to
@@ -2670,7 +2670,7 @@ requires \Oc{} time.
 \end{theorem}
 
 \begin{theorem}\label{t:O1-space-per-eim}
-All space in \Marpa{} can be allocated
+All space in \textnormal{\Marpa} can be allocated
 to the Earley items,
 in such a way that each Earley item
 requires \Oc{} space and,
@@ -2681,7 +2681,7 @@ Earley item adds no additional space.
 
 \begin{theorem}\label{t:O1-links-per-eim}
 If links are considered,
-all space in \Marpa{} can be allocated
+all space in \textnormal{\Marpa} can be allocated
 to the Earley items
 in such a way that each Earley item
 and each attempt to
