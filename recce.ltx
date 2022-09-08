@@ -7,6 +7,10 @@
 \usepackage{xspace}
 \usepackage{url}
 
+% Re hbox's, see
+% https://tex.stackexchange.com/questions/241343/what-is-the-meaning-of-fussy-sloppy-emergencystretch-tolerance-hbadness
+\emergencystretch=3em
+
 % This is now a "paper", but may be a chapter
 % or something else someday
 % This command will make any such change easier.
@@ -1433,7 +1437,7 @@ a memoization of the Earley set's location as an integer,
 and a per-set-list.
 Per-set-lists will be described in Section \ref{s:per-set-lists}.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Marpa Top-level}
 \label{alg:top-level}
 \begin{algorithmic}[1]
@@ -1487,7 +1491,7 @@ full information about the current state of the parse,
 including which tokens are acceptable during the scanning phase.
 
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Initialization}
 \label{alg:initialization}
 \begin{algorithmic}[1]
@@ -1506,7 +1510,7 @@ on page~\pageref{alg:initialization}.
 Inclusive time and space is \Oc{}
 and is charged to the parse.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Marpa Scan pass}
 \label{alg:scan-pass}
 \begin{algorithmic}[1]
@@ -1546,7 +1550,7 @@ Inclusive time and space can be charged to the
 \Veim{predecessor}.
 Overhead is charged to the Earley set at \Vloc{i}.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Reduction pass}
 \label{alg:reduction-pass}
 \begin{algorithmic}[1]
@@ -1592,7 +1596,7 @@ that is current
 during that call to \call{Reduce one LHS}{}.
 Overhead may be charged to the Earley set at \Vloc{i}.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Memoize transitions}
 \label{alg:memoize-transitions}
 \begin{algorithmic}[1]
@@ -1657,7 +1661,7 @@ including that for the creation of a LIM if necessary,
 will be \Oc{} time per EIM examined,
 and can be charged to EIM being examined.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Reduce one LHS symbol}
 \label{alg:reduce-one-LHS-symbol}
 \begin{algorithmic}[1]
@@ -1705,7 +1709,7 @@ for the loop over the EIM attempts
 is charged to each EIM attempt.
 Overhead is \Oc{} and caller-included.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Earley reduction operation}
 \label{alg:earley-reduction}
 \begin{algorithmic}[1]
@@ -1731,7 +1735,7 @@ and inclusive time and space is charged to the EIM
 attempt.
 \end{sloppypar}
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Leo reduction operation}
 \label{alg:leo-reduction}
 \begin{algorithmic}[1]
@@ -1755,7 +1759,7 @@ called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Add EIM pair}
 \label{alg:add-EIM-pair}
 \begin{algorithmic}[1]
@@ -3118,7 +3122,7 @@ specific time and space complexity results.
 
 \begin{theorem}
 For every LR-regular grammar,
-\Marpa{} runs in $\On{}$ time and space.
+\textnormal{\Marpa} runs in $\On{}$ time and space.
 \end{theorem}
 
 \begin{proof}
@@ -3202,7 +3206,7 @@ grammars is
 
 \begin{theorem}
 For every unambiguous grammar,
-\Marpa{} runs in $\order{n^2}$ time and space.
+\textnormal{\Marpa} runs in $\order{n^2}$ time and space.
 \end{theorem}
 
 \begin{proof}
@@ -3224,7 +3228,7 @@ for unambiguous grammars is \order{\var{n}^2}.
 
 \begin{theorem}
 For every context-free grammar,
-\Marpa{} runs in $\order{\var{n}^3}$ time.
+\textnormal{\Marpa} runs in $\order{\var{n}^3}$ time.
 \end{theorem}
 
 \begin{proof}
@@ -3234,7 +3238,7 @@ and Theorem \ref{t:ambiguous-tries}.
 
 \begin{theorem}\label{t:cfg-space}
 For every context-free grammar,
-\Marpa{} runs in $\order{\var{n}^2}$ space,
+\textnormal{\Marpa} runs in $\order{\var{n}^2}$ space,
 if it does not tracks links.
 \end{theorem}
 
@@ -3256,7 +3260,7 @@ for which links are necessary.
 
 \begin{theorem}
 For every context-free grammar,
-\Marpa{} runs in $\order{\var{n}^3}$ space,
+\textnormal{\Marpa} runs in $\order{\var{n}^3}$ space,
 including the space for tracking links.
 \end{theorem}
 
