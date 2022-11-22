@@ -624,6 +624,18 @@ For convenience, the type \type{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
 the origin element of an Earley item.
 
+We find it convenient to apply dotted rule concepts to
+\type{EIMT}'s,
+so that the concept applied to the \type{EIMT} is
+the concept applied to the dotted rule of the EIMT.
+If $\Veimt{x} = [\Vdr{dr}, \Vorig{orig} ]$ is an
+\type{EIMT}, then we write
+\begin{gather*}
+\LHS{\Veimt{x}} \defined \LHS{\Vdr{dr}} \\
+\Postdot{\Veimt{x}} \defined \Postdot{\Vdr{dr}}, \text{ and} \\
+\Penult{\Veimt{x}} \defined \Penult{\Vdr{dr}}.
+\end{gather*}
+
 An Earley parser builds a table of Earley sets,
 \begin{equation*}
 \EVtable{\Earley}{i},
