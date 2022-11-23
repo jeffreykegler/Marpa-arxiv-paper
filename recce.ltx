@@ -892,7 +892,7 @@ then we say that \Vlimt{x} is \dfn{in}
 the Earley set \Ves{i},
 and we write
 $$\Vlimt{x} \in \Ves{i}.$$
-Note that in equation \ref{e:limtmap-overload},
+Note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
 In this paper, we handle undefinedness in the traditional way.%
@@ -925,31 +925,34 @@ if and only if
 it is a penult in \var{es},
 and its postdot symbol is unique in \var{es}.
 More precisely,
-\begin{equation*}
+\begin{equation}
+\label{e:def-leo-unique}
 \begin{gathered}
-    \LeoUnique{\Veimt{x}, \Ves{es}} \defined \\
-    \var{x} \in \var{es} \land \Penult{\var{x}} \neq \Lambda \\
-    \land \;
+    \LeoUnique{\Veimt{eim}, \Ves{es}} \defined \\
+    \var{eim} \in \var{es} \land \Penult{\var{eim}} \neq \Lambda \; \land \\
+    \forall \, \Veimt{eim2} \mid \\
     \left( \begin{gathered}
-      \forall \, \Veimt{eim2} \mid \\
-     \left( \begin{gathered}
-	 \var{y} \in \var{es} \\
+	\var{eim2} \in \var{es} \\
 	 \land \; \Postdot{\var{eim}} = \Postdot{\var{eim2}}
-      \end{gathered} \right) \\
+      \end{gathered} \right)
     \implies \var{eim} = \var{eim2}
-    \end{gathered} \right)
 \end{gathered}
-\end{equation*}
-If \Vdr{d} is Leo unique, then the symbol $\Postdot{\Vdr{d}}$ is
+\end{equation}
+In \eqref{e:def-leo-unique}
+it is important to emphasize that \Veimt{eim2} ranges over all the dotted
+rules of Earley set \Ves{i}.
+This means that if a penult \Veimt{pen} shares a postdot symbol
+with an non-penult \Veimt{np} in the same earley set,
+then \Veimt{pen} is {\bf not} Leo unique.
+
+If \Veimt{eim} in
+\eqref{e:def-leo-unique}
+is Leo unique, then the symbol $\Postdot{\var{eim}}$ is
 also said to be \dfn{Leo unique}.
-In cases where a symbol \Vsym{transition} is Leo unique in \Ves{i},
+In cases where a symbol \Vsym{transition} is Leo unique in \Ves{es},
 we can speak of the dotted rule for \Vsym{transition},
 and the rule for \Vsym{transition},
 because there can be only one of each.
-In the previous definitions,
-it is important to emphasize that \Vdr{d2} ranges over all the dotted
-rules of Earley set \Ves{i},
-even those which are ineligible for Leo memoization.
 
 Let \var{n} be the length of a Leo sequence.
 In \Earley, each such sequence would be expanded in every
