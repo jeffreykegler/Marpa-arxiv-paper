@@ -918,24 +918,27 @@ can be derived from the top EIMT of the sequence.
 
 To guarantee that a Leo sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
-Define containment of a dotted rule in a Earley set
-of EIMT's as
-\begin{equation*}
-\begin{split}
-& \mymathop{Contains}(\Ves{i}, \Vdr{d}) \defined \exists \, \Veimt{b}, \Vorig{j} \mid  \\
-& \qquad \Veimt{b} = [ \Vdr{d}, \Vorig{j} ]
-  \land \Veimt{b} \in \Ves{i}.
-\end{split}
-\end{equation*}
-A dotted rule \Vdr{d} is \dfn{Leo unique}
-in the Earley set \Ves{i}
+An EIMT \Veimt{x} is \dfn{Leo unique}
+in the Earley set \Ves{es},
+$\LeoUnique{\var{x}, \var{es}}$,
 if and only if
+it is a penult in \var{es},
+and its postdot symbol is unique in \var{es}.
+More precisely,
 \begin{equation*}
-\begin{split}
-&    \Penult{\Vdr{d}} \neq \Lambda \\
-&    \land \forall \, \Vdr{d2} \bigl( \mymathop{Contains}(\Ves{i}, \Vdr{d2}) \implies \\
-&    \qquad \Postdot{\Vdr{d}} = \Postdot{\Vdr{d2}} \implies \Vdr{d} = \Vdr{d2} \bigr).
-\end{split}
+\begin{gathered}
+    \LeoUnique{\Veimt{x}, \Ves{es}} \defined \\
+    \var{x} \in \var{es} \land \Penult{\var{x}} \neq \Lambda \\
+    \land \;
+    \left( \begin{gathered}
+      \forall \, \Veimt{eim2} \mid \\
+     \left( \begin{gathered}
+	 \var{y} \in \var{es} \\
+	 \land \; \Postdot{\var{eim}} = \Postdot{\var{eim2}}
+      \end{gathered} \right) \\
+    \implies \var{eim} = \var{eim2}
+    \end{gathered} \right)
+\end{gathered}
 \end{equation*}
 If \Vdr{d} is Leo unique, then the symbol $\Postdot{\Vdr{d}}$ is
 also said to be \dfn{Leo unique}.
