@@ -105,6 +105,8 @@
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
 \newcommand{\Postdot}[1]{\mymathop{Postdot}(#1)}
 \newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
+\newcommand{\Pos}[1]{\mymathop{Pos}(#1)}
+\newcommand{\Rule}[1]{\mymathop{Rule}(#1)}
 \newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
 \newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
 \newcommand{\RightRecursive}[1]{\mymathop{Right-Recursive}(#1)}
@@ -531,9 +533,24 @@ his semantics are applied.
 Let $\Vrule{r} \in \Crules$
 be a rule,
 and $\Vsize{r}$ the length of its RHS.
-A dotted rule (type \type{DR}) is a duple, $[\Vrule{r}, \var{pos}]$,
-where $0 \le \var{pos} \le \size{\Vrule{r}}$.
-The position, \var{pos}, indicates the extent to which
+A dotted rule (type \type{DR}) is a duple of rule and position
+in the rule.
+The position is a natural number
+and must be less than or equal to the rule length.
+If we let
+$$\Vdr{dr} = [\Vrule{r}, \var{pos}]$$
+be a dotted rule, then
+we have
+$0 \le \var{pos} \le \size{\Vrule{r}}$.
+Again letting
+$\Vdr{dr} = [\Vrule{r}, \var{pos}]$
+be a dotted rule,
+\begin{gather*}
+\Rule{\Vdr{dr}} \defined \Vrule{r}, \text{ and} \\
+\Pos{\Vdr{dr}} \defined \var{pos}.
+\end{gather*}
+
+The position of a dotted rule indicates the extent to which
 the rule has been recognized,
 and is represented with a large raised dot,
 so that if
@@ -613,9 +630,6 @@ are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
 A traditional Earley item (type \type{EIMT}) is a duple
-\[
-    [\Vdr{dotted-rule}, \Vorig{x}]
-\]
 of dotted rule and origin.
 (The origin is the location where recognition of the rule
 started.
@@ -628,12 +642,14 @@ We find it convenient to apply dotted rule concepts to
 \type{EIMT}'s,
 so that the concept applied to the \type{EIMT} is
 the concept applied to the dotted rule of the EIMT.
-If $\Veimt{x} = [\Vdr{dr}, \Vorig{orig} ]$ is an
-\type{EIMT}, then we write
+Let
+$$\Veimt{x} = [\Vdr{dr}, \Vorig{orig} ]$$
+be an EIMT in the following definitions:
 \begin{gather*}
-\LHS{\Veimt{x}} \defined \LHS{\Vdr{dr}} \\
-\Postdot{\Veimt{x}} \defined \Postdot{\Vdr{dr}}, \text{ and} \\
-\Penult{\Veimt{x}} \defined \Penult{\Vdr{dr}}.
+\LHS{\Veimt{x}} \defined \LHS{\Vdr{dr}}. \\
+\Postdot{\Veimt{x}} \defined \Postdot{\Vdr{dr}}. \\
+\Penult{\Veimt{x}} \defined \Penult{\Vdr{dr}}. \\
+\Rule{\Veimt{x}} \defined \Rule{\Vdr{dr}}.
 \end{gather*}
 
 An Earley parser builds a table of Earley sets,
@@ -1066,23 +1082,18 @@ there is a Leo memoization.
 
 \subsection{Leo memoization}
 
-A dotted rule \Vdr{x}
+A EIMT \Veimt{x}
 is \dfn{Leo eligible}
-at location \Vloc{current},
-$\LeoEligible{ \Vloc{current}, \Vdr{x} }$
-if and only if it is right recursive and Leo unique.
+in Earley set \Ves{es},
+$\LeoEligible{ \Veimt{x}, \Ves{es} }$
+if and only if it is right recursive and Leo unique
+in \Ves{es}.
 More precisely,
-\begin{equation*}
-\begin{gathered}
-\LeoEligible{ \Vloc{current}, \Vdr{x} } \defined \\
-\exists \; \Vrule{x}, \var{i} \\
-\left( \; \begin{gathered}
-\Vdr{x} = [ \Vrule{x}, \var{i} ] \\
-\land \; \RightRecursive{\Vrule{x}} \\
-\land \; \LeoUnique{\Ves{current},\Vdr{x}}
-\end{gathered} \; \right).
-\end{gathered}
-\end{equation*}
+\begin{gather*}
+\LeoEligible{ \Veimt{x}, \Ves{es} } \defined \\
+\RightRecursive{\Rule{\Veimt{x}}}
+\land \LeoUnique{\Veimt{x}, \Ves{es}}
+\end{gather*}
 For convenience, we define a relation that is
 true if \Vlimt{pred} is the LIMT predecessor of
 an EIMT, and false otherwise:
@@ -1107,7 +1118,7 @@ in \Ves{current},
     \Vlimt{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vorig{pred} ] \\
     \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom} ] \\
     \Veimt{bottom} \in \Ves{current} \\
-    \LeoEligible{\Ves{current}, \Vdr{bottom}}
+    \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
     \left \lbrace [ \Vdr{pred}, \Penult{\Vdr{bottom}}, \Vorig{pred} ] \right \rbrace
@@ -1121,7 +1132,7 @@ and another, which holds if
     \neg \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
     \Veimt{bottom} = [ \Vdr{bottom}, \Vorig{bottom} ] \\
     \Veimt{bottom} \in \Ves{current} \\
-    \LeoEligible{\Ves{current}, \Vdr{bottom}}
+    \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
     \bigset{ [ \Next{\Vdr{bottom}}, \Penult{\Vdr{bottom}}, \Vorig{bottom} ] }
@@ -1647,8 +1658,8 @@ for every rule, determines if it is right recursive.
 
 One part of the test for
 Leo eligibility cannot be done as a precomputation.
-This is the determination whether there is only one dotted
-rule in \Ves{i} whose postdot symbol is
+This is the determination whether there is only one EIM
+in \Ves{i} whose postdot symbol is
 \Vsym{transition}.
 This can be done
 in a single pass over the EIM's of \Ves{i}
