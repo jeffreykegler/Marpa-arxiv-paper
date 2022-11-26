@@ -725,9 +725,11 @@ The Earley sets correspond to parse locations,
 and for any Earley operation there is a
 current parse location, \Vloc{current}, and
 a current Earley set, \Ves{current}.
-Recall that, when the meaning is clear in context,
-we often find it convenient to write \Ves{i} for
-the Earley set at \Vloc{i}.
+Recall that
+we often write \Ves{i} for
+the Earley set at \Vloc{i},
+and \Ees{(\var{exp})} for the Earley set
+at the location given by the expression \var{exp}.
 
 Each location starts with an empty Earley set.
 For the purposes of this description of
@@ -762,23 +764,20 @@ place in Earley set 0.
 \begin{equation*}
 \inference{
     \begin{array}{c}
-	\Vloc{current} > 0 \\
-	\Vloc{previous} = \Vloc{current} \subtract 1
-	\\[3pt]
-	\Vsym{token} = \Cw\bigl[\Vloc{previous}\bigr]
-	\\[3pt]
-	\Veimt{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
-	\Veimt{predecessor} \in \Ves{previous} \\
-	\Postdot{\Vdr{before}} = \Vsym{token}
+	\Veimt{predecessor} \in \Ees{ ( \Vloc{current} \subtract 1 ) } \\
+	\Postdot{\Veimt{predecessor}} =
+	   \Cw\bigl[ \Vloc{current} \subtract 1 \bigr]
     \end{array}
 }{
-    \bigset{ [ \Next{\Vdr{before}}, \Vorig{predecessor} ] }
+    \bigset{ [ \Next{\Veimt{predecessor}}, \Origin{\var{predecessor}} ] }
 }
 \end{equation*}
-\Veimt{predecessor}
-and \Vsym{token} are the operands of an Earley scan.
-\Veimt{predecessor} is called the predecessor of the scanning operation.
-The token, \Vsym{token}, is the transition symbol
+\Veimt{predecessor} and
+the token,
+$\Cw[ \Vloc{current} \subtract 1 ]$,
+are the operands of an Earley scan.
+$\Veimt{predecessor}$ is called the predecessor of the scanning operation.
+$\Postdot{\Veimt{predecessor}}$ is the transition symbol
 of the scanning operation.
 
 \subsection{Reduction}
