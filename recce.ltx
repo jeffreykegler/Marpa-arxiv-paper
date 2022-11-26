@@ -649,6 +649,7 @@ be an EIMT in the following definitions:
 \LHS{\Veimt{x}} \defined \LHS{\Vdr{dr}}. \\
 \Postdot{\Veimt{x}} \defined \Postdot{\Vdr{dr}}. \\
 \Penult{\Veimt{x}} \defined \Penult{\Vdr{dr}}. \\
+\Next{\Veimt{x}} \defined \Next{\Vdr{dr}}. \\
 \Rule{\Veimt{x}} \defined \Rule{\Vdr{dr}}.
 \end{gather*}
 
@@ -1123,14 +1124,11 @@ in \Ves{current},
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
-    \Vlimt{pred} = [ \Vdr{pred}, \LHS{\Vdr{bottom}}, \Vorig{pred} ] \\
-    \Veimt{bottom} = [ \Vdr{bottom}, \Vloc{bottom} ] \\
-    \Veimt{bottom} \in \Ves{current} \\
+    \mymathop{LIMT-Predecessor}(\Vlimt{pred},\Veimt{bottom}) \\
     \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
-    \left \lbrace [ \Vdr{pred}, \Penult{\Vdr{bottom}}, \Vorig{pred} ] \right \rbrace
+    \left \lbrace [ \DR{\Vlimt{pred}}, \Penult{\Veimt{bottom}}, \Origin{\var{pred}} ] \right \rbrace
 }
 \end{equation*}
 and another, which holds if
@@ -1138,13 +1136,11 @@ and another, which holds if
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \neg \mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \\
-    \Veimt{bottom} = [ \Vdr{bottom}, \Vorig{bottom} ] \\
-    \Veimt{bottom} \in \Ves{current} \\
+    (\forall \; \Vlimt{pred} \; \mid \; \neg \mymathop{LIMT-Predecessor}(\var{pred},\Veimt{bottom}) \\
     \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
-    \bigset{ [ \Next{\Vdr{bottom}}, \Penult{\Vdr{bottom}}, \Vorig{bottom} ] }
+    \bigset{ [ \Next{\Veimt{bottom}}, \Penult{\var{bottom}}, \Origin{\var{bottom}} ] }
 }
 \end{equation*}
 
