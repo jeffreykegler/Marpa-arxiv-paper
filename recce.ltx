@@ -2,6 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
+\usepackage{amssymb}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{xspace}
@@ -782,19 +783,16 @@ of the scanning operation.
 
 \subsection{Reduction}
 \label{d:reduction}
+
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \Veimt{component} = \bigl[
-     [ \Vsym{lhs} \de \Vstr{rhs} \mydot ]
-    , \Vloc{component-orig} \bigr] \\
-    \Veimt{component} \in \Ves{current} \\[3pt]
-    \Veimt{predecessor} = [ \Vdr{before}, \Vorig{predecessor} ] \\
-    \Veimt{predecessor} \in \Ves{component-orig} \\
-    \Postdot{\Vdr{before}} = \Vsym{lhs} \\
+    \Veimt{component} \in \Ves{current} \\
+    \Veimt{predecessor} \in \Ees{(\Origin{\Veimt{component}})} \\
+    \Postdot{\Veimt{predecessor}} = \LHS{\Veimt{component}} \\
     \end{array}
 }{
-    \bigset{ [ \Next{\Vdr{before}}, \Vorig{predecessor} ] }
+    \bigset{ [ \Next{\Veimt{predecessor}}, \Origin{\var{predecessor}} ] }
 }
 \end{equation*}
 
@@ -804,7 +802,8 @@ The term ``component'' comes from Irons~\cite{Irons}.
 }
 \Veimt{predecessor} is the predecessor
 of the reduction operation.
-\Vsym{lhs} is the transition symbol
+$\Postdot{\Veimt{predecessor}}$
+is the transition symbol
 of the reduction operation.
 
 \Veimt{predecessor} and
@@ -814,27 +813,26 @@ In some contexts, it is convenient to treat the transition
 symbol
 as an operand,
 so that the operands
-are \Veimt{predecessor} and \Vsym{lhs}.
+are \Veimt{predecessor} and
+$\Postdot{\Veimt{predecessor}}$.
 
 \subsection{Prediction}
 \label{d:prediction}
 \begin{equation*}
 \inference{
-    \begin{array}{c}
-	\Veimt{predecessor} = [ \Vdr{predecessor}, \Vorig{predecessor} ] \\
 	\Veimt{predecessor} \in \Ves{current}
-    \end{array}
 }{
   \left\{
-  \begin{aligned}
-  & \Bigl[ \bigl[ \Vsym{L} \de \mydot \Vstr{rh} \bigr],
-  \Vloc{current}
-  \Bigr]
-  \quad \text{such that} \\
-  & \qquad \bigl[ \Vsym{L} \de \Vstr{rh} \bigr] \in \Crules  \\
-  & \qquad \land \bigl( \exists \, \Vstr{z} \mid
-  \Postdot{\Vdr{predecessor}} \destar \Vsym{L} \cat \Vstr{z} \bigr)
-  \end{aligned}
+  \begin{gathered}
+  \Bigl[ \bigl[ \Vsym{L} \de \mydot \Vstr{rh} \bigr],
+    \Vloc{current} \Bigr] \\
+  \text{such that} \quad
+  \bigl[ \Vsym{L} \de \Vstr{rh} \bigr] \in \Crules  \\
+  \land \left( \begin{gathered}
+    \exists \, \Vstr{z} \mid \\
+    \Postdot{\Veimt{predecessor}} \destar \Vsym{L} \cat \Vstr{z}
+    \end{gathered} \right)
+  \end{gathered}
   \right\}
 }
 \end{equation*}
@@ -1080,16 +1078,33 @@ symbol as an operand,
 so that the operands
 are \Vlimt{predecessor} and \Vsym{lhs}.
 
-\subsection{Changes to Earley reduction}
+\subsection{Revised Earley reduction}
 
-Earley reduction still applies, with an additional premise:
-\begin{multline*}
-\neg \exists \, \Vlimt{x} \; \mid \; \Vlimt{x} \in \Ves{component-orig} \\
-	\land \Vlimt{x} = [ \Vdr{x}, \Vsym{lhs}, \Vorig{x} ]
-\end{multline*}
+The Earley reduction of
+\ref{d:reduction}
+still applies, with an additional premise:
+
+\begin{equation*}
+\inference{
+    \begin{gathered}
+    \Veimt{component} \in \Ves{current} \\
+    \left( \; \begin{gathered} \;
+	\nexists \, \Vlimt{x} \; \mid \; \Vlimt{x} \in \Ees{(\Origin{\Veimt{component}} )} \\
+	    \land \; \Transition{\var{x}} = \LHS{\Veimt{component}}
+    \end{gathered} \; \right) \\
+    \Veimt{predecessor} \in \Ees{(\Origin{\Veimt{component}})} \\
+    \Postdot{\Veimt{predecessor}} = \LHS{\Veimt{component}}
+    \end{gathered}
+}{
+    \bigset{ [ \Next{\Veimt{predecessor}}, \Origin{\var{predecessor}} ] }
+}
+\end{equation*}
+
 The additional premise
 prevents Earley reduction from being applied
-where there is an LIMT with \Vsym{lhs} as its transition symbol.
+where there is an LIMT with
+$\LHS{\Veimt{component}}$
+as its transition symbol.
 This reflects the fact that
 Leo reduction replaces Earley reduction if and only if
 there is a Leo memoization.
