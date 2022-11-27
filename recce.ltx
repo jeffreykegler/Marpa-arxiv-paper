@@ -67,8 +67,9 @@
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
 \newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\set{EIMT}}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
+\newcommand{\Elimt}[1]{\ensuremath{#1_{LIMT}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
-\newcommand{\Vlimt}[1]{\ensuremath{\var{#1}_{LIMT}}}
+\newcommand{\Vlimt}[1]{\Elimt{\var{#1}}}
 \newcommand{\Vlimtset}[1]{\ensuremath{\var{#1}_{\set{LIMT}}}}
 \newcommand{\Eloc}[1]{\ensuremath{{#1}_{LOC}}}
 \newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
@@ -875,11 +876,6 @@ will be type \type{LIM}.
 that is, those of the form used in Leo's paper~\cite{Leo1991},
 will be type \type{LIMT}.
 
-Let $\mymathop{LIMT-Map}$ be
-a partial function from the Cartesian product of natural
-numbers and symbols to the Leo items:
-$$\mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \Vlimtset{limts},$$
-where \var{limts} is the set of traditional Leo items.
 A traditional Leo item (LIMT) is a triple
 consisting of a dotted rule,
 a symbol (called the transition symbol),
@@ -901,24 +897,32 @@ the LIMT \Vlimt{limt} indicates that
 \end{equation*}
 is the Earley item to be added on Leo reductions over
 the symbol $\Transition{\Vlimt{limt}}$.
-That $\mymathop{LIMT-Map}$ is a partial function implies that,
+
+Pedantically, LIMT's are not members of Earley sets,
+so we introduce a partial function from pairs of location
+and symbol to LIMT's:
+\begin{equation}
+\label{e:def-limtmap}
+\mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \Vlimtset{limts}.
+\end{equation}
+In \eqref{e:def-limtmap},
+\var{limts} is the set of traditional Leo items.
+That $\mymathop{LIMT-Map}$ is a function implies that,
 in each Earley set, there is at most one Leo item per symbol.
 
-Pedantically, \type{LIMT}s are not member of Earley sets.
-But, as an alternative to $\mymathop{LIMT-Map}$,
-we will often find it convenient and natural to overload
+In practice we will usually avoid direct reference to $\mymathop{LIMT-Map}$,
+finding it convenient and natural to overload
 the notion and notation for Earley set membership.
-That is,
-if an Earley set \Ves{i}
+If an Earley set \Ves{i}
 and a LIMT \Vlimt{x} is such that
 \begin{equation}
 \label{e:limtmap-overload}
 \exists \, \var{postdot} \in \var{vocab} \mid
      \var{x} = \LIMTMap{\Vloc{i}, \Vsym{postdot}},
 \end{equation}
-then we say that \Vlimt{x} is \dfn{in}
+then we will often say that \Vlimt{x} is \dfn{in}
 the Earley set \Ves{i},
-and we write
+and write
 $$\Vlimt{x} \in \Ves{i}.$$
 Note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
@@ -1132,6 +1136,24 @@ an EIMT, and false otherwise:
 \land \; \Vlimt{pred} \in \Ees{(\Origin{\Veimt{bottom}})}.
 \end{gather*}
 
+Our inference rules for Leo memoization take a slightly different form,
+than those we have used to add EIMT's to the Earley sets.
+As previously,
+our premises will be conditions where
+\Vloc{current} is the current Earley set.
+But the result of our inferences will be a LIMT such that
+where \Vlimt{result} is the result,
+we have
+\begin{equation}
+\label{e:limt-inference-result}
+  \mymathop{LIMT-Map}(\Vloc{current}, \Transition{\var{result}}) = \var{result}.
+\end{equation}
+Recall that we usually prefer to avoid direct reference to the LIMT maps,
+instead overloading set notation
+and writing
+\eqref{e:limt-inference-result} as
+$$ \Vlimt{result} \in \Ves{current}. $$
+
 We are now ready to define an inference rule which holds if
 a LIMT predecessor can be found for an EIMT \Veimt{bottom}
 in \Ves{current},
@@ -1142,10 +1164,10 @@ in \Ves{current},
     \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
-    \left \lbrace [ \DR{\Vlimt{pred}}, \Penult{\Veimt{bottom}}, \Origin{\var{pred}} ] \right \rbrace
+    \Elimt{ \big[ \DR{\Vlimt{pred}}, \Penult{\Veimt{bottom}}, \Origin{\var{pred}} \big] }
 }
 \end{equation*}
-and another, which holds if
+and another inference rule that holds if
 \Veimt{bottom} has no predecessor LIMT,
 \begin{equation*}
 \inference{
@@ -1154,7 +1176,7 @@ and another, which holds if
     \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
-    \bigset{ [ \Next{\Veimt{bottom}}, \Penult{\var{bottom}}, \Origin{\var{bottom}} ] }
+    \Elimt{ \big[ \Next{\Veimt{bottom}}, \Penult{\var{bottom}}, \Origin{\var{bottom}} \big] }
 }
 \end{equation*}
 
