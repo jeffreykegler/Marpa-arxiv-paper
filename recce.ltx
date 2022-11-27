@@ -853,7 +853,7 @@ is its \dfn{causation}.
 
 In~\cite{Leo1991}, Joop Leo presented a method for
 dealing with right recursion in \On{} time.
-Leo shows that,
+Leo showed that,
 with his modification, Earley's algorithm
 is \On{} for all LR-regular grammars.
 (LR-regular is LR where lookahead
@@ -961,13 +961,17 @@ More precisely,
 \label{e:def-leo-unique}
 \begin{gathered}
     \LeoUnique{\Veimt{eim}, \Ves{es}} \defined \\
-    \var{eim} \in \var{es} \land \Penult{\var{eim}} \neq \Lambda \; \land \\
-    \forall \, \Veimt{eim2} \mid \\
+    \var{eim} \in \var{es} \land \Penult{\var{eim}} \neq \Lambda \\
+    \land \, \left(
+    \forall \, \var{eim2} \; \middle| \;
+    \begin{gathered}
     \left( \begin{gathered}
 	\var{eim2} \in \var{es} \\
 	 \land \; \Postdot{\var{eim}} = \Postdot{\var{eim2}}
-      \end{gathered} \right)
-    \implies \var{eim} = \var{eim2}
+	\end{gathered} \right) \\
+	\implies \var{eim} = \var{eim2}
+    \end{gathered}
+	\right)
 \end{gathered}
 \end{equation}
 In \eqref{e:def-leo-unique}
@@ -982,15 +986,17 @@ If \Veimt{eim} in
 is Leo unique, then the symbol $\Postdot{\var{eim}}$ is
 also said to be \dfn{Leo unique}.
 In cases where a symbol \Vsym{transition} is Leo unique in \Ves{es},
-we can speak of the dotted rule for \Vsym{transition},
-and the rule for \Vsym{transition},
+we can speak of the dotted rule for \Vsym{transition} in \var{es},
+and the rule for \Vsym{transition} in \var{es},
 because there can be only one of each.
 
 Let \var{n} be the length of a Leo sequence.
-In \Earley, each such sequence would be expanded in every
-Earley set that is the origin of an EIMT included in the
-sequence, and the total number of EIMT's would be
-\order{\var{n}^2}.
+In \Earley, each such sequence would be expanded in each
+of the \order{\var{n}} Earley sets
+that is the origin of an EIMT included in the
+sequence,
+so that the total number of EIMT's would be
+$\order{\var{n}}\mult\order{\var{n}} = \order{\var{n}^2}$.
 
 With Leo memoization, a single EIMT stands in for the sequence.
 There are \Oc{} Leo items per Earley set,
@@ -1005,22 +1011,19 @@ will be in one Earley set and the number of EIMT's
 will be \On{},
 so that even including expansion of the Leo sequence
 for evaluation, the time and space complexity of
-the sequence remain \On{}.
+the sequence remain
+$\On{}+\On=\On{}$.
 
-\begin{sloppypar}
 Recall that we
 call a dotted rule \Vdr{d} a \dfn{penult} if $\Penult{\var{d}} \neq \Lambda$.
 In Leo's original algorithm, any penult
 was treated as a potential right-recursion.
 \Marpa{} applies the Leo memoizations in more restricted circumstances.
 For \Marpa{} to consider a dotted rule
-\begin{equation*}
-\Vdr{candidate} = [\Vrule{candidate}, \var{i}]
-\end{equation*}
+\Vdr{candidate}
 for Leo memoization,
 \Vdr{candidate} must be a penult and
-\Vrule{candidate} must be right-recursive.
-\end{sloppypar}
+$\Rule{\Vdr{candidate}}$ must be right-recursive.
 
 By restricting Leo memoization to right-recursive rules,
 \Marpa{} incurs the cost of Leo memoization only in cases
@@ -1057,15 +1060,12 @@ items as LIMT's.
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \Veimt{component} = \bigl[
-     [ \Vsym{lhs} \de \Vstr{rhs} \mydot ]
-    , \Vloc{component-origin} \bigr] \\
-    \Veimt{component} \in \Ves{current} \\[3pt]
-	\Vlimt{predecessor} = [ \Vdr{top}, \Vsym{lhs}, \Vorig{top} ] \\
-	\Vlimt{predecessor} \in \Ves{component-origin} \\
+    \Veimt{component} \in \Ves{current} \\
+    \Transition{\Vlimt{predecessor}} = \LHS{\Veimt{component}} \\
+    \Vlimt{predecessor} \in \Ees{(\Origin{\var{component}})} \\
     \end{array}
 }{
-    \bigset{ [ \Vdr{top}, \Vorig{top} ] }
+    \bigset{ [ \DR{\Vlimt{predecessor}}, \Origin{\var{predecessor}} ] }
 }
 \end{equation*}
 The new Leo reduction operation resembles the Earley reduction
@@ -1074,13 +1074,13 @@ instead of a predecessor EIMT.
 \Vlimt{predecessor} and
 \Veimt{component} are the operands of the Leo reduction
 operation.
-\Vsym{lhs} is the transition symbol
+$\LHS{\var{component}}$ is the transition symbol
 of the Leo reduction.
 As with Earley reduction,
 it may be convenient to treat the transition
 symbol as an operand,
 so that the operands
-are \Vlimt{predecessor} and \Vsym{lhs}.
+are \Vlimt{predecessor} and $\LHS{\Veimt{component}}$.
 
 \subsection{Revised Earley reduction}
 
