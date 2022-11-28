@@ -283,7 +283,7 @@ contain a proof of Marpa's correctness,
 while Section \ref{s:complexity} contains
 its complexity results.
 Finally,
-section \ref{s:input}
+Section \ref{s:input}
 generalizes Marpa's input model.
 
 The nature of this paper is such that
@@ -718,7 +718,7 @@ The input \Cw{} is accepted if and only if,
 \section{Operations of the Earley algorithm}
 \label{s:earley-ops}
 
-In this section,
+In this Section,
 each Earley operation is shown in the form of
 an inference rule,
 the conclusion of which
@@ -1056,9 +1056,9 @@ operation,
 and extending the Earley sets to memoize Earley
 items as LIMT's.
 
-\subsection{LIMT Predecessors}
+\subsection{LIMT predecessors}
 
-In section
+In Section
 \ref{s:reduction},
 we defined the Earley predecessor of an EIMT.
 We define the LIMT predecessor of an EIMT by analogy.
@@ -1410,7 +1410,7 @@ in the AHFA state of a Leo reduction EIM,
 then it must be the only dotted rule in that AHFA state.
 \end{proof}
 
-\section{The Marpa Recognizer}
+\section{The Marpa recognizer}
 \label{s:recce}
 \label{s:pseudocode}
 
@@ -1644,7 +1644,7 @@ some of the time required by
 and therefore charged to this procedure.
 Inclusive time from \call{Reduce one LHS}{}
 is \Oc{} per call,
-as will be seen in section \ref{p:reduce-one-lhs},
+as will be seen in Section \ref{p:reduce-one-lhs},
 and is charged to the \Veim{work}
 that is current
 during that call to \call{Reduce one LHS}{}.
@@ -1775,7 +1775,7 @@ Overhead is \Oc{} and caller-included.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Earley Reduction operation}
+\subsection{Earley reduction operation}
 \label{p:reduction-op}
 
 \begin{sloppypar}
@@ -2477,8 +2477,8 @@ there is at least one corresponding Marpa Earley item.
 Therefore, \Marpa{} performs its scan operation on a complete set
 of correct operands.
 
-Comparing the Marpa pseudocode (section \ref{p:scan-op}),
-with the Earley scanning operation (section \ref{d:scan})
+Comparing the Marpa pseudocode (Section \ref{p:scan-op}),
+with the Earley scanning operation (Section \ref{d:scan})
 and using
 Observations~\ref{o:confirmed-AHFA-complete}
 and \ref{o:predicted-AHFA-complete},
@@ -2625,7 +2625,7 @@ Having shown the cases in Sections
 \ref{s:prediction-complete},
 we know that Earley set
 \EVtable{\Marpa}{i} is complete.
-In section \ref{s:sets-consistent}
+In Section \ref{s:sets-consistent}
 we showed that \EVtable{\Marpa}{i} is consistent.
 It follows that \EVtable{\Marpa}{i} is correct,
 which is the step of the outer induction.
@@ -3323,7 +3323,7 @@ By Theorem \ref{t:O1-links-per-eim},
 and Theorem \ref{t:ambiguous-tries}.
 \end{proof}
 
-\section{The Marpa Input Model}
+\section{The Marpa input model}
 \label{s:input}
 
 In this paper,
