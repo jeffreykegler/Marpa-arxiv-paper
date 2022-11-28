@@ -114,6 +114,7 @@
 \newcommand{\LeoEligible}[1]{\mymathop{Leo-Eligible}(#1)}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
 \newcommand{\LIMTMap}[1]{\mymathop{LIMT-Map}(#1)}
+\newcommand{\LIMTPredecessor}[1]{\mymathop{LIMT-Predecessor}(#1)}
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
 \newcommand{\myL}[1]{\mymathop{L}(#1)}
@@ -783,7 +784,7 @@ $\Postdot{\Veimt{predecessor}}$ is the transition symbol
 of the scanning operation.
 
 \subsection{Reduction}
-\label{d:reduction}
+\label{s:reduction}
 
 \begin{equation*}
 \inference{
@@ -966,7 +967,7 @@ More precisely,
     \forall \, \var{eim2} \; \middle| \;
     \begin{gathered}
     \left( \begin{gathered}
-	\var{eim2} \in \var{es} \\
+	\Veimt{eim2} \in \var{es} \\
 	 \land \; \Postdot{\var{eim}} = \Postdot{\var{eim2}}
 	\end{gathered} \right) \\
 	\implies \var{eim} = \var{eim2}
@@ -1055,21 +1056,35 @@ operation,
 and extending the Earley sets to memoize Earley
 items as LIMT's.
 
+\subsection{LIMT Predecessors}
+
+In section
+\ref{s:reduction},
+we defined the Earley predecessor of an EIMT.
+We define the LIMT predecessor of an EIMT by analogy.
+When say that \Vlimt{pred} is the LIMT predecessor of \Veimt{x}
+if and only if
+$\LIMTPredecessor{\Vlimt{pred},\Veimt{x}}$ is true, where
+\begin{gather*}
+\LIMTPredecessor{\Vlimt{pred},\Veimt{x}} \defined \\
+\Transition{\Vlimt{pred}} = \LHS{\Veimt{x}} \\
+\land \; \Vlimt{pred} \in \Ees{(\Origin{\Veimt{x}})}.
+\end{gather*}
+
 \subsection{Leo reduction}
 
 \begin{equation*}
 \inference{
     \begin{array}{c}
     \Veimt{component} \in \Ves{current} \\
-    \Transition{\Vlimt{predecessor}} = \LHS{\Veimt{component}} \\
-    \Vlimt{predecessor} \in \Ees{(\Origin{\var{component}})} \\
+    \LIMTPredecessor{\Vlimt{predecessor},\var{component}} \\
     \end{array}
 }{
     \bigset{ [ \DR{\Vlimt{predecessor}}, \Origin{\var{predecessor}} ] }
 }
 \end{equation*}
 The new Leo reduction operation resembles the Earley reduction
-operation, except that it looks for an LIMT,
+operation, except that it looks for a LIMT,
 instead of a predecessor EIMT.
 \Vlimt{predecessor} and
 \Veimt{component} are the operands of the Leo reduction
@@ -1085,19 +1100,16 @@ are \Vlimt{predecessor} and $\LHS{\Veimt{component}}$.
 \subsection{Revised Earley reduction}
 
 The Earley reduction of
-\ref{d:reduction}
+\ref{s:reduction}
 still applies, with an additional premise:
 
 \begin{equation*}
 \inference{
     \begin{gathered}
     \Veimt{component} \in \Ves{current} \\
-    \left( \; \begin{gathered} \;
-	\nexists \, \Vlimt{x} \; \mid \; \Vlimt{x} \in \Ees{(\Origin{\Veimt{component}} )} \\
-	    \land \; \Transition{\var{x}} = \LHS{\Veimt{component}}
-    \end{gathered} \; \right) \\
-    \Veimt{predecessor} \in \Ees{(\Origin{\Veimt{component}})} \\
-    \Postdot{\Veimt{predecessor}} = \LHS{\Veimt{component}}
+    \nexists \; \Vlimt{x} \; \mid \; \LIMTPredecessor{\var{x},\var{component}} \\
+    \var{predecessor} \in \Ees{(\Origin{\var{component}})} \\
+    \Postdot{\var{predecessor}} = \LHS{\var{component}}
     \end{gathered}
 }{
     \bigset{ [ \Next{\Veimt{predecessor}}, \Origin{\var{predecessor}} ] }
@@ -1127,14 +1139,6 @@ More precisely,
 \RightRecursive{\Rule{\Veimt{x}}}
 \land \LeoUnique{\Veimt{x}, \Ves{es}}
 \end{gather*}
-For convenience, we define a relation that is
-true if $\Vlimt{pred}$ is the LIMT predecessor of
-an EIMT, and false otherwise:
-\begin{gather*}
-\mymathop{LIMT-Predecessor}({\Vlimt{pred},\Veimt{bottom}}) \defined \\
-\Transition{\Vlimt{pred}} = \LHS{\Veimt{bottom}} \\
-\land \; \Vlimt{pred} \in \Ees{(\Origin{\Veimt{bottom}})}.
-\end{gather*}
 
 Our inference rules for Leo memoization take a slightly different form,
 than those we have used to add EIMT's to the Earley sets.
@@ -1160,7 +1164,7 @@ in \Ves{current},
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \mymathop{LIMT-Predecessor}(\Vlimt{pred},\Veimt{bottom}) \\
+    \LIMTPredecessor{\Vlimt{pred},\Veimt{bottom}} \\
     \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
@@ -1172,7 +1176,7 @@ and another inference rule that holds if
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    (\forall \; \Vlimt{pred} \; \mid \; \neg \mymathop{LIMT-Predecessor}(\var{pred},\Veimt{bottom}) \\
+    (\forall \; \Vlimt{pred} \; \mid \; \neg \LIMTPredecessor{\var{pred},\Veimt{bottom}} \\
     \LeoEligible{\Veimt{bottom}, \Ves{current}}
     \end{array}
 }{
@@ -2351,7 +2355,7 @@ Otherwise, let
 \end{equation*}
 We see that \Veim{confirmed} is consistent with respect
 to \EVtable{\Leo}{i}
-by the definition of Earley reduction (Section~\ref{d:reduction}),
+by the definition of Earley reduction (Section~\ref{s:reduction}),
 and Observation~\ref{o:confirmed-AHFA-consistent}.
 By the invariance of consistency under union,
 \EVtable{\Marpa}{i} remains consistent after
@@ -2563,7 +2567,7 @@ Therefore \Marpa{} performs its reduction operations on a
 complete set of operand pairs.
 
 Comparing the Marpa pseudocode (Section \ref{p:reduction-op})
-with the Earley reduction operation (Section \ref{d:reduction})
+with the Earley reduction operation (Section \ref{s:reduction})
 and using
 Observations~\ref{o:confirmed-AHFA-complete}
 and \ref{o:predicted-AHFA-complete},
