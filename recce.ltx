@@ -369,12 +369,16 @@ This definition follows~\cite{AH2002},
 which departs from tradition by disallowing an empty RHS.
 
 The rules imply the traditional rewriting system,
-in which $\Vstr{x} \derives \Vstr{y}$
-states that \Vstr{x} derives \Vstr{y} in exactly one step;
-$\Vstr{x} \deplus \Vstr{y}$
-states that \Vstr{x} derives \Vstr{y} in one or more steps;
-and $\Vstr{x} \destar \Vstr{y}$
-states that \Vstr{x} derives \Vstr{y} in zero or more steps.
+in which
+\begin{itemize}
+\item $\Vstr{x} \derives \Vstr{y}$
+states that \var{x} derives \var{y} in exactly one step;
+\item $\Vstr{x} \deplus \Vstr{y}$
+states that \var{x} derives \var{y} in one or more steps;
+and
+\item $\Vstr{x} \destar \Vstr{y}$
+states that \var{x} derives \var{y} in zero or more steps.
+\end{itemize}
 
 We say that symbol \Vsym{x} is \dfn{nullable} if and only if
 $\Vsym{x} \destar \epsilon$.
