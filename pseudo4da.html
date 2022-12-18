@@ -1,0 +1,39 @@
+<p>Here's pseudo-code for recreated the missing Leo completions for the
+causation of the EIM <tt>top</tt> with a causation whose mainstem is the LIM
+<tt>lim0</tt>
+and whose tributary is the EIM <tt>baseEIM</tt>.  Note that top may have more than
+one causation, and the others may be either Leo or ordinary causations.
+
+<p>A causation is a duple of mainstem and tributary.  It is the pair of
+parse items which caused the creation of a parse item.  In an ambiguous
+parse, parse items may have more than one causation.
+I have previously called the mainstems, predecessors;
+and called the tributaries, causes, components or bases.
+We can write a causation as <tt>[ m, t ]</tt>,
+where <tt>m</tt> is the mainstem
+and <tt>t</tt> is the tributary.
+
+<p>"Require" means that the EIM is to be added to the ES, or
+the causation is to be added to the parse item, unless it
+already exists.
+In Libmarpa, the nulled EIMs are added at the same time,
+but the logic to do this is not shown here.
+
+<pre>
+workingLIM = lim0
+previousCompletion = baseEIM
+while workingLIM exists
+do
+    <font face="serif"># LIMs always have exactly one causation</font>
+    [ previousLIM, workingBase ] = causation(workingLIM)
+    <font face="serif">Let</font> completion <font face="serif">be a new EIM such that</font>
+        DR(completion) = Next(DR(workingBase)
+	Origin(completion) = Origin(workingBase)
+    <font face="serif">Require</font> completion<!--
+       --> <font face="serif">in</font> Current(top)
+    <font face="serif">Require the causation</font> [ workingBase, previousCompletion ]<!--
+        --> <font face="serif">for</font> completion.
+    workingLIM = previousLIM
+    previousCompletion = completion
+done
+</pre>
