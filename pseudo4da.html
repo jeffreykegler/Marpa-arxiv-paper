@@ -1,8 +1,8 @@
-<p>Here's pseudo-code for recreated the missing Leo completions for the
-causation of the EIM <tt>top</tt> with a causation whose mainstem is the LIM
-<tt>lim0</tt>
-and whose tributary is the EIM <tt>baseEIM</tt>.  Note that top may have more than
-one causation, and the others may be either Leo or ordinary causations.
+<p>A parse item is a LIM or an EIM.
+Every parse item has one or more confluences,
+or causations.
+A causation indicates a reason why the parse item was added
+to the Earley table.
 
 <p>A causation is a duple of mainstem and tributary.  It is the pair of
 parse items which caused the creation of a parse item.  In an ambiguous
@@ -12,6 +12,15 @@ and called the tributaries, causes, components or bases.
 We can write a causation as <tt>[ m, t ]</tt>,
 where <tt>m</tt> is the mainstem
 and <tt>t</tt> is the tributary.
+
+<p>Here's pseudo-code for recreating the missing Leo completions for a
+causation of the EIM <tt>top</tt>.
+Let the causation be
+<tt>[lim0, baseEIM]</tt>.
+Both <tt>top</tt>
+and <tt>baseEIM</tt> are in the ES at location <tt>current</tt>.
+Note that <tt>top</tt> may have more than
+one causation, and the others may be either Leo or ordinary causations.
 
 <p>"Require" means that the EIM is to be added to the ES, or
 the causation is to be added to the parse item, unless it
@@ -30,7 +39,7 @@ do
         DR(completion) = Next(DR(workingBase)
 	Origin(completion) = Origin(workingBase)
     <font face="serif">Require</font> completion<!--
-       --> <font face="serif">in</font> Current(top)
+       --> <font face="serif">in</font> <tt>current</tt>.
     <font face="serif">Require the causation</font> [ workingBase, previousCompletion ]<!--
         --> <font face="serif">for</font> completion.
     workingLIM = previousLIM
