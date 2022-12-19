@@ -20,6 +20,7 @@
 
 \newcommand{\mult}{\mathbin{\ast}}
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
+\newcommand{\countables}{\ensuremath{\mathbb{CNT}}\xspace}
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
 \newcommand{\dfn}[1]{{\bf #1}}
 \newcommand{\sep}{\,\mid\,}
@@ -32,12 +33,49 @@
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 
+\newcommand{\mcolon}{\mathrel:}
+\newcommand{\mcoloncolon}{\mathrel{\vcenter{\hbox{$::$}}}}
+
+\newcommand{\suchthat}{\mcoloncolon}
+\newcommand{\quantify}[3]{% quantifier, binding, predicate
+    \ensuremath{\mathrel{#1}#2 \suchthat #3}%
+}
+
+\newcommand{\rIota}{\mathop{\scalebox{1.5}{\rotatebox[origin=c]{180}{$\iota$}}}}
+\newcommand{\iotaQOp}{\mathop{\rIota}}
+\newcommand{\iotaQ}[2]{\quantify{\iotaQOp}{#1}{#2}}
+
+\newcommand{\epsQOp}{\mathop{\varepsilon}}
+\newcommand{\epsQ}[2]{\quantify{\epsQOp}{#1}{#2}}
+
+\newcommand{\lambdaQOp}{\mathop{\lambda}}
+\newcommand{\lambdaQ}[2]{\quantify{\lambdaQOp}{#1}{#2}}
+
+% collection builder, or descriptor
+\newcommand{\setQOp}{\mathop{\mathsection}}
+\newcommand{\setQ}[2]{\quantify{\setQOp}{#1}{#2}}
+
+\newcommand{\existUniqQOp}{\mathop{\exists{!}}}
+\newcommand{\existUniqQ}[2]{\quantify{\existUniqQOp}{#1}{#2}}
+% extra {} in existQOP and univQOp to raise to baseline
+\newcommand{\existQOp}{\mathop{\exists{}}}
+\newcommand{\existQ}[2]{\quantify{\existQOp}{#1}{#2}}
+% extra {} in existQOP and univQOp to raise to baseline
+\newcommand{\univQOp}{\mathop{\forall{}\,}}
+\newcommand{\univQ}[2]{\quantify{\univQOp}{#1}{#2}}
+
+% [f]u[n]ction [M]ap operator
+\newcommand{\fnMap}{\rightharpoonup}
+% [t]otal [f]u[n]ction [M]ap operator
+\newcommand{\tfnMap}{\rightarrow}
+
 % I use hyphens in variable names,
 % so I need to ensure that subtraction is
 % clearly distinguished by the typography
 \newcommand{\subtract}{\,-\,}
 
 \newcommand{\var}[1]{\ensuremath{\texttt{#1}}}
+\newcommand{\V}[1]{\ensuremath{\texttt{\mbox{#1}}}}
 
 \newcommand{\cfg}{CFG}
 
@@ -325,6 +363,23 @@ Subtraction & $\var{symbol-count} \subtract \var{terminal-count}$ \\
 Type names are often used in the text
 as a convenient way to refer to
 their type.
+
+We define the natural numbers, \naturals, to include zero.
+\countables represents the counting numbers, which are
+$\naturals \setminus \set{0}$.
+
+$\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
+$\V{D} \tfnMap \V{C}$ is the set of total functions from domain \V{D} to codomain \V{C}.
+It follows that $\naturals \tfnMap \V{C}$ is the set of
+infinite sequences of values from the set \V{C};
+that $42 \tfnMap \V{C}$ is the set of
+sequences of length 42 of values from the set \V{C};
+and that
+$$ \bigl\{ \V{fn} \bigm|
+  \left( \exists \; \V{n} \; \middle| \; \V{n} \in \naturals \land \V{fn} \in \V{n} \tfnMap \V{C}
+  \right)
+\bigr\} $$
+is the set of finite sequences of values from the set \V{C}.
 
 Where \Vsymset{vocab} is non-empty set of symbols,
 let $\var{vocab}^\ast$ be the set of all strings
