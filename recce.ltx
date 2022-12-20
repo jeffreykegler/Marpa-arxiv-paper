@@ -33,6 +33,19 @@
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 
+\newcommand{\isWellDef}{\mathop{\downarrow}}
+\newcommand{\isIllDef}{\mathop{\uparrow}}
+\newcommand{\wellDefRel}{\mathrel{\downarrow}}
+\newcommand{\illDefRel}{\mathrel{\uparrow}}
+\newcommand{\wellDefB}[2]{#1\wellDefRel#2}
+\newcommand{\illDefB}[2]{#1\illDefRel#2}
+
+\newcommand{\qeq}{\simeq}
+\newcommand{\nqeq}{\not\simeq}
+\newcommand{\unicorn}{\ensuremath{\bot}\xspace}
+\newcommand{\TRUE}{\ensuremath{\mathbb T}\xspace}
+\newcommand{\FALSE}{\ensuremath{\mathbb F}\xspace}
+
 \newcommand{\tuple}[1]{\ensuremath{\left\langle #1 \right\rangle}}
 
 \newcommand{\typed}[2]{\ensuremath{#1\mcolon#2}}
@@ -377,9 +390,33 @@ Concatenation & $\var{a} \cat \var{b}$ \\
 Subtraction & $\var{symbol-count} \subtract \var{terminal-count}$ \\
 \end{tabular}
 \end{center}
-Type names are often used in the text
-as a convenient way to refer to
-their type.
+
+A useful feature of Farmer~2012~\cite{Farmer2012} is his notion of ill-definedness.
+For example, the value of partial functions may be ill-defined for
+some arguments in their domain.
+In fact, Farmer's handling of ill-definedness is the traditional one,
+and was well-entrenched,
+but he was first to describe and formalize it.\footnote{%
+See Farmer 2004~\cite{Farmer2004}.
+Note that Farmer refers to ill-defined values as ``undefined''.
+We found this problematic.
+For example, a partial function may not have a value for
+every argument in its domain.
+Saying that that the value of the partial function for these arguments
+is defined as ``undefined'' is confusing.
+In this paper we say that these values are defined, but ill-defined.
+}
+
+We write $\unicorn$ for ill-defined.
+Traditionally, and in this paper,
+any formula with an ill-defined operand is false.
+This means that a equality both of whose operands are ill-defined
+is false, so that $\neg \; (\unicorn = \unicorn)$.
+For cases where this is inconvenient,
+we introduce a new relation, $\simeq$, such that
+$$
+  \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} = \unicorn \land \V{b} = \unicorn.
+$$
 
 We define the natural numbers, \naturals, to include zero.
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
@@ -1008,16 +1045,6 @@ $$\Vlimt{x} \in \Ves{i}.$$
 Note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
-In this paper, we handle undefinedness in the traditional way.%
-\footnote{
-  Traditionally,
-  a formula with an undefined operand is false.
-  The traditional handling of undefinedness,
-  while entrenched, was poorly documented until
-  Farmer~2004~\cite{Farmer2004}
-  performed the immense service of
-  describing and formalizing it.
-}
 
 Leo items memoize what would otherwise be sequences
 of Earley items.
