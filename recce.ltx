@@ -33,6 +33,12 @@
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 
+\newcommand{\tuple}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+
+\newcommand{\typed}[2]{\ensuremath{#1\mcolon#2}}
+\newcommand{\Vtyped}[2]{\ensuremath{\var{#1}\mcolon#2}}
+\newcommand{\VVtyped}[2]{\ensuremath{\var{#1}\mcolon\var{#2}}}
+
 \newcommand{\mcolon}{\mathrel:}
 \newcommand{\mcoloncolon}{\mathrel{\vcenter{\hbox{$::$}}}}
 
@@ -89,6 +95,9 @@
 \newcommand{\derivrg}[2]{\mathrel{\mbox{$\:\stackrel{\!{#1}}%
         {\Rightarrow\!}\:$}}}
 
+% For the type subscript for powersets
+\newcommand{\setOf}[1]{{{#1}^{\mbox{\normalsize $\ast$}}}}
+
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
 \newcommand{\Bigset}[1]{{\Bigl\lbrace #1 \Bigr\rbrace} }
@@ -98,29 +107,28 @@
 \newcommand{\Vbool}[1]{\ensuremath{\bool{#1}}}
 \newcommand{\dr}[1]{#1_{DR}}
 \newcommand{\Vdr}[1]{\ensuremath{\var{#1}_{DR}}}
-\newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\set{DR}}}}
+\newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\setOf{DR}}}}
 \newcommand{\eim}[1]{#1_{EIM}}
 \newcommand{\Veim}[1]{\ensuremath{\var{#1}_{EIM}}}
 \newcommand{\Veimt}[1]{\ensuremath{\var{#1}_{EIMT}}}
-\newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\set{EIM}}}}
-\newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\set{EIMT}}}}
+\newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\setOf{EIM}}}}
+\newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\setOf{EIMT}}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Elimt}[1]{\ensuremath{#1_{LIMT}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
 \newcommand{\Vlimt}[1]{\Elimt{\var{#1}}}
-\newcommand{\Vlimtset}[1]{\ensuremath{\var{#1}_{\set{LIMT}}}}
+\newcommand{\Vlimtset}[1]{\ensuremath{\var{#1}_{\setOf{LIMT}}}}
 \newcommand{\Eloc}[1]{\ensuremath{{#1}_{LOC}}}
 \newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
 \newcommand{\Ves}[1]{\Ees{\var{#1}}}
 \newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{RULE}}}
-\newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\set{RULE}}}}
+\newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\setOf{RULE}}}}
 \newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
 \newcommand{\Vstr}[1]{\ensuremath{\var{#1}_{STR}}}
 \newcommand{\sym}[1]{#1_{SYM}}
 \newcommand{\Vsym}[1]{\ensuremath{\var{#1}_{SYM}}}
 \newcommand{\Vorig}[1]{\ensuremath{\var{#1}_{ORIG}}}
-\newcommand{\symset}[1]{#1_{\lbrace SYM \rbrace} }
-\newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\set{SYM}}}}
+\newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\setOf{SYM}}}}
 \newcommand{\term}[1]{#1_{TERM}}
 \newcommand{\token}[1]{#1_{TOK}}
 
@@ -338,12 +346,21 @@ online~\cite{Timeline}.
 
 We assume familiarity with the theory of parsing,
 as well as Earley's algorithm.
-This paper will
-use subscripts to indicate commonly occurring types.
+We will use the type system
+of Farmer~2012~\cite{Farmer2012},
+without needing most of its apparatus.
+The notation \VVtyped{x}{T} indicates that the variable
+\V{x} is of type \V{T}.
+More often, this paper will
+use subscripts to indicate commonly occurring types.\footnote{
+A type in Farmer~2012~\cite{Farmer2012} is a superclass,
+or a collection of classes,
+but all of the types in this paper will be sets.
+}
 \begin{center}
 \begin{tabular}{ll}
 $\var{X}_T$ & The variable \var{X} of type $T$ \\
-$\var{set-one}_\set{T}$ & The variable \var{set-one} of type set of $T$ \\
+$\var{set-one}_\setOf{T}$ & The variable \var{set-one} of type set of $T$ \\
 $SYM$ & The type for a symbol \\
 \Vsym{a} & The variable \var{a} of type $SYM$ \\
 \Vsymset{set-two} & The variable \var{set-two}, a set of symbols \\
@@ -365,9 +382,6 @@ as a convenient way to refer to
 their type.
 
 We define the natural numbers, \naturals, to include zero.
-\countables represents the counting numbers, which are
-$\naturals \setminus \set{0}$.
-
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
 $\V{D} \tfnMap \V{C}$ is the set of total functions from domain \V{D} to codomain \V{C}.
 It follows that $\naturals \tfnMap \V{C}$ is the set of
@@ -381,25 +395,31 @@ $$ \bigl\{ \V{fn} \bigm|
 \bigr\} $$
 is the set of finite sequences of values from the set \V{C}.
 
-Where \Vsymset{vocab} is non-empty set of symbols,
-let $\var{vocab}^\ast$ be the set of all strings
-(type \type{STR}) formed
-from those symbols.
-Where \Vstr{s} is a string,
-let \size{\Vstr{s}} be its length, counted in symbols.
-Let $\var{vocab}^+$ be
-\begin{equation*}
+Let \V{vocab} be a non-empty set of symbols.
+The string type, \type{STR}, is the set of all finite sequences of
+symbols
+$$ \V{STR} = \bigl\{ \V{fn} \bigm|
+  \left( \exists \; \V{n} \; \middle| \; \V{n} \in \naturals \land \V{fn} \in \V{n} \tfnMap \V{vocab}
+  \right)
+\bigr\} $$
+
+We write $\var{vocab}^\ast$ for the set of all strings (type \type{STR}).
+Where \VVtyped{s}{STR} is a string,
+we write \size{\Vstr{s}} for the string length, counted in symbols.
+We write $\var{vocab}^+$ for the set of all non-null strings:
+$$
+\var{vocab}^+ =
 \bigl\{ \Vstr{x}
 \bigm| \Vstr{x} \in \var{vocab}^\ast \land \Vsize{\Vstr{x}} > 0
 \bigr\}.
-\end{equation*}
+$$
 
 In this paper we use,
 without loss of generality,
 the grammar \Cg{},
 where \Cg{} is the 3-tuple
 \begin{equation*}
-    (\Vsymset{vocab}, \var{rules}, \Vsym{accept}).
+    \tuple{\Vsymset{vocab}, \var{rules}, \Vsym{accept}}.
 \end{equation*}
 Here $\Vsym{accept} \in \var{vocab}$.
 Call the language of \var{g}, $\myL{\Cg}$,
@@ -407,7 +427,7 @@ where $\myL{\Cg} \subseteq \var{vocab}^\ast$.
 
 \Vruleset{rules} is a set of rules (type \type{RULE}),
 where a rule is a duple
-of the form $[\Vsym{lhs} \de \Vstr{rhs}]$,
+of the form $\tuple{\Vsym{lhs} \de \Vstr{rhs}}$,
 such that
 \begin{equation*}
 \Vsym{lhs} \in \var{vocab} \quad \text{and}
@@ -599,12 +619,12 @@ in the rule.
 The position is a natural number
 and must be less than or equal to the rule length.
 If we let
-$$\Vdr{dr} = [\Vrule{r}, \var{pos}]$$
+$$\Vdr{dr} = \tuple{\Vrule{r}, \var{pos}}$$
 be a dotted rule, then
 we have
 $0 \le \var{pos} \le \size{\Vrule{r}}$.
 Again letting
-$\Vdr{dr} = [\Vrule{r}, \var{pos}]$
+$\Vdr{dr} = \tuple{\Vrule{r}, \var{pos}}$
 be a dotted rule,
 \begin{gather*}
 \Rule{\Vdr{dr}} \defined \Vrule{r}, \text{ and} \\
@@ -1295,11 +1315,11 @@ make Earley's algorithm faster in practice.
 
 As a reminder,
 the original Earley items (EIMT's)
-were duples, $[\Vdr{x}, \Vorig{x}]$,
+were duples, $\tuple{\Vdr{x}, \Vorig{x}}$,
 where \Vdr{x} is a dotted rule.
 An Aycock-Horspool Earley item is a duple
 \begin{equation*}
-[\Vah{y}, \Vorig{y}],
+\tuple{\Vah{y}, \Vorig{y}},
 \end{equation*}
 where $\Vah{y}$ is an AHFA state.
 
@@ -1943,7 +1963,7 @@ remains \Oc.
 In the general case,
 where \var{x} is an arbitrary datum,
 it is not possible
-to use duple $[\Ves{i}, x]$
+to use duple $\tuple{\Ves{i}, x}$
 as a search key and expect the search to use
 \Oc{} time.
 Within \Marpa, however, there are specific cases
@@ -3540,6 +3560,12 @@ William~M.~Farmer.
 \newblock In D.~Basin and M.~Rusinowitch, editors, {\em Automated
   Reasoning---IJCAR 2004}, volume 3097 of {\em Lecture Notes in Computer
   Science}, pages 475--489. Springer-Verlag, 2004.
+
+\bibitem{Farmer2012}
+William~M.~Farmer.
+\newblock Chiron: A Set Theory with Types, Undefinedness, Quotation, and Evaluation.
+\newblock SQRL Report No. 38, McMaster University, 2007 (revised 2012)
+\newblock arXiv:1305.6206
 
 \bibitem{GJ2008}
 Dirk~Grune and Ceriel~J.H Jacobs.
