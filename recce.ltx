@@ -126,6 +126,8 @@
 \newcommand{\Veimt}[1]{\ensuremath{\var{#1}_{EIMT}}}
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\setOf{EIM}}}}
 \newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\setOf{EIMT}}}}
+\newcommand{\pim}[1]{#1_{PIM}}
+\newcommand{\Vpim}[1]{\ensuremath{\var{#1}_{PIM}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
 \newcommand{\Elimt}[1]{\ensuremath{#1_{LIMT}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
@@ -829,45 +831,12 @@ The input \Cw{} is accepted if and only if,
 \bigl[[\Vsym{accept} \de \Vsym{start} \mydot], 0\bigr] \in \bigEtable{\Vsize{\Cw}}
 \end{equation*}
 
-\section{Operations of the Earley algorithm}
-\label{s:earley-ops}
-
-In this Section,
-each Earley operation is shown in the form of
-an inference rule,
-the conclusion of which
-is the set of the Earley items
-that is that operation's \dfn{result}.
-The Earley sets correspond to parse locations,
-and for any Earley operation there is a
-current parse location, \Vloc{current}, and
-a current Earley set, \Ves{current}.
-Recall that
-we often write \Ves{i} for
-the Earley set at \Vloc{i},
-and \Ees{(\var{exp})} for the Earley set
-at the location given by the expression \var{exp}.
-
-Each location starts with an empty Earley set.
-For the purposes of this description of
-\Earley{}, the order of the
-Earley operations
-when building an
-Earley set is non-deterministic.
-After each Earley operation is performed,
-its result is unioned with the
-current Earley set.
-When no more Earley items
-can be added, the Earley set is
-complete.
-The Earley sets are built in
-order from 0 to \Vsize{w}.
-
-\subsection{Confluences}
+\section{Confluences}
 
 An Earley item is also called a \dfn{parse item}.
 For Marpa, we will define another kind of parse item,
 a Leo item, later.
+Parse items have type \V{PIM}.
 
 In Marpa, with each parse item is a set of
 confluences, which
@@ -886,7 +855,10 @@ and may be an Earley item, a token, or ill-defined.
 The hydrological terminology may seem ornate,
 but experience
 has shown that the overloading of more ordinary terms like ''predecessor'',
-and ``cause'' can be befuddling.
+``cause'', and ``component''\footnote{%
+The term ``component'' was used in Irons~\cite{Irons}.
+}
+can be befuddling.
 
 We hope this terminology is mildly intuitive.
 A confluence is when one river channel meets a second to form a third channel.
@@ -897,38 +869,82 @@ the Ohio and Mississippi Rivers,
 in which the Mississippi is the mainstem
 and the Ohio is a tributary.
 
+\section{Operations of the Earley algorithm}
+\label{s:earley-ops}
+
+For any Earley operation there is a
+current parse location, \Vloc{current}, and
+a current Earley set, \Ves{current}.
+Recall that
+we often write \Ves{i} for
+the Earley set at \Vloc{i},
+and \Ees{(\var{exp})} for the Earley set
+at the location given by the expression \var{exp}.
+
+Each Earley operation is shown in the form of
+an inference rule,
+the conclusion of which
+is that operation's \dfn{result}.
+The result consists of
+\begin{itemize}
+\item a parse item, call it \Vpim{p} of the Earley items to be unioned into \Ves{current}; and
+\item a confluence to be unioned into the confluence set of \Vpim{p}.
+\end{itemize}
+
+Each location starts with an empty Earley set.
+For the purposes of this description of
+\Earley{}, the order of the
+Earley operations
+when building an
+Earley set is non-deterministic.
+After each Earley operation is performed,
+its result is unioned with the
+current Earley set.
+When no more Earley items
+can be added, the Earley set is
+complete.
+The Earley sets are built in
+order from 0 to \Vsize{w}.
+
 \subsection{Initialization}
 \label{d:initial}
 \begin{equation*}
 \inference{
    \Vloc{current} = 0
 }{
-    \Bigset{\bigl[ [ \Vsym{accept} \de \mydot \Vsym{start} ], 0 \bigr]}
+    \begin{array}{c}
+        \Vtyped{ \tuple{ [ \Vsym{accept} \de \mydot \Vsym{start} ], 0 }}{ \V{EIMT} } \\
+	\Vtyped{\tuple{\unicorn, \unicorn}}{ \V{CFLU} }
+    \end{array}
 }
 \end{equation*}
-Earley {\bf initialization} has no operands
-and only takes
-place in Earley set 0.
+Earley {\bf initialization} only takes
+place in Earley set 0,
+and always adds exactly one EIM,
+with exactly one confluence.
+The mainstem and tributary of the confluence are both ill-defined.
 
 \subsection{Scanning}
 \label{d:scan}
 \begin{equation*}
 \inference{
     \begin{array}{c}
-	\Veimt{predecessor} \in \Ees{ ( \Vloc{current} \subtract 1 ) } \\
-	\Postdot{\Veimt{predecessor}} =
+	\Veimt{mainstem} \in \Ees{ ( \Vloc{current} \subtract 1 ) } \\
+	\Postdot{\Veimt{mainstem}} =
 	   \Cw\bigl[ \Vloc{current} \subtract 1 \bigr]
     \end{array}
 }{
-    \bigset{ [ \Next{\Veimt{predecessor}}, \Origin{\var{predecessor}} ] }
+    \begin{array}{c}
+	\Vtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{ \V{EIMT} } \\
+	\Vtyped{\tuple{\Veim{mainsteam}, ( \Vloc{current} \subtract 1 ) }}{ \V{CFLU} }
+    \end{array}
 }
 \end{equation*}
-\Veimt{predecessor} and
-the token,
-$\Cw[ \Vloc{current} \subtract 1 ]$,
-are the operands of an Earley scan.
-$\Veimt{predecessor}$ is called the predecessor of the scanning operation.
-$\Postdot{\Veimt{predecessor}}$ is the transition symbol
+\Veimt{mainstem} is the mainstem of each confluence.
+The token
+$\Cw[ \Vloc{current} \subtract 1 ]$
+is the tributary of each confluence.
+$\Postdot{\Veimt{mainstem}}$ is the transition symbol
 of the scanning operation.
 
 \subsection{Reduction}
@@ -937,34 +953,21 @@ of the scanning operation.
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \Veimt{component} \in \Ves{current} \\
-    \Veimt{predecessor} \in \Ees{(\Origin{\Veimt{component}})} \\
-    \Postdot{\Veimt{predecessor}} = \LHS{\Veimt{component}} \\
+    \Veimt{tributary} \in \Ves{current} \\
+    \Veimt{mainstem} \in \Ees{(\Origin{\Veimt{tributary}})} \\
+    \Postdot{\Veimt{mainstem}} = \LHS{\Veimt{tributary}} \\
     \end{array}
 }{
-    \bigset{ [ \Next{\Veimt{predecessor}}, \Origin{\var{predecessor}} ] }
+    \begin{array}{c}
+	\Vtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{ \V{EIMT} } \\
+	\Vtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{ \V{CFLU} }
+    \end{array}
 }
 \end{equation*}
 
-\Veimt{component} is called
-the component of the reduction operation.\footnote{
-The term ``component'' comes from Irons~\cite{Irons}.
-}
-\Veimt{predecessor} is the predecessor
-of the reduction operation.
-$\Postdot{\Veimt{predecessor}}$
+$\Postdot{\Veimt{tributary}}$
 is the transition symbol
 of the reduction operation.
-
-\Veimt{predecessor} and
-\Veimt{component} are the operands of the reduction
-operation.
-In some contexts, it is convenient to treat the transition
-symbol
-as an operand,
-so that the operands
-are \Veimt{predecessor} and
-$\Postdot{\Veimt{predecessor}}$.
 
 \subsection{Prediction}
 \label{d:prediction}
@@ -990,12 +993,6 @@ A prediction operation can add several Earley items
 to Earley set \Vloc{current}.
 \Veimt{predecessor} is called the predecessor of the prediction operation,
 and is its only operand.
-
-\subsection{Causation}
-An operand of an operation is also called a \dfn{cause}
-of that operation,
-and the set of operands for an Earley operation
-is its \dfn{causation}.
 
 \section{The Leo algorithm}
 \label{s:leo}
