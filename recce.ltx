@@ -440,15 +440,12 @@ $$ \V{STR} = \bigl\{ \V{fn} \bigm|
   \right)
 \bigr\} $$
 
-We write $\var{vocab}^\ast$ for the set of all strings (type \type{STR}).
 Where \VVtyped{s}{STR} is a string,
 we write \size{\Vstr{s}} for the string length, counted in symbols.
-We write $\var{vocab}^+$ for the set of all non-null strings:
+We write $\var{STR}^+$ for the set of all non-null strings:
 $$
-\var{vocab}^+ =
-\bigl\{ \Vstr{x}
-\bigm| \Vstr{x} \in \var{vocab}^\ast \land \Vsize{\Vstr{x}} > 0
-\bigr\}.
+\var{STR}^+ =
+\bigl\{ \Vtyped{x}{STR} \bigm| \Vsize{\Vstr{x}} > 0 \bigr\}.
 $$
 
 In this paper we use,
@@ -460,7 +457,7 @@ where \Cg{} is the 3-tuple
 \end{equation*}
 Here $\Vsym{accept} \in \var{vocab}$.
 Call the language of \var{g}, $\myL{\Cg}$,
-where $\myL{\Cg} \subseteq \var{vocab}^\ast$.
+where $\myL{\Cg} \subseteq \var{STR}^\ast$.
 
 \Vruleset{rules} is a set of rules (type \type{RULE}),
 where a rule is a duple
@@ -468,7 +465,7 @@ of the form $\tuple{\Vsym{lhs} \de \Vstr{rhs}}$,
 such that
 \begin{equation*}
 \Vsym{lhs} \in \var{vocab} \quad \text{and}
-\quad \Vstr{rhs} \in \var{vocab}^+.
+\quad \Vstr{rhs} \in \var{STR}^+.
 \end{equation*}
 \Vsym{lhs} is referred to as the left hand side (LHS)
 of \Vrule{r}.
@@ -562,7 +559,7 @@ as a result of these definitions,
 sentential forms will be of type \type{STR}.
 
 Let the input to
-the parse be \Cw{} such that $\Cw \in \var{vocab}^+$.
+the parse be \Cw{} such that $\Cw \in \var{STR}^+$.
 Locations in the input will be of type \type{LOC}.
 Let \Vsize{w} be the length of the input, counted in symbols.
 When we state our complexity results later,
@@ -865,6 +862,40 @@ can be added, the Earley set is
 complete.
 The Earley sets are built in
 order from 0 to \Vsize{w}.
+
+\subsection{Confluences}
+
+An Earley item is also called a \dfn{parse item}.
+For Marpa, we will define another kind of parse item,
+a Leo item, later.
+
+In Marpa, with each parse item is a set of
+confluences, which
+track the reasons the Marpa algorithm had
+for adding that parse to the
+Earley set.
+In an ambiguous parse, the Marpa algorithm may have
+more than one reason to add a parse item to an Earley set.
+Each reason is called a \dfn{confluence}.
+
+A \dfn{confluence} is a duple.
+The first element of a confluence is the \dfn{mainstem},
+and is either a parse item or ill-defined.
+The second element of a confluence is the \dfn{tributary},
+and may be an Earley item, a token, or ill-defined.
+The hydrological terminology may seem ornate,
+but experience
+has shown that the overloading of more ordinary terms like ''predecessor'',
+and ``cause'' can be befuddling.
+
+We hope this terminology is mildly intuitive.
+A confluence is when one river channel meets a second to form a third channel.
+Of the two upstream channels, one (usually the larger) is the mainstem,
+and the other is a tributary.
+For example, near Cairo, Illinois, there is a confluence of
+the Ohio and Mississippi Rivers,
+in which the Mississippi is the mainstem
+and the Ohio is a tributary.
 
 \subsection{Initialization}
 \label{d:initial}
