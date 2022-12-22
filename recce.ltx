@@ -1193,13 +1193,13 @@ operation,
 and extending the Earley sets to memoize Earley
 items as LIMT's.
 
-\subsection{LIMT predecessors}
+\subsection{LIMT mainstems}
 
 In Section
 \ref{s:reduction},
-we defined the Earley predecessor of an EIMT.
-We define the LIMT predecessor of an EIMT by analogy.
-When say that \Vlimt{stem} is the LIMT predecessor of \Veimt{x}
+we defined the Earley mainstem of an EIMT.
+We define the LIMT mainstem of an EIMT by analogy.
+When say that \Vlimt{stem} is the LIMT mainstem of \Veimt{x}
 if and only if
 $\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
 \begin{gather*}
@@ -1213,26 +1213,26 @@ $\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \Veimt{component} \in \Ves{current} \\
-    \LIMTMainstem{\Vlimt{predecessor},\var{component}} \\
+    \Veimt{tributary} \in \Ves{current} \\
+    \LIMTMainstem{\Vlimt{mainstem},\var{tributary}} \\
     \end{array}
 }{
-    \bigset{ [ \DR{\Vlimt{predecessor}}, \Origin{\var{predecessor}} ] }
+    \bigset{ [ \DR{\Vlimt{mainstem}}, \Origin{\var{mainstem}} ] }
 }
 \end{equation*}
 The new Leo reduction operation resembles the Earley reduction
 operation, except that it looks for a LIMT,
-instead of a predecessor EIMT.
-\Vlimt{predecessor} and
-\Veimt{component} are the operands of the Leo reduction
+instead of a mainstem EIMT.
+\Vlimt{mainstem} and
+\Veimt{tributary} are the operands of the Leo reduction
 operation.
-$\LHS{\var{component}}$ is the transition symbol
+$\LHS{\var{tributary}}$ is the transition symbol
 of the Leo reduction.
 As with Earley reduction,
 it may be convenient to treat the transition
 symbol as an operand,
 so that the operands
-are \Vlimt{predecessor} and $\LHS{\Veimt{component}}$.
+are \Vlimt{mainstem} and $\LHS{\Veimt{tributary}}$.
 
 \subsection{Revised Earley reduction}
 
@@ -1242,21 +1242,23 @@ still applies, with an additional premise:
 
 \begin{equation*}
 \inference{
-    \begin{gathered}
-    \Veimt{component} \in \Ves{current} \\
-    \nexists \; \Vlimt{x} \; \mid \; \LIMTMainstem{\var{x},\var{component}} \\
-    \var{predecessor} \in \Ees{(\Origin{\var{component}})} \\
-    \Postdot{\var{predecessor}} = \LHS{\var{component}}
-    \end{gathered}
+    \begin{array}{c}
+    \Veimt{tributary} \in \Ves{current} \\
+    \nexists \; \Vlimt{x} \; \mid \; \LIMTMainstem{\var{x},\var{tributary}} \\
+    \Veimt{mainstem} \in \Ees{(\Origin{\Veimt{tributary}})} \\
+    \Postdot{\Veimt{mainstem}} = \LHS{\Veimt{tributary}} \\
+    \end{array}
 }{
-    \bigset{ [ \Next{\Veimt{predecessor}}, \Origin{\var{predecessor}} ] }
+    \begin{array}{c}
+	\Vtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{ \V{EIMT} } \\
+	\Vtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{ \V{CFLU} }
+    \end{array}
 }
-\end{equation*}
 
 The additional premise
 prevents Earley reduction from being applied
 where there is an LIMT with
-$\LHS{\Veimt{component}}$
+$\LHS{\Veimt{tributary}}$
 as its transition symbol.
 This reflects the fact that
 Leo reduction replaces Earley reduction if and only if
@@ -2468,13 +2470,14 @@ Next,
 we show that \Marpa{}'s reduction operation
 is consistent,
 in the case where there is no Leo reduction.
-There will be two cause EIM's, \Veim{predecessor}
-and \Veim{component}.
-\Veim{predecessor} will be correct by the outer induction
+The reduction will be the result of the two EIM's
+of a confluence, call
+them \Veim{mainstem} and \Veim{tributary}.
+\Veim{mainstem} will be correct by the outer induction
 hypothesis
-and \Veim{component}
+and \Veim{tributary}
 will be consistent by the inner induction hypothesis.
-From \Veim{component}, we will find zero or more transition
+From \Veim{tributary}, we will find zero or more transition
 symbols, \Vsym{lhs}.
 From this point,  the argument is very similar to
 that for the case of the scanning operation.
@@ -2641,7 +2644,7 @@ in \EVtable{\Marpa}{i}
 are traversed in a single pass for reduction.
 
 To show that we traverse a complete and consistent
-series of component Earley items,
+series of tributary Earley items,
 we stipulate that
 the Earley set is an ordered set,
 and that new Earley items are added at the end.
@@ -2654,10 +2657,10 @@ Consider, for the purposes of the level 2 induction,
 the reductions of \Leo{} to occur in generations.
 Let the scanned Earley items be generation 0.
 An EIMT produced by a reduction is generation $\var{n} + 1$
-if its component Earley item was generation was \var{n}.
+if its tributary Earley item was generation was \var{n}.
 Predicted Earley items do not need to be assigned generations.
 In Marpa grammars they can never contain completions,
-and therefore can never act as the component of a reduction.
+and therefore can never act as the tributary of a reduction.
 
 The induction hypothesis for the level 2 induction
 is that for some \var{n},
@@ -2685,7 +2688,7 @@ in generation \var{n}.
 Let
 $\Veim{working} \in \Ves{i}$
 be the Earley item
-currently being considered as a potential component for
+currently being considered as a potential tributary for
 an Earley reduction operation.
 From the pseudocode, we see
 that reductions are attempted for every
@@ -3055,14 +3058,14 @@ Consider the number of reductions attempted.
 \Marpa{} attempts to add an Earley reduction result
 once for every triple
 \begin{equation*}
-[\Veim{predecessor}, \Vsym{transition}, \Veim{component}].
+[\Veim{predecessor}, \Vsym{transition}, \Veim{tributary}].
 \end{equation*}
 where
 \begin{equation*}
 \begin{split}
-& \Veim{component} = [ \Vah{component}, \Vloc{component-origin} ]  \\
-\land \quad & \Vdr{component} \in \Vah{component} \\
- \land \quad & \Vsym{transition} = \LHS{\Vdr{component}}. \\
+& \Veim{tributary} = [ \Vah{tributary}, \Vloc{tributary-origin} ]  \\
+\land \quad & \Vdr{tributary} \in \Vah{tributary} \\
+ \land \quad & \Vsym{transition} = \LHS{\Vdr{tributary}}. \\
 \end{split}
 \end{equation*}
 
@@ -3070,9 +3073,9 @@ We now put an upper bound on number of possible values of this triple.
 The number of possibilities for \Vsym{transition} is clearly at most
 \size{\var{symbols}},
 the number of symbols in \Cg{}.
-We have $\Veim{component} \in \Ves{j}$,
+We have $\Veim{tributary} \in \Ves{j}$,
 and therefore there are at most
-$\bigsize{\Ves{j}}$ choices for \Veim{component}.
+$\bigsize{\Ves{j}}$ choices for \Veim{tributary}.
 
 \begin{sloppypar}
 We can show that the number of possible choices of
@@ -3099,12 +3102,12 @@ This is contrary to the assumption for the theorem
 that the grammar is unambiguous.
 This shows the reductio
 and that the number of choices for \Veim{predecessor},
-compatible with \Vorig{component}, is as most \Vsize{fa}.
+compatible with \Vorig{tributary}, is as most \Vsize{fa}.
 \end{sloppypar}
 
 \begin{sloppypar}
 Collecting the results we see that the possibilities for
-each \Veim{component} are
+each \Veim{tributary} are
 \begin{equation*}
 \begin{alignedat}{2}
 & \Vsize{fa} &&
@@ -3112,7 +3115,7 @@ each \Veim{component} are
 \mult \; & \Vsize{symbols} &&
 \qquad \text{choices of \Vsym{transition}} \\
 \mult \; & \size{\Ves{j}} &&
-\qquad \text{choices of \Veim{component}} \\
+\qquad \text{choices of \Veim{tributary}} \\
 \end{alignedat}
 \end{equation*}
 \end{sloppypar}
@@ -3229,32 +3232,32 @@ Looking again at \var{reduction-tries}
 for the case of ambiguous grammars,
 we need to look again at the triple
 \begin{equation*}
-[\Veim{predecessor}, \Vsym{transition}, \Veim{component}].
+[\Veim{predecessor}, \Vsym{transition}, \Veim{tributary}].
 \end{equation*}
 We did not use the fact that the grammar was unambiguous in counting
-the possibilities for \Vsym{transition} or \Veim{component}, but
+the possibilities for \Vsym{transition} or \Veim{tributary}, but
 we did make use of it in determining the count of possibilities
 for \Veim{predecessor}.
 We know still know that
 \begin{equation*}
-\Veim{predecessor} \in \Ves{component-origin},
+\Veim{predecessor} \in \Ves{tributary-origin},
 \end{equation*}
 where
-\Vloc{component-origin} is the origin of \Veim{component}.
-Worst case, every EIM in \Ves{component-origin} is a possible
+\Vloc{tributary-origin} is the origin of \Veim{tributary}.
+Worst case, every EIM in \Ves{tributary-origin} is a possible
 match, so that
 the number of possibilities for \Veim{predecessor} now grows to
-\size{\Ves{component-origin}}, and
+\size{\Ves{tributary-origin}}, and
 \begin{equation*}
 \var{reduction-tries} =
-\bigsize{\Ves{component-origin}} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}.
+\bigsize{\Ves{tributary-origin}} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}.
 \end{equation*}
 \end{sloppypar}
 
-In the worst case $\var{component-origin} \simeq \var{j}$,
+In the worst case $\var{tributary-origin} \simeq \var{j}$,
 so that by Theorem \ref{t:es-count},
 \begin{equation*}
-\size{\Ves{component-origin}} \mult \size{\Ves{j}} = \order{\var{j}^2}.
+\size{\Ves{tributary-origin}} \mult \size{\Ves{j}} = \order{\var{j}^2}.
 \end{equation*}
 Adding \var{other-tries}
 and summing over the Earley sets,
