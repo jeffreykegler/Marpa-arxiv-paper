@@ -175,7 +175,7 @@
 \newcommand{\LeoEligible}[1]{\mymathop{Leo-Eligible}(#1)}
 \newcommand{\LeoUnique}[1]{\mymathop{Leo-Unique}(#1)}
 \newcommand{\LIMTMap}[1]{\mymathop{LIMT-Map}(#1)}
-\newcommand{\LIMTPredecessor}[1]{\mymathop{LIMT-Predecessor}(#1)}
+\newcommand{\LIMTMainstem}[1]{\mymathop{LIMT-Mainstem}(#1)}
 \newcommand{\ID}[1]{\mymathop{ID}(#1)}
 \newcommand{\PSL}[2]{\mymathop{PSL}[#1][#2]}
 \newcommand{\myL}[1]{\mymathop{L}(#1)}
@@ -1199,13 +1199,13 @@ In Section
 \ref{s:reduction},
 we defined the Earley predecessor of an EIMT.
 We define the LIMT predecessor of an EIMT by analogy.
-When say that \Vlimt{pred} is the LIMT predecessor of \Veimt{x}
+When say that \Vlimt{stem} is the LIMT predecessor of \Veimt{x}
 if and only if
-$\LIMTPredecessor{\Vlimt{pred},\Veimt{x}}$ is true, where
+$\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
 \begin{gather*}
-\LIMTPredecessor{\Vlimt{pred},\Veimt{x}} \defined \\
-\Transition{\Vlimt{pred}} = \LHS{\Veimt{x}} \\
-\land \; \Vlimt{pred} \in \Ees{(\Origin{\Veimt{x}})}.
+\LIMTMainstem{\Vlimt{stem},\Veimt{x}} \defined \\
+\Transition{\Vlimt{stem}} = \LHS{\Veimt{x}} \\
+\land \; \Vlimt{stem} \in \Ees{(\Origin{\Veimt{x}})}.
 \end{gather*}
 
 \subsection{Leo reduction}
@@ -1214,7 +1214,7 @@ $\LIMTPredecessor{\Vlimt{pred},\Veimt{x}}$ is true, where
 \inference{
     \begin{array}{c}
     \Veimt{component} \in \Ves{current} \\
-    \LIMTPredecessor{\Vlimt{predecessor},\var{component}} \\
+    \LIMTMainstem{\Vlimt{predecessor},\var{component}} \\
     \end{array}
 }{
     \bigset{ [ \DR{\Vlimt{predecessor}}, \Origin{\var{predecessor}} ] }
@@ -1244,7 +1244,7 @@ still applies, with an additional premise:
 \inference{
     \begin{gathered}
     \Veimt{component} \in \Ves{current} \\
-    \nexists \; \Vlimt{x} \; \mid \; \LIMTPredecessor{\var{x},\var{component}} \\
+    \nexists \; \Vlimt{x} \; \mid \; \LIMTMainstem{\var{x},\var{component}} \\
     \var{predecessor} \in \Ees{(\Origin{\var{component}})} \\
     \Postdot{\var{predecessor}} = \LHS{\var{component}}
     \end{gathered}
@@ -1296,28 +1296,28 @@ and writing
 $$ \Vlimt{result} \in \Ves{current}. $$
 
 We are now ready to define an inference rule which holds if
-a LIMT predecessor can be found for an EIMT \Veimt{bottom}
+a LIMT mainstem can be found for the tributary EIMT
 in \Ves{current},
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    \LIMTPredecessor{\Vlimt{pred},\Veimt{bottom}} \\
-    \LeoEligible{\Veimt{bottom}, \Ves{current}}
+    \LIMTMainstem{\Vlimt{stem},\Veimt{trib}} \\
+    \LeoEligible{\Veimt{trib}, \Ves{current}}
     \end{array}
 }{
-    \Elimt{ \big[ \DR{\Vlimt{pred}}, \Penult{\Veimt{bottom}}, \Origin{\var{pred}} \big] }
+    \Elimt{ \big[ \DR{\Vlimt{stem}}, \Penult{\Veimt{trib}}, \Origin{\var{stem}} \big] }
 }
 \end{equation*}
 and another inference rule that holds if
-\Veimt{bottom} has no predecessor LIMT,
+\Veimt{trib} has no mainstem LIMT,
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    (\forall \; \Vlimt{pred} \; \mid \; \neg \LIMTPredecessor{\var{pred},\Veimt{bottom}} \\
-    \LeoEligible{\Veimt{bottom}, \Ves{current}}
+    (\forall \; \Vlimt{stem} \; \mid \; \neg \LIMTMainstem{\var{stem},\Veimt{trib}} \\
+    \LeoEligible{\Veimt{trib}, \Ves{current}}
     \end{array}
 }{
-    \Elimt{ \big[ \Next{\Veimt{bottom}}, \Penult{\var{bottom}}, \Origin{\var{bottom}} \big] }
+    \Elimt{ \big[ \Next{\Veimt{trib}}, \Penult{\var{trib}}, \Origin{\var{trib}} \big] }
 }
 \end{equation*}
 
