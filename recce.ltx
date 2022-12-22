@@ -1403,14 +1403,12 @@ created by Aycock and Horspool.
 A Marpa Earley item has type \type{EIM},
 and a Marpa Earley item is often referred to as an EIM.
 
-\begin{sloppypar}
 Aycock and Horspool did not consider
 Leo's modifications,
 but \Marpa{} incorporates them,
 and \Marpa{} also changes its Leo items to use AHFA states.
 Marpa's Leo items (LIM's) are triples
 of the form
-\end{sloppypar}
 \begin{equation*}
 [\Vah{top}, \Vsym{transition}, \Vorig{top}],
 \end{equation*}
@@ -1932,7 +1930,6 @@ Overhead is \Oc{} and caller-included.
 \subsection{Earley reduction operation}
 \label{p:reduction-op}
 
-\begin{sloppypar}
 The code that performs Earley reduction is
 Algorithm~\ref{alg:earley-reduction}
 on page~\pageref{alg:earley-reduction}.
@@ -1941,7 +1938,6 @@ Exclusive time and space is clearly \Oc.
 called as part of an EIM attempt,
 and inclusive time and space is charged to the EIM
 attempt.
-\end{sloppypar}
 
 \begin{algorithm}[ht]
 \caption{Leo reduction operation}
@@ -2232,7 +2228,6 @@ EIMT's in
 \EVtable{\Leo}{i}.
 \end{definition}
 
-\begin{sloppypar}
 \begin{definition}
 A set of EIM's is \dfn{complete} with respect to
 a set of EIMT's,
@@ -2244,7 +2239,6 @@ traditional Earley item in \EVtable{\Leo}{i}
 there is a corresponding Earley item in
 \EVtable{\Marpa}{i}.
 \end{definition}
-\end{sloppypar}
 
 \begin{definition}
 A \textnormal{\Marpa} Earley set is \dfn{correct}
@@ -2468,19 +2462,20 @@ Otherwise, let
 \begin{equation*}
 \Veim{predicted} = [\Vah{predicted}, \Vloc{i}].
 \end{equation*}
+\begin{sloppypar}
 We see that \Veim{predicted} is consistent with respect
 to \EVtable{\Leo}{i},
 by the definition of Earley prediction (Section~\ref{d:prediction}) and
-Observation ~\ref{o:predicted-AHFA-consistent}.
+\hbox{Observation~\ref{o:predicted-AHFA-consistent}}.
 Consistency is invariant under union and,
 since \EVtable{\Marpa}{i} is consistent by the inner induction,
 \EVtable{\Marpa}{i} remains consistent after
 \Veim{predicted} is added.
+\end{sloppypar}
 
 \subsubsection{Earley reduction is consistent}
 \label{s:reduction-consistent}
 
-\begin{sloppypar}
 Next,
 we show that \Marpa{}'s reduction operation
 is consistent,
@@ -2496,7 +2491,6 @@ From \Veim{tributary}, we will find zero or more transition
 symbols, \Vsym{lhs}.
 From this point,  the argument is very similar to
 that for the case of the scanning operation.
-\end{sloppypar}
 
 Let
 \begin{equation*}
@@ -2524,7 +2518,6 @@ whether or not a \Veim{predicted} is added.
 \subsubsection{Leo reduction is consistent}
 \label{s:leo-consistent}
 
-\begin{sloppypar}
 We now show consistency for \Marpa{}'s
 reduction operation,
 in the case where there is a Leo reduction.
@@ -2540,7 +2533,6 @@ the logic to create \Vlim{mainstem} as a matter of memoization
 of the previous Earley sets,
 and its correctness follows from
 the outer induction hypothesis.
-\end{sloppypar}
 
 As the result of a Leo reduction,
 \Leo{} will add
@@ -2742,7 +2734,6 @@ and the case of reduction completeness.
 \subsubsection{Leo reduction is complete}
 \label{s:leo-complete}
 
-\begin{sloppypar}
 We now show completeness for \Marpa{}'s reduction operation,
 in the case where there is a Leo reduction.
 In Section \ref{s:leo-consistent},
@@ -2755,12 +2746,10 @@ Since \Vdr{top} is a completed rule,
 there are no predictions.
 This shows the case immediately,
 by the definition of completeness.
-\end{sloppypar}
 
 \subsubsection{Prediction is complete}
 \label{s:prediction-complete}
 
-\begin{sloppypar}
 Predictions result only from items in the same Earley set.
 In Sections \ref{s:scan-complete},
 \ref{s:reduction-complete}
@@ -2770,7 +2759,6 @@ for every prediction that would result
 from an item added to \EVtable{\Leo}{i},
 a corresponding prediction
 was added to \EVtable{\Marpa}{i}.
-\end{sloppypar}
 
 \subsubsection{Finishing the proof}
 Having shown the cases in Sections
@@ -3092,7 +3080,6 @@ We have $\Veim{tributary} \in \Ves{j}$,
 and therefore there are at most
 $\bigsize{\Ves{j}}$ choices for \Veim{tributary}.
 
-\begin{sloppypar}
 We can show that the number of possible choices of
 \Veim{mainstem} is at most
 the number of AHFA states, \Vsize{fa}, by a reductio.
@@ -3118,9 +3105,7 @@ that the grammar is unambiguous.
 This shows the reductio
 and that the number of choices for \Veim{mainstem},
 compatible with \Vorig{tributary}, is as most \Vsize{fa}.
-\end{sloppypar}
 
-\begin{sloppypar}
 Collecting the results we see that the possibilities for
 each \Veim{tributary} are
 \begin{equation*}
@@ -3133,7 +3118,6 @@ each \Veim{tributary} are
 \qquad \text{choices of \Veim{tributary}} \\
 \end{alignedat}
 \end{equation*}
-\end{sloppypar}
 
 The number of reduction attempts will therefore be at most
 \begin{equation*}
@@ -3242,7 +3226,6 @@ and by Theorem \ref{t:tries-O-eims},
 so that
 $\var{other-tries} = \order{\var{n}^2}$.
 
-\begin{sloppypar}
 Looking again at \var{reduction-tries}
 for the case of ambiguous grammars,
 we need to look again at the triple
@@ -3267,7 +3250,6 @@ the number of possibilities for \Veim{mainstem} now grows to
 \var{reduction-tries} =
 \bigsize{\Ves{tributary-origin}} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}.
 \end{equation*}
-\end{sloppypar}
 
 In the worst case $\var{tributary-origin} \simeq \var{j}$,
 so that by Theorem \ref{t:es-count},
