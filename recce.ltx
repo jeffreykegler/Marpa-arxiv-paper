@@ -6,6 +6,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{xspace}
+\usepackage{graphics}
 \usepackage{url}
 
 % Re hbox's, see
@@ -87,6 +88,13 @@
 \newcommand{\fnMap}{\rightharpoonup}
 % [t]otal [f]u[n]ction [M]ap operator
 \newcommand{\tfnMap}{\rightarrow}
+
+% [t]otal [f]u[n]ction [M]ultidomain [M]ap operator
+% \hbox shifts from math to text vertical alignment, which is what we want
+\newcommand{\tfnMMap}{\ensuremath{
+    \mathrel{\raise.75pt\hbox{\ensuremath{
+          \raise1.19pt\hbox{\scalebox{.60}{$\ni$}} \mkern-12mu \rightarrow}}}
+    }}
 
 % I use hyphens in variable names,
 % so I need to ensure that subtraction is
@@ -275,12 +283,12 @@ Marpa's goal of being a practical parser:
 If a grammar is in a class of grammar currently in practical use,
 Marpa parses it in linear time.
 
-Error-detection properties,
-extremely important,
-have been overlooked in the past.
+Error-detection properties are
+extremely important for practical parsing,
+but have been overlooked in the past.
 Marpa breaks new ground in this respect.
 Marpa has the immediate error detection property,
-but goes well beyond that:
+and goes well beyond that:
 it is fully aware of the state of the parse,
 and can report this to the user while tokens are
 being scanned.
@@ -367,14 +375,15 @@ without needing most of its apparatus.
 The notation \VVtyped{x}{T} indicates that the variable
 \V{x} is of type \V{T}.
 More often, this paper will
-use subscripts to indicate commonly occurring types.\footnote{
+use subscripts to indicate type.\footnote{
 A type in Farmer~2012~\cite{Farmer2012} is a superclass,
 or a collection of classes,
 but all of the types in this paper will be sets.
 }
 \begin{center}
 \begin{tabular}{ll}
-$\var{X}_T$ & The variable \var{X} of type $T$ \\
+$\VVtyped{X}{T}$ & The variable \var{X} of type $T$ (wide form)\\
+$\var{X}_T$ & The variable \var{X} of type $T$ (narrow form)\\
 $\var{set-one}_\setOf{T}$ & The variable \var{set-one} of type set of $T$ \\
 $SYM$ & The type for a symbol \\
 \Vsym{a} & The variable \var{a} of type $SYM$ \\
@@ -409,6 +418,8 @@ is defined as ``undefined'' is confusing.
 In this paper we say that these values are defined, but ill-defined.
 }
 
+We often write ``iff'' for ``if and only if''.
+
 We write $\unicorn$ for ill-defined.
 Traditionally, and in this paper,
 any formula with an ill-defined operand is false.
@@ -417,7 +428,7 @@ is false, so that $\neg \; (\unicorn = \unicorn)$.
 For cases where this is inconvenient,
 we introduce a new relation, $\simeq$, such that
 $$
-  \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} = \unicorn \land \V{b} = \unicorn.
+  \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} = \unicorn \land \V{b} = \unicorn).
 $$
 
 We define the natural numbers, \naturals, to include zero.
@@ -425,22 +436,21 @@ $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codoma
 $\V{D} \tfnMap \V{C}$ is the set of total functions from domain \V{D} to codomain \V{C}.
 It follows that $\naturals \tfnMap \V{C}$ is the set of
 infinite sequences of values from the set \V{C};
-that $42 \tfnMap \V{C}$ is the set of
-sequences of length 42 of values from the set \V{C};
-and that
-$$ \bigl\{ \V{fn} \bigm|
-  \left( \exists \; \V{n} \; \middle| \; \V{n} \in \naturals \land \V{fn} \in \V{n} \tfnMap \V{C}
-  \right)
-\bigr\} $$
+and that $42 \tfnMap \V{C}$ is the set of
+sequences of length 42 of values from the set \V{C}.
+We say that
+$$ \V{domSet} \tfnMMap \V{C} \defined
+   \bigl\{ \V{fn} \bigm|
+       \left( \exists \; \V{D} \in \V{domset} \; \middle| \; \V{fn} \in \V{D} \tfnMap \V{C}
+       \right) \bigr\}
+$$
+so that $\naturals \tfnMMap \V{C}$
 is the set of finite sequences of values from the set \V{C}.
 
 Let \V{vocab} be a non-empty set of symbols.
 The string type, \type{STR}, is the set of all finite sequences of
-symbols
-$$ \V{STR} = \bigl\{ \V{fn} \bigm|
-  \left( \exists \; \V{n} \; \middle| \; \V{n} \in \naturals \land \V{fn} \in \V{n} \tfnMap \V{vocab}
-  \right)
-\bigr\} $$
+symbols:
+$$ \V{STR} = \naturals \tfnMMap \V{vocab} $$
 
 Where \VVtyped{s}{STR} is a string,
 we write \size{\Vstr{s}} for the string length, counted in symbols.
@@ -491,9 +501,18 @@ and
 states that \var{x} derives \var{y} in zero or more steps.
 \end{itemize}
 
-We say that symbol \Vsym{x} is \dfn{nullable} if and only if
+We say that symbol \Vsym{x} is \dfn{nullable} iff
 $\Vsym{x} \destar \epsilon$.
-\Vsym{x} is \dfn{nonnull} if and only if it is not nullable.
+\Vsym{x} is \dfn{nulling} iff it always derives the null
+string, that is, for all \Vstr{y}
+\begin{equation*}
+\Vsym{x} \destar \Vstr{y} \implies \Vstr{y} \destar \epsilon.
+\end{equation*}
+\Vsym{x} is \dfn{non-nullable} iff it is not nullable.
+\Vsym{x} is a \dfn{proper nullable} iff it is nullable,
+but not nulling.
+\Vsym{x} is \dfn{non-nulling} iff it is not nulling.
+
 Following Aycock and Horspool~\cite{AH2002},
 all nullable symbols in grammar \Cg{} are nulling -- every symbol
 which can derive the null string always derives the null string.
@@ -505,18 +524,18 @@ empty rules, etc.
 
 Also without loss of generality,
 it is assumed
-that the accept symbol, \Vsym{accept},
+that there is a dedicated acceptance rule,
+$$ \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} }, $$
+where $\Vsym{start} \in \var{vocab}$,
+and that the accept symbol, \Vsym{accept},
 is such that
-for all \Vrule{x},
 \begin{equation*}
-\begin{split}
-& \Vsym{accept} \notin \RHS{\Vrule{x}} \\
-\land \quad & (\Vsym{accept} = \LHS{\Vrule{x}} \implies \Vrule{accept} = \Vrule{x}),
-\end{split}
+\begin{gathered}
+\forall \; \V{x} \in \Crules \mid \\
+\Vsym{accept} \notin \RHS{\Vrule{x}} \\
+\land \; (\Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}).
+\end{gathered}
 \end{equation*}
-and that there is a dedicated acceptance rule,
-$$ \Vrule{accept} = [ \Vsym{accept} \de \Vsym{start} ], $$
-where $\Vsym{start} \in \var{vocab}$.
 
 We define rightmost non-null symbol of a string
 as
