@@ -869,6 +869,17 @@ the Ohio and Mississippi Rivers,
 in which the Mississippi is the mainstem
 and the Ohio is a tributary.
 
+We sometimes refer to the confluences and their elements
+as the \dfn{links} of parse items,
+reflecting that fact that they are typically implemented
+as pointers, or ``links''.
+We also sometimes refer to confluence sets,
+and confluences as a
+\dfn{causation} of a parse item,
+because the confluence is the reason for
+the Earley algorithm to add the parse item
+to the Earley set.
+
 \section{Operations of the Earley algorithm}
 \label{s:earley-ops}
 
@@ -1072,9 +1083,12 @@ then we will often say that \Vlimt{x} is \dfn{in}
 the Earley set \Ves{i},
 and write
 $$\Vlimt{x} \in \Ves{i}.$$
+Accordingly, we have spoken of parse items, which may be Leo items,
+being ``added to the Earley set'', and we will continue to speak in this way.
 Note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
+
 
 Leo items memoize what would otherwise be sequences
 of Earley items.
@@ -1710,8 +1724,8 @@ and is charged to the parse.
 \begin{algorithmic}[1]
 \Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
 \State Note: Each pass through this loop is an EIM attempt
-\For{each $\Veim{predecessor} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
-\State $[\Vah{from}, \Vloc{origin}] \gets \Veim{predecessor}$
+\For{each $\Veim{mainstem} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
+\State $[\Vah{from}, \Vloc{origin}] \gets \Veim{mainstem}$
 \State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{a})$
 \State \Call{Add EIM pair}{$\Ves{i}, \Vah{to}, \Vloc{origin}$}
 \EndFor
@@ -1741,7 +1755,7 @@ the lookup is always in the previous Earley set,
 which can easily be tracked in \Oc{} space
 and retrieved in \Oc{} time.
 Inclusive time and space can be charged to the
-\Veim{predecessor}.
+\Veim{mainstem}.
 Overhead is charged to the Earley set at \Vloc{i}.
 
 \begin{algorithm}[ht]
@@ -2407,7 +2421,7 @@ We show the step of the inner induction by cases:
 \label{s:scan-consistent}
 
 For Marpa's scanning operation, we know
-that the predecessor EIM is correct
+that the mainstem EIM is correct
 by the outer induction hypothesis,
 and that the token is correct
 by the definitions in the preliminaries.
@@ -2417,7 +2431,7 @@ We now examine them in detail.
 
 Let
 \begin{equation*}
-    \Vah{confirmed} = \GOTO(\Vah{predecessor}, \Vsym{token})
+    \Vah{confirmed} = \GOTO(\Vah{mainstem}, \Vsym{token})
 \end{equation*}
 If $\Vah{confirmed} = \Lambda$,
 the pseudocode of Section \ref{p:scan-op} shows
@@ -2486,7 +2500,7 @@ that for the case of the scanning operation.
 
 Let
 \begin{equation*}
-\Vah{confirmed} = \GOTO(\Vah{predecessor}, \Vsym{lhs})
+\Vah{confirmed} = \GOTO(\Vah{mainstem}, \Vsym{lhs})
 \end{equation*}
 If $\Vah{confirmed} = \Lambda$, we do nothing,
 and \EVtable{\Marpa}{i} remains consistent, trivially.
@@ -2515,14 +2529,14 @@ We now show consistency for \Marpa{}'s
 reduction operation,
 in the case where there is a Leo reduction.
 If there is a Leo reduction, it is signaled by the
-presence of \Vlim{predecessor},
+presence of \Vlim{mainstem},
 \begin{equation*}
-\Vlim{predecessor} = [ \Vah{top}, \Vsym{lhs}, \Vorig{top} ]
+\Vlim{mainstem} = [ \Vah{top}, \Vsym{lhs}, \Vorig{top} ]
 \end{equation*}
 in the Earley set where we would look
-for the \Veim{predecessor}.
+for the \Veim{mainstem}.
 We treat
-the logic to create \Vlim{predecessor} as a matter of memoization
+the logic to create \Vlim{mainstem} as a matter of memoization
 of the previous Earley sets,
 and its correctness follows from
 the outer induction hypothesis.
@@ -2598,13 +2612,13 @@ For scanning, the Marpa pseudocode shows
 that a scan is attempted for every
 pair
 \begin{equation*}
-[\Veim{predecessor}, \Vsym{token}],
+[\Veim{mainstem}, \Vsym{token}],
 \end{equation*}
-where \Veim{predecessor} is an EIM in the previous
+where \Veim{mainstem} is an EIM in the previous
 Earley set,
 and \Vsym{token} is the token scanned at \Vloc{i}.
 (The pseudocode actually finds
-\Veim{predecessor} in a set
+\Veim{mainstem} in a set
 returned by $\mymathop{transitions}()$.
 This is a memoization for efficiency
 and we will ignore it.)
@@ -2693,7 +2707,7 @@ currently being considered as a potential tributary for
 an Earley reduction operation.
 From the pseudocode, we see
 that reductions are attempted for every
-pair \Veim{predecessor}, \Veim{working}.
+pair \Veim{mainstem}, \Veim{working}.
 (Again, $\mymathop{transitions}()$ is ignored
 as a memoization.)
 By the outer induction hypothesis we know that,
@@ -2703,7 +2717,7 @@ there is at least one corresponding Marpa Earley item.
 We see from the pseudocode, therefore,
 that for each \Veim{working}
 that \Marpa{} performs its reduction operation on a complete set
-of correct predecessors.
+of correct mainstems.
 Therefore \Marpa{} performs its reduction operations on a
 complete set of operand pairs.
 
@@ -3059,7 +3073,7 @@ Consider the number of reductions attempted.
 \Marpa{} attempts to add an Earley reduction result
 once for every triple
 \begin{equation*}
-[\Veim{predecessor}, \Vsym{transition}, \Veim{tributary}].
+[\Veim{mainstem}, \Vsym{transition}, \Veim{tributary}].
 \end{equation*}
 where
 \begin{equation*}
@@ -3080,15 +3094,15 @@ $\bigsize{\Ves{j}}$ choices for \Veim{tributary}.
 
 \begin{sloppypar}
 We can show that the number of possible choices of
-\Veim{predecessor} is at most
+\Veim{mainstem} is at most
 the number of AHFA states, \Vsize{fa}, by a reductio.
 Suppose, for the reduction,
-there were more than \Vsize{fa} possible choices of \Veim{predecessor}.
-Then there are two possible choices of \Veim{predecessor} with
+there were more than \Vsize{fa} possible choices of \Veim{mainstem}.
+Then there are two possible choices of \Veim{mainstem} with
 the same AHFA state.
 Call these \Veim{choice1} and \Veim{choice2}.
 We know, by the definition of Earley reduction, that
-$\Veim{predecessor} \in \Ves{j}$,
+$\Veim{mainstem} \in \Ves{j}$,
 and therefore we have
 $\Veim{choice1} \in \Ves{j}$ and
 $\Veim{choice2} \in \Ves{j}$.
@@ -3102,7 +3116,7 @@ reduction, which would mean that the parse was ambiguous.
 This is contrary to the assumption for the theorem
 that the grammar is unambiguous.
 This shows the reductio
-and that the number of choices for \Veim{predecessor},
+and that the number of choices for \Veim{mainstem},
 compatible with \Vorig{tributary}, is as most \Vsize{fa}.
 \end{sloppypar}
 
@@ -3112,7 +3126,7 @@ each \Veim{tributary} are
 \begin{equation*}
 \begin{alignedat}{2}
 & \Vsize{fa} &&
-\qquad \text{choices of \Veim{predecessor}} \\
+\qquad \text{choices of \Veim{mainstem}} \\
 \mult \; & \Vsize{symbols} &&
 \qquad \text{choices of \Vsym{transition}} \\
 \mult \; & \size{\Ves{j}} &&
@@ -3233,21 +3247,21 @@ Looking again at \var{reduction-tries}
 for the case of ambiguous grammars,
 we need to look again at the triple
 \begin{equation*}
-[\Veim{predecessor}, \Vsym{transition}, \Veim{tributary}].
+[\Veim{mainstem}, \Vsym{transition}, \Veim{tributary}].
 \end{equation*}
 We did not use the fact that the grammar was unambiguous in counting
 the possibilities for \Vsym{transition} or \Veim{tributary}, but
 we did make use of it in determining the count of possibilities
-for \Veim{predecessor}.
+for \Veim{mainstem}.
 We know still know that
 \begin{equation*}
-\Veim{predecessor} \in \Ves{tributary-origin},
+\Veim{mainstem} \in \Ves{tributary-origin},
 \end{equation*}
 where
 \Vloc{tributary-origin} is the origin of \Veim{tributary}.
 Worst case, every EIM in \Ves{tributary-origin} is a possible
 match, so that
-the number of possibilities for \Veim{predecessor} now grows to
+the number of possibilities for \Veim{mainstem} now grows to
 \size{\Ves{tributary-origin}}, and
 \begin{equation*}
 \var{reduction-tries} =
