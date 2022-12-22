@@ -884,12 +884,16 @@ at the location given by the expression \var{exp}.
 Each Earley operation is shown in the form of
 an inference rule,
 the conclusion of which
-is that operation's \dfn{result}.
-The result consists of
+consists of
 \begin{itemize}
-\item a parse item, call it \Vpim{p} of the Earley items to be unioned into \Ves{current}; and
-\item a confluence to be unioned into the confluence set of \Vpim{p}.
+\item a parse item, call it \Vpim{p} of the Earley items to be added to \Ves{current}; and
+\item a confluence to be added to the confluence set of \Vpim{p}.
 \end{itemize}
+We note that when we said the confluence and parse item were ``added'' just now,
+that they are added to sets, and that an ``add'' is a no-op for an object that is
+already an element of the set.
+Implementions must take care not to allow duplicate confluences in confluence sets,
+and duplicates Earley items in Earley sets.
 
 Each location starts with an empty Earley set.
 For the purposes of this description of
@@ -973,26 +977,24 @@ of the reduction operation.
 \label{d:prediction}
 \begin{equation*}
 \inference{
-	\Veimt{predecessor} \in \Ves{current}
+    \begin{array}{c}
+	\Veimt{mainstem} \in \Ves{current} \\
+	\Postdot{\V{mainstem}} = \Vsym{lhs} \\
+	\bigl[ \Vsym{lhs} \de \Vstr{rhs} \bigr] \in \Crules  \\
+    \end{array}
 }{
-  \left\{
-  \begin{gathered}
-  \Bigl[ \bigl[ \Vsym{L} \de \mydot \Vstr{rh} \bigr],
-    \Vloc{current} \Bigr] \\
-  \text{such that} \quad
-  \bigl[ \Vsym{L} \de \Vstr{rh} \bigr] \in \Crules  \\
-  \land \left( \begin{gathered}
-    \exists \, \Vstr{z} \mid \\
-    \Postdot{\Veimt{predecessor}} \destar \Vsym{L} \cat \Vstr{z}
-    \end{gathered} \right)
-  \end{gathered}
-  \right\}
+  \begin{array}{c}
+      \Vtyped{ \tuple{ \tuple{ \Vsym{lhs} \de \mydot \Vstr{rhs} }, \Vloc{current} }}{ \V{EIMT}} \\
+      \Vtyped{\tuple{\Veimt{mainsteam}, \unicorn }}{ \V{CFLU} }
+  \end{array}
 }
 \end{equation*}
-A prediction operation can add several Earley items
-to Earley set \Vloc{current}.
-\Veimt{predecessor} is called the predecessor of the prediction operation,
-and is its only operand.
+A prediction operation can add many Earley items
+to \Ves{current},
+but the items added do not depend on the location or the input ---
+they depend only on the postdot symbol of the mainstem.
+This means that a number of optimizations are possible.
+The tributary of the operation is ill-defined.
 
 \section{The Leo algorithm}
 \label{s:leo}
