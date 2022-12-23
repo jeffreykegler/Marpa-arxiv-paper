@@ -12,6 +12,7 @@
 % Re hbox's, see
 % https://tex.stackexchange.com/questions/241343/what-is-the-meaning-of-fussy-sloppy-emergencystretch-tolerance-hbadness
 \emergencystretch=3em
+\raggedbottom
 
 \newcommand{\todo}[1]{\par{\large\bf Todo: #1}\par}
 \newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
@@ -53,9 +54,18 @@
 \newcommand{\Vtyped}[2]{\ensuremath{\var{#1}\mcolon#2}}
 \newcommand{\VVtyped}[2]{\ensuremath{\var{#1}\mcolon\var{#2}}}
 
-\newcommand{\seq}[2]{\ensuremath{#1\left[ #2 \right]}}
-\newcommand{\Vseq}[2]{\ensuremath{\V{#1}\left[ #2 \right]}}
-\newcommand{\VVseq}[2]{\ensuremath{\V{#1}\left[ \V{#2} \right]}}
+\newcommand{\lastix}[1]{\ensuremath{\##1}}
+\newcommand{\Vlastix}[1]{\ensuremath{\lastix{\V{#1}}}}
+\newcommand{\VlastElement}[1]{\Velement{#1}{\Vlastix{#1}}}
+\newcommand{\element}[2]{\ensuremath{\mathop{#1}
+    \mathopen{}\left[#2\right]\mathclose{}}}
+\newcommand{\Velement}[2]{\ensuremath{\mathop{\V{#1}}
+    \mathopen{}\left[#2\right]\mathclose{}}}
+\newcommand{\VVelement}[2]{\ensuremath{\mathop{\V{#1}}
+    \mathopen{}\left[ \V{#2}
+    \right]\mathclose{} }}
+
+\newcommand{\seq}[1]{\ensuremath{\left[ #1 \right]}}
 
 \newcommand{\mcolon}{\mathrel:}
 \newcommand{\mcoloncolon}{\mathrel{\vcenter{\hbox{$::$}}}}
@@ -379,10 +389,15 @@ without needing most of its apparatus.
 The notation \VVtyped{x}{T} indicates that the variable
 \V{x} is of type \V{T}.
 More often, this paper will
-use subscripts to indicate type.\footnote{
-A type in Farmer~2012~\cite{Farmer2012} is a superclass,
-or a collection of classes,
-but all of the types in this paper will be sets.
+use subscripts to indicate type.
+We will often designate particular sets as types,
+but any set can be a type.\footnote{
+In fact,
+a type in Farmer~2012~\cite{Farmer2012} can be much
+more than a set.
+Types in \cite{Farmer2012} are
+collections of classes (``superclasses'').
+But in this paper, every explicitly stated type will be a ZF set.
 }
 \begin{center}
 \begin{tabular}{ll}
@@ -437,6 +452,8 @@ $$
   \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} = \unicorn \land \V{b} = \unicorn).
 $$
 A value is \dfn{well-defined} iff it is not ill-defined.
+We write $\V{x}\isWellDef$ to say that \V{x} is well-defined,
+and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined,
 
 We define the natural numbers, \naturals, to include zero.
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
@@ -453,11 +470,25 @@ $$ \V{domSet} \tfnMMap \V{C} \defined
 $$
 so that $\naturals \tfnMMap \V{C}$
 is the set of finite sequences of values from the set \V{C}.
+
 We write \Vsize{\V{seq}} for cardinality, or length,
 of the sequence \V{seq}.
-\VVseq{seq}{i} is the \var{i}'th value of the sequence \V{seq},
+\VVelement{seq}{i} is the \var{i}'th value of the sequence \V{seq},
 and is well-defined when
 $0 \le \V{i} < \Vsize{seq}$.
+We write often specify a sequence by giving its elements inside
+brackets:
+For example,
+$$\seq{\, \V{a}, \; 42, \; \seq{} \, }$$
+is the sequence of length
+3 whose values are, in order, \V{a}, the number 42, and the empty sequence.
+
+The last index of the sequence \V{seq} is \Vlastix{seq},
+so that \VlastElement{seq} is the last element of \V{seq}.
+\Vlastix{seq} is ill-defined for the empty sequence,
+that is, if $\Vsize{seq} = 0$.
+If \V{seq} is not the empty sequence, then
+$\Vsize{seq} = \Vlastix{seq} + 1$.
 
 Let \V{vocab} be a non-empty set of symbols.
 The string type, \type{STR}, is the set of all finite sequences of
@@ -691,21 +722,13 @@ his semantics are applied.
 \section{Earley's algorithm}
 \label{s:earley}
 
-Let $\Vrule{r} \in \Crules$
-be a rule,
-and $\Vsize{r}$ the length of its RHS.
 A dotted rule (type \type{DR}) is a duple of rule and position
 in the rule.
-The position is a natural number
-and must be less than or equal to the rule length.
-If we let
-$$\Vdr{dr} = \tuple{\Vrule{r}, \var{pos}}$$
-be a dotted rule, then
-we have
-$0 \le \var{pos} \le \size{\Vrule{r}}$.
-Again letting
-$\Vdr{dr} = \tuple{\Vrule{r}, \var{pos}}$
-be a dotted rule,
+Let $$\Vdr{dr} = \tuple{\Vtyped{r}{\Crules}, \Vtyped{pos}{\naturals}}$$
+be a dotted rule.
+Then we have
+$$ 0 \le \var{pos} \le \size{\Vrule{r}}, $$
+and we state that
 \begin{gather*}
 \Rule{\Vdr{dr}} \defined \Vrule{r}, \text{ and} \\
 \Pos{\Vdr{dr}} \defined \var{pos}.
@@ -726,44 +749,45 @@ is the dotted rule with the dot at
 $\var{pos} = 2$,
 between \Vsym{Y} and \Vsym{Z}.
 
-If we let \Vdr{x} be a dotted rule, such that
-\begin{equation*}
-\Vdr{x} =
-\bigl[ [\Vsym{A} \de \Vstr{pre} \cat \Vsym{next} \cat \Vstr{post}],
-    \var{pos} \bigr],
-\end{equation*}
-then
-%
-\begin{gather*}
-%
-\LHS{\Vdr{x}} \defined \Vsym{A} \\
-%
-\Postdot{\Vdr{x}} \defined
-\begin{cases}
-\Vsym{next}, \quad \text{if $\var{x} = [\var{A} \de \var{pre} \mydot \var{next} \cat \var{post}]$} \\
-\Lambda, \quad \text{if $\var{x} = [\var{A} \de \var{pre} \cat \var{next} \cat \var{post} \mydot]$}
-\end{cases} \\
-%
-\Next{\Vdr{x}} \defined
-\begin{cases}
-[\var{A} \de \var{pre} \cat \var{next} \mydot \var{post}],  \\
-\qquad \text{if $\Postdot{\Vdr{x}} = \var{next}$} \\
-\text{$\Lambda$, otherwise}
-\end{cases} \\
-%
-\Penult{\Vdr{x}} \defined
-\begin{cases}
-\Vsym{next}, \quad \text{if} \\
-\qquad \Postdot{\Vdr{x}} = \var{next} \\
-\qquad \land \quad \Vstr{post} \destar \epsilon \\
-\qquad \land \quad \neg (\Vsym{next} \destar \epsilon) \\
-\Lambda, \quad \text{otherwise}
-\end{cases}
-%
-\end{gather*}
+\[ \LHS{\Vdr{x}} \defined \LHS{\Rule{\V{x}}}. \]
 
-A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\var{d}} \neq \Lambda$.
-Note that $\Penult{\Vdr{x}}$
+\[ \RHS{\Vdr{x}} \defined \RHS{\Rule{\V{x}}}. \]
+
+\[
+  \Postdot{\Vdr{x}} \defined
+  \begin{cases}
+  \begin{gathered} \Vsym{next}, \text{ if } \existQ{
+      \Vtyped{pre}{STR}, \; \Vtyped{post}{STR}, \; \Vsym{A}}{ \\
+      \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}}} \\
+  \end{gathered} \\
+  \unicorn, \quad \text{otherwise.}
+  \end{cases} \\
+\]
+
+\[ \begin{gathered}
+  \Next{\Vdr{x}} \defined
+  \begin{cases}
+    \begin{gathered}
+    \Vtyped{\tuple{\Rule{\V{x}}, \Pos{\V{x}}+1}}{DR} \\
+      \qquad \text{if } \Pos{\V{x}} < \size{\RHS{\V{x}}}
+    \end{gathered}  \\
+    \unicorn, \text{ otherwise.}
+  \end{cases} \\
+\end{gathered} \]
+
+\[ \begin{gathered}
+  \Penult{\Vdr{x}} \defined
+  \begin{cases}
+  \Vsym{next}, \quad \text{if} \\
+  \qquad \Postdot{\Vdr{x}} = \V{next} \\
+  \qquad \land \quad \Vstr{post} \destar \epsilon \\
+  \qquad \land \quad \neg (\Vsym{next} \destar \epsilon) \\
+  \unicorn, \quad \text{otherwise}
+  \end{cases}
+\end{gathered} \]
+
+A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\var{d}} \isWellDef$.
+We note that $\Penult{\Vdr{x}}$
 is never a nullable symbol.
 The \dfn{initial dotted rule} is
 \begin{equation*}
