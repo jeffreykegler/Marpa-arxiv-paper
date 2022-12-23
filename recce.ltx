@@ -106,7 +106,7 @@
 
 \newcommand{\cfg}{CFG}
 
-\newcommand{\de}{\rightarrow}
+\newcommand{\de}{\mathrel{::=}}
 \newcommand{\derives}{\Rightarrow}
 \newcommand{\destar}
     {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
@@ -574,14 +574,12 @@ if and only if
 \begin{equation*}
 \LHS{\Vrule{x}} = \RightNN{\Vrule{x}}.
 \end{equation*}
-\Vrule{x} is \dfn{indirectly right-recursive}
+\Vrule{x} is \dfn{right-recursive},
+$\RightRecursive{\Vrule{x}}$,
 if and only if
 \begin{equation*}
 \exists \, \Vstr{y} \mid \RightNN{\Vrule{x}} \deplus \V{y} \land \RightNN{\V{y}} = \LHS{\Vrule{x}}.
 \end{equation*}
-\Vrule{x} is \dfn{right recursive},
-$\RightRecursive{\Vrule{x}}$,
-if and only if is either directly or indirectly right-recursive.
 
 Our definition of a grammar did not sharply distinguish terminals
 from non-terminals.
