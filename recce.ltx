@@ -53,6 +53,10 @@
 \newcommand{\Vtyped}[2]{\ensuremath{\var{#1}\mcolon#2}}
 \newcommand{\VVtyped}[2]{\ensuremath{\var{#1}\mcolon\var{#2}}}
 
+\newcommand{\seq}[2]{\ensuremath{#1\left[ #2 \right]}}
+\newcommand{\Vseq}[2]{\ensuremath{\V{#1}\left[ #2 \right]}}
+\newcommand{\VVseq}[2]{\ensuremath{\V{#1}\left[ \V{#2} \right]}}
+
 \newcommand{\mcolon}{\mathrel:}
 \newcommand{\mcoloncolon}{\mathrel{\vcenter{\hbox{$::$}}}}
 
@@ -402,6 +406,10 @@ Subtraction & $\var{symbol-count} \subtract \var{terminal-count}$ \\
 \end{tabular}
 \end{center}
 
+We often write ``iff'' for ``if and only if''.
+We also often subsitute the more prominent double colon ($\mcoloncolon$)
+for the ``mid'' divider ($\mid$).
+
 A useful feature of Farmer~2012~\cite{Farmer2012} is his notion of ill-definedness.
 For example, the value of partial functions may be ill-defined for
 some arguments in their domain.
@@ -418,10 +426,6 @@ is defined as ``undefined'' is confusing.
 In this paper we say that these values are defined, but ill-defined.
 }
 
-We often write ``iff'' for ``if and only if''.
-We also often subsitute the more prominent double colon ($\mcoloncolon$)
-for the ``mid'' divider ($\mid$).
-
 We write $\unicorn$ for ill-defined.
 Traditionally, and in this paper,
 any formula with an ill-defined operand is false.
@@ -432,6 +436,7 @@ we introduce a new relation, $\simeq$, such that
 $$
   \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} = \unicorn \land \V{b} = \unicorn).
 $$
+A value is \dfn{well-defined} iff it is not ill-defined.
 
 We define the natural numbers, \naturals, to include zero.
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
@@ -448,6 +453,11 @@ $$ \V{domSet} \tfnMMap \V{C} \defined
 $$
 so that $\naturals \tfnMMap \V{C}$
 is the set of finite sequences of values from the set \V{C}.
+We write \Vsize{\V{seq}} for cardinality, or length,
+of the sequence \V{seq}.
+\VVseq{seq}{i} is the \var{i}'th value of the sequence \V{seq},
+and is well-defined when
+$0 \le \V{i} < \Vsize{seq}$.
 
 Let \V{vocab} be a non-empty set of symbols.
 The string type, \type{STR}, is the set of all finite sequences of
@@ -597,15 +607,15 @@ sentential forms will be of type \type{STR}.
 Let the input to
 the parse be \Cw{} such that $\Cw \in \var{STR}^+$.
 Locations in the input will be of type \type{LOC}.
-Let \Vsize{w} be the length of the input, counted in symbols.
 When we state our complexity results later,
 they will often be in terms of $\var{n}$,
 where $\var{n} = \Vsize{w}$.
-Let \CVw{i} be character \var{i}
+\CVw{i} is character \var{i}
 of the input,
+and is well-defined when
 $0 \le \Vloc{i} < \Vsize{w}$.
 
-The alert reader may have noticed that the previous definition
+We note that the previous definition
 of \Cw{} did not allow zero-length inputs.
 To simplify the mathematics, we exclude null parses
 and trivial grammars from consideration.
