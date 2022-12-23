@@ -6,7 +6,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{xspace}
-\usepackage{graphics}
+\usepackage{graphicx}
 \usepackage{url}
 
 % Re hbox's, see
@@ -419,6 +419,8 @@ In this paper we say that these values are defined, but ill-defined.
 }
 
 We often write ``iff'' for ``if and only if''.
+We also often subsitute the more prominent double colon ($\mcoloncolon$)
+for the ``mid'' divider ($\mid$).
 
 We write $\unicorn$ for ill-defined.
 Traditionally, and in this paper,
@@ -500,6 +502,17 @@ and
 \item $\Vstr{x} \destar \Vstr{y}$
 states that \var{x} derives \var{y} in zero or more steps.
 \end{itemize}
+We call these rewrites \dfn{derivation steps}.
+A sequence of one or more of derivation steps,
+in which the left hand side of all but the first
+is the right hand side of its predecessor,
+is a \dfn{derivation}.
+Pedantically, the elements of derivations,
+and the arguments of concatenations like
+$\Vstr{s1} \cat \Vstr{s2}$
+must be strings,
+but we very often use a symbol to represent the
+string of length 1 whose only value is that symbol.
 
 We say that symbol \Vsym{x} is \dfn{nullable} iff
 $\Vsym{x} \destar \epsilon$.
@@ -532,25 +545,29 @@ is such that
 \begin{equation*}
 \begin{gathered}
 \forall \; \V{x} \in \Crules \mid \\
-\Vsym{accept} \notin \RHS{\Vrule{x}} \\
-\land \; (\Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}).
+\nexists \; \Vstr{pre}, \; \Vstr{post} \; \mid \\
+\V{pre} \cat \Vsym{accept} \cat \V{post} = \RHS{\Vrule{x}} \\
 \end{gathered}
 \end{equation*}
+and
+$$ \Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}. $$
 
-We define rightmost non-null symbol of a string
-as
+Our definition of the rightmost non-null symbol of a string,
+$\RightNN{\Vstr{x}}$,
+is
+$$ \RightNN{\Vstr{x}} \defined \Vsym{rnn} $$
+where
+\[\begin{gathered}
+    \existQ{ \Vtyped{pre}{STR}, \; \Vtyped{post}{STR} \;}{ \\
+      \Vstr{x} = \V{pre} \cat \Vsym{rnn} \cat \V{post} \\
+      \land \; \Vstr{post} \destar \epsilon
+	\land \neg (\Vsym{rnn} \destar \epsilon).
+    }
+\end{gathered}\]
+Our definition of the rightmost non-null symbol of a rule,
+$\RightNN{\Vrule{r}}$, is
 \begin{equation*}
-\begin{split}
-& \RightNN{\Vstr{x}} \defined \Vsym{rnn} \quad \text{such that} \quad
- \exists \, \Vstr{pre}, \Vstr{post} \mid \\
-& \qquad \qquad \Vstr{x} = \Vstr{pre} \cat \Vsym{rnn} \cat \Vstr{post} \\
-& \qquad \qquad \land \Vstr{post} \destar \epsilon \\
-& \qquad \qquad \land \neg (\Vsym{rnn} \destar \epsilon).
-\end{split}
-\end{equation*}
-We define the rightmost non-null symbol of a rule as
-\begin{equation*}
-\RightNN{[\Vsym{lhs} \de \Vstr{rhs}]} \defined \RightNN{\Vstr{rhs}}.
+\RightNN{\Vrule{r}} \defined \RightNN{\RHS{\V{r}}}.
 \end{equation*}
 A rule \Vrule{x} is \dfn{directly right-recursive}
 if and only if
@@ -560,13 +577,13 @@ if and only if
 \Vrule{x} is \dfn{indirectly right-recursive}
 if and only if
 \begin{equation*}
-\exists \, \Vstr{y} \mid \RightNN{\Vrule{x}} \deplus \Vstr{y} \land \RightNN{\Vstr{y}} = \LHS{\Vrule{x}}.
+\exists \, \Vstr{y} \mid \RightNN{\Vrule{x}} \deplus \V{y} \land \RightNN{\V{y}} = \LHS{\Vrule{x}}.
 \end{equation*}
 \Vrule{x} is \dfn{right recursive},
 $\RightRecursive{\Vrule{x}}$,
 if and only if is either directly or indirectly right-recursive.
 
-The definition of \Cg{} does not sharply distinguish terminals
+Our definition of a grammar did not sharply distinguish terminals
 from non-terminals.
 The implementation of~\cite{Marpa-R2} allows terminals to be the LHS
 of rules,
