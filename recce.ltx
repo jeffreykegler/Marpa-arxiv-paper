@@ -6,6 +6,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{xspace}
+\usepackage{needspace}
 \usepackage{graphicx}
 \usepackage{url}
 
@@ -119,6 +120,31 @@
 \newcommand{\V}[1]{\ensuremath{\texttt{\mbox{#1}}}}
 
 \newcommand{\cfg}{CFG}
+
+\newcommand{\mname}[1]{\mbox{\sf #1}}
+% [O]perator [A]pplication
+\newcommand{\Oname}[1]{\mname{#1}}
+% The \mathopen{} and \mathclose{} eliminate unwanted extra space
+\newcommand{\OA}[2]{\ensuremath{%
+    \mathop{\Oname{#1}}\mathopen{}\left(#2\right)\mathclose{}%
+}}
+\newcommand{\VOA}[2]{\OA{#1}{\V{#2}}}
+% [F]unction [A]pplication, replaces \myfn
+\newcommand{\smallrawfn}[2]{\ensuremath{\mathop{#1}(#2)}}
+% The \mathopen{} and \mathclose{} eliminate unwanted extra space
+\newcommand{\rawfn}[2]{\ensuremath{\mathop{#1}\mathopen{}\left(#2\right)\mathclose{}}}
+\newcommand{\Fname}[1]{\V{#1}}
+\newcommand{\FA}[2]{\ensuremath{\rawfn{\mathop{\Fname{#1}}}{#2}}}
+\newcommand{\VFA}[2]{\FA{#1}{\V{#2}}}
+
+% List operators
+\newcommand{\Hd}[1]{\OA{hd}{#1}}
+% With the list operators,
+% is looks better if we don't increase paren size as we nest
+\newcommand{\Tl}[1]{\Oname{tl}({#1})}
+\newcommand{\HTl}[1]{\Hd{\Tl{#1}}}
+\newcommand{\TTl}[1]{\Tl{\Tl{#1}}}
+\newcommand{\TTTl}[1]{\Tl{\TTl{#1}}}
 
 \newcommand{\de}{\mathrel{::=}}
 \newcommand{\derives}{\Rightarrow}
@@ -457,6 +483,34 @@ A value is \dfn{well-defined} iff it is not ill-defined.
 We write $\V{x}\isWellDef$ to say that \V{x} is well-defined,
 and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined,
 
+\Needspace{5\baselineskip}
+We define a tuple recursively:
+\begin{itemize}
+\item An ordered pair is a 2-tuple, or duple,
+for example $\tuple{7,11}$.
+\item The ordered pair of a set \V{h},
+and an \V{n}-tuple, call it \V{tupA},
+is an ($\V{n}+1$)-tuple, call it \V{tupB}.
+\end{itemize}
+We say that \V{h} is the \dfn{head} of \V{tupB}.
+We say that \V{tupA} is the \dfn{tail} of \V{tupB}.
+
+We write tuples using angle brackets.
+The head of a tuple \V{S} can be written \Hd{S}.
+The tail of a tuple \V{S} can be written \Tl{S}.
+For example, where
+\[
+    \V{S} = \tuple{ 42, 1729, 42 },
+\]
+then \V{S} is a 3-tuple, or triple,
+\begin{gather*}
+\Hd{S}=42, \\
+\Tl{S}=\tuple{1729,42}, \\
+\HTl{S}=1729, \\
+\TTl{S}=42, \text{ and} \\
+\TTTl{S}\isIllDef.
+\end{gather*}
+
 We define the natural numbers, \naturals, to include zero.
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
 $\V{D} \tfnMap \V{C}$ is the set of total functions from domain \V{D} to codomain \V{C}.
@@ -767,14 +821,10 @@ are now plentiful.%
 
 A dotted rule (type \type{DR}) is a duple of rule and position
 in the rule.
-Let $$\Vdr{dr} = \tuple{\Vtyped{r}{\Crules}, \Vtyped{pos}{\naturals}}$$
-be a dotted rule.
-Then we have
-$$ 0 \le \var{pos} \le \size{\Vrule{r}}, $$
-and we state that
 \begin{gather*}
-\Rule{\Vdr{dr}} \defined \Vrule{r}, \text{ and} \\
-\Pos{\Vdr{dr}} \defined \var{pos}.
+\Rule{\Vdr{dr}} \defined \Hd{\V{dr}}, \\
+\Pos{\Vdr{dr}} \defined \Tl{\V{dr}}, \text{ and} \\
+ 0 \le \Pos{\V{dr}} \le \size{\Rule{\V{dr}}}.
 \end{gather*}
 
 The position of a dotted rule indicates the extent to which
