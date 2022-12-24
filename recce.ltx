@@ -169,17 +169,19 @@
 \newcommand{\term}[1]{#1_{TERM}}
 \newcommand{\token}[1]{#1_{TOK}}
 
-\newcommand{\alg}[1]{\ensuremath{\textsc{#1}}}
-\newcommand{\AH}{\ensuremath{\alg{AH}}}
-\newcommand{\Earley}{\ensuremath{\alg{Earley}}}
-\newcommand{\Leo}{\ensuremath{\alg{Leo}}}
-\newcommand{\Marpa}{\ensuremath{\alg{Marpa}}}
+\newcommand{\alg}[1]{\ensuremath{\textsc{#1}}\xspace}
+\newcommand{\AH}{\ensuremath{\alg{AH}}\xspace}
+\newcommand{\Earley}{\ensuremath{\alg{Earley}}\xspace}
+\newcommand{\Leo}{\ensuremath{\alg{Leo}}\xspace}
+\newcommand{\Marpa}{\ensuremath{\alg{Marpa}}\xspace}
 
 \newcommand{\Cfa}{\var{fa}}
 \newcommand{\Cg}{\var{g}}
 \newcommand{\Cw}{\var{w}}
 \newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\var{#1}]}}}
 \newcommand{\Crules}{\var{rules}}
+\newcommand{\Nulling}[1]{\mymathop{Nulling}(#1)}
+\newcommand{\Nullable}[1]{\mymathop{Nullable}(#1)}
 \newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
@@ -548,24 +550,45 @@ A sequence of one or more of derivation steps,
 in which the left hand side of all but the first
 is the right hand side of its predecessor,
 is a \dfn{derivation}.
+We say that the symbol \V{x} \dfn{induces}
+the string of length 1 whose only value is that symbol,
+that is, the string \seq{\Vsym{x}}.
 Pedantically, the elements of derivations,
 and the arguments of concatenations like
 $\Vstr{s1} \cat \Vstr{s2}$
-must be strings,
-but we very often use a symbol to represent the
-string of length 1 whose only value is that symbol.
+must be strings.
+But in concatenations and derivation steps we often
+write the symbol to represent the string it induces so
+that
+$$ \Vstr{a} \cat \Vsym{b} \cat \Vstr{c}
+= \Vstr{a} \cat \seq{\Vsym{b}} \cat \Vstr{c}.
+$$
 
-We say that symbol \Vsym{x} is \dfn{nullable} iff
-$\Vsym{x} \destar \epsilon$.
-\Vsym{x} is \dfn{nulling} iff it always derives the null
-string, that is, for all \Vstr{y}
-\begin{equation*}
-\Vsym{x} \destar \Vstr{y} \implies \Vstr{y} \destar \epsilon.
-\end{equation*}
-\Vsym{x} is \dfn{non-nullable} iff it is not nullable.
-\Vsym{x} is a \dfn{proper nullable} iff it is nullable,
-but not nulling.
-\Vsym{x} is \dfn{non-nulling} iff it is not nulling.
+We say that a string \V{x} is \dfn{nullable},
+$\Nullable{\Vstr{x}}$, iff the empty string can be
+derived from it:
+$$\Nullable{\Vstr{x}} \defined \V{x} \destar \epsilon.$$
+We say that a string \V{x} is \dfn{nulling},
+$\Nulling{\Vstr{x}}$,
+iff it always eventually derives the null
+string:
+\[
+\Nulling{\Vstr{s}} \defined
+  \forall \; \Vstr{y} \;\mid\; \V{x} \destar \V{y} \implies \V{y} \destar \epsilon.
+\]
+We say that symbols are nulling or nullable based on the string they
+induce:
+\begin{gather*}
+\Nullable{\Vsym{x}} \defined \Nullable{\seq{\V{x}}}. \\
+\Nulling{\Vsym{x}} \defined \Nulling{\seq{\V{x}}}.
+\end{gather*}
+A string or symbol is
+\begin{itemize}
+\item \dfn{non-nullable} iff it is not nullable;
+\item a \dfn{proper nullable} iff it is nullable,
+but not nulling; and
+\item \dfn{non-nulling} iff it is not nulling.
+\end{itemize}
 
 Following Aycock and Horspool~\cite{AH2002},
 all nullable symbols in grammar \Cg{} are nulling -- every symbol
@@ -656,15 +679,17 @@ deals with null parses and trivial grammars as special cases.
 (Trivial grammars are those that recognize only the null string.)
 
 In this paper,
-\Earley{} will refer to the Earley's original
-recognizer~\cite{Earley1970}.
-\Leo{} will refer to Leo's revision of \Earley{}
-as described in~\cite{Leo1991}.
-\AH{} will refer to the Aycock and Horspool's revision
-of \Earley{}
-as described in~\cite{AH2002}.
-\Marpa{} will refer to the parser described in
-this paper.
+\Earley will refer to the Earley algorithm as it is presented in this paper
+--- a simplified version of Earley~1970~\cite{Earley1970}
+preceded and followed by a rewrite.
+\Leo will refer to Leo's revision of \cite{Earley1970}
+as described in Leo 1991~\cite{Leo1991}.
+\AH will refer to the Aycock and Horspool's revision
+of \cite{Earley1970}
+as described in their 2002 paper~\cite{AH2002}.
+\Marpa will refer to the parser described in
+this paper,
+which combines features of \Earley, \Leo and \AH.
 Where $\alg{Recce}$ is a recognizer,
 $\myL{\alg{Recce},\Cg}$ will be the language accepted by $\alg{Recce}$
 when parsing \Cg{}.
@@ -721,6 +746,24 @@ his semantics are applied.
 
 \section{Earley's algorithm}
 \label{s:earley}
+
+This paper presents a specialized version of Earley's
+algorithms.
+The version in this paper is simplified to
+take advantage of Marpa{}'s rewriting.
+Descriptions of
+the standard \Earley{}'s algorithm
+are now plentiful.%
+\footnote{%
+    Focusing on the classic Earley-related literature,
+    these include
+    \cite[pp. 320-321]{AU1972},
+    \cite{AH2002},
+    \cite{Earley1968},
+    \cite{Earley1970},
+    \cite{GJ2008}, and
+    \cite{Leo1991}.%
+}
 
 A dotted rule (type \type{DR}) is a duple of rule and position
 in the rule.
@@ -3672,6 +3715,11 @@ John~Aycock and R.~Nigel~Horspool.
 \newblock Practical Earley Parsing
 \newblock {\em The Computer Journal},
     Vol. 45, No. 6, 2002, pp. 620-630.
+
+\bibitem{Earley1968}
+J.~Earley.
+\newblock An Efficient Context-Free Parsing Algorithm.
+\newblock Ph.D. Thesis, Carnegie Mellon University, 1968
 
 \bibitem{Earley1970}
 J.~Earley.
