@@ -67,6 +67,7 @@
     \right]\mathclose{} }}
 
 \newcommand{\seq}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\seqB}[2]{\seq{#1 \mcoloncolon #2}}
 
 \newcommand{\mcolon}{\mathrel:}
 \newcommand{\mcoloncolon}{\mathrel{\vcenter{\hbox{$::$}}}}
@@ -545,6 +546,13 @@ so that \VlastElement{seq} is the last element of \V{seq}.
 that is, if $\Vsize{seq} = 0$.
 If \V{seq} is not the empty sequence, then
 $\Vsize{seq} = \Vlastix{seq} + 1$.
+
+To avoid sub- and superscripts,
+we usually write summation as a unary operation on a sequence.
+For example, we write
+$$ \sum \seqB{\Vtyped{ix}{\naturals} < 100}{\V{ix}} \text{ for }
+     \sum\limits_{\V{ix}_\naturals=0}^{100}\V{ix}.
+$$
 
 Let \V{vocab} be a non-empty set of symbols.
 The string type, \type{STR}, is the set of all finite sequences of
