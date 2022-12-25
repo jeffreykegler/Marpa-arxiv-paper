@@ -848,49 +848,46 @@ between \Vsym{Y} and \Vsym{Z}.
 \[
   \Postdot{\Vdr{x}} \defined
   \begin{cases}
-  \begin{gathered} \Vsym{next}, \text{ if } \existQ{
+  \Vsym{next}, \text{ if } \existQ{
       \Vtyped{pre}{STR}, \; \Vtyped{post}{STR}, \; \Vsym{A}}{ \\
-      \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}}} \\
-  \end{gathered} \\
-  \unicorn, \quad \text{otherwise.}
+      \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}}} \\
+  \unicorn, \text{ otherwise.}
   \end{cases} \\
 \]
 
-\[ \begin{gathered}
+\[
   \Next{\Vdr{x}} \defined
   \begin{cases}
-    \begin{gathered}
-    \Vtyped{\tuple{\Rule{\V{x}}, \Pos{\V{x}}+1}}{DR} \\
-      \qquad \text{if } \Pos{\V{x}} < \size{\RHS{\V{x}}}
-    \end{gathered}  \\
+    \Vtyped{\tuple{ \Vsym{A} \de \Vstr{pre} \cat \Vsym{next} \mydot \Vstr{post}}}{DR}, \\
+      \qquad \text{if } \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
     \unicorn, \text{ otherwise.}
   \end{cases} \\
-\end{gathered} \]
+\]
 
-\[ \begin{gathered}
+\[
   \Penult{\Vdr{x}} \defined
   \begin{cases}
-  \Vsym{next}, \quad \text{if} \\
-  \qquad \Postdot{\Vdr{x}} = \V{next} \\
-  \qquad \land \quad \Vstr{post} \destar \epsilon \\
-  \qquad \land \quad \neg (\Vsym{next} \destar \epsilon) \\
-  \unicorn, \quad \text{otherwise}
+  \Vsym{next}, \text{ if } \existQ{
+      \Vtyped{pre}{STR}, \; \Vtyped{post}{STR}, \; \Vsym{A}}{ \\
+      \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
+      \qquad \land \; \Nullable{\V{post}} \land \; \neg \Nulling{\V{next}}} \\
+  \unicorn, \text{ otherwise}
   \end{cases}
-\end{gathered} \]
+\]
 
 A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\var{d}} \isWellDef$.
 We note that $\Penult{\Vdr{x}}$
 is never a nullable symbol.
 The \dfn{initial dotted rule} is
 \begin{equation*}
-\Vdr{initial} = [\Vsym{accept} \de \mydot \Vsym{start} ].
+\Vdr{initial} = \tuple{\Vsym{accept} \de \mydot \Vsym{start} }.
 \end{equation*}
 A \dfn{predicted dotted rule} is a dotted rule,
 other than the initial dotted rule,
 with a dot position of zero,
 for example,
 \begin{equation*}
-\Vdr{predicted} = [\Vsym{A} \de \mydot \Vstr{alpha} ].
+\Vdr{predicted} = \tuple{\Vsym{A} \de \mydot \Vstr{alpha} }.
 \end{equation*}
 A \dfn{confirmed dotted rule}
 is the initial dotted rule,
@@ -900,7 +897,7 @@ A \dfn{completed dotted rule} is a dotted rule with its dot
 position after the end of its RHS,
 for example,
 \begin{equation*}
-\Vdr{completed} = [\Vsym{A} \de \Vstr{alpha} \mydot ].
+\Vdr{completed} = \tuple{\Vsym{A} \de \Vstr{alpha} \mydot }.
 \end{equation*}
 Predicted, confirmed and completed dotted rules
 are also called, respectively,
@@ -908,9 +905,12 @@ are also called, respectively,
 
 A traditional Earley item (type \type{EIMT}) is a duple
 of dotted rule and origin.
-(The origin is the location where recognition of the rule
+\begin{gather*}
+     \DR{\Veimt{x}} = \Hd{\V{x}}. \\
+     \Origin{\Veimt{x}} = \Tl{\V{x}}. \\
+\end{gather*}
+The origin is the location where recognition of the rule
 started.
-It is sometimes called the ``parent''.)
 For convenience, the type \type{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
 the origin element of an Earley item.
@@ -919,17 +919,12 @@ We find it convenient to apply dotted rule concepts to
 \type{EIMT}'s,
 so that the concept applied to the \type{EIMT} is
 the concept applied to the dotted rule of the EIMT.
-Let
-$$\Veimt{x} = [\Vdr{dr}, \Vorig{orig} ]$$
-be an EIMT in the following definitions:
 \begin{gather*}
-\DR{\Veimt{x}} \defined \Vdr{dr}. \\
-\Origin{\Veimt{x}} \defined \Vorig{orig}. \\
-\LHS{\Veimt{x}} \defined \LHS{\Vdr{dr}}. \\
-\Postdot{\Veimt{x}} \defined \Postdot{\Vdr{dr}}. \\
-\Penult{\Veimt{x}} \defined \Penult{\Vdr{dr}}. \\
-\Next{\Veimt{x}} \defined \Next{\Vdr{dr}}. \\
-\Rule{\Veimt{x}} \defined \Rule{\Vdr{dr}}.
+\LHS{\Veimt{x}} \defined \LHS{\DR{dr}}. \\
+\Postdot{\Veimt{x}} \defined \Postdot{\DR{dr}}. \\
+\Penult{\Veimt{x}} \defined \Penult{\DR{dr}}. \\
+\Next{\Veimt{x}} \defined \Next{\DR{dr}}. \\
+\Rule{\Veimt{x}} \defined \Rule{\DR{dr}}.
 \end{gather*}
 
 An Earley parser builds a table of Earley sets,
