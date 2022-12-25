@@ -53,7 +53,7 @@
 
 \newcommand{\typed}[2]{\ensuremath{#1\mcolon#2}}
 \newcommand{\Vtyped}[2]{\ensuremath{\var{#1}\mcolon#2}}
-\newcommand{\VVtyped}[2]{\ensuremath{\var{#1}\mcolon\var{#2}}}
+\newcommand{\VTtyped}[2]{\ensuremath{\var{#1}\mcolon\type{#2}}}
 
 \newcommand{\lastix}[1]{\ensuremath{\##1}}
 \newcommand{\Vlastix}[1]{\ensuremath{\lastix{\V{#1}}}}
@@ -163,38 +163,38 @@
 \newcommand{\set}[1]{{\left\lbrace #1 \right\rbrace} }
 \newcommand{\bigset}[1]{{\bigl\lbrace #1 \bigr\rbrace} }
 \newcommand{\Bigset}[1]{{\Bigl\lbrace #1 \Bigr\rbrace} }
-\newcommand{\ah}[1]{#1_{AH}}
-\newcommand{\Vah}[1]{\ensuremath{\var{#1}_{AH}}}
-\newcommand{\bool}[1]{\var{#1}_{BOOL}}
+\newcommand{\ah}[1]{#1_{\type{AH}}}
+\newcommand{\Vah}[1]{\ensuremath{\var{#1}_{\type{AH}}}}
+\newcommand{\bool}[1]{\var{#1}_{\type{BOOL}}}
 \newcommand{\Vbool}[1]{\ensuremath{\bool{#1}}}
-\newcommand{\dr}[1]{#1_{DR}}
-\newcommand{\Vdr}[1]{\ensuremath{\var{#1}_{DR}}}
-\newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\setOf{DR}}}}
-\newcommand{\eim}[1]{#1_{EIM}}
+\newcommand{\dr}[1]{#1_{\type{DR}}}
+\newcommand{\Vdr}[1]{\ensuremath{\var{#1}_{\type{DR}}}}
+\newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\setOf{\type{DR}}}}}
+\newcommand{\eim}[1]{#1_{\type{EIM}}}
 \newcommand{\Veim}[1]{\ensuremath{\var{#1}_{\type{EIM}}}}
 \newcommand{\Veimt}[1]{\ensuremath{\var{#1}_{\type{EIMT}}}}
 \newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\setOf{\type{EIM}}}}}
 \newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\setOf{\type{EIMT}}}}}
-\newcommand{\pim}[1]{#1_{PIM}}
-\newcommand{\Vpim}[1]{\ensuremath{\var{#1}_{PIM}}}
-\newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
-\newcommand{\Elimt}[1]{\ensuremath{#1_{LIMT}}}
-\newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{LIM}}}
+\newcommand{\pim}[1]{#1_{\type{PIM}}}
+\newcommand{\Vpim}[1]{\ensuremath{\var{#1}_{\type{PIM}}}}
+\newcommand{\Ees}[1]{\ensuremath{#1_{\type{ES}}}}
+\newcommand{\Elimt}[1]{\ensuremath{#1_{\type{LIMT}}}}
+\newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{\type{LIM}}}}
 \newcommand{\Vlimt}[1]{\Elimt{\var{#1}}}
-\newcommand{\Vlimtset}[1]{\ensuremath{\var{#1}_{\setOf{LIMT}}}}
-\newcommand{\Eloc}[1]{\ensuremath{{#1}_{LOC}}}
+\newcommand{\Vlimtset}[1]{\ensuremath{\var{#1}_{\setOf{\type{LIMT}}}}}
+\newcommand{\Eloc}[1]{\ensuremath{{#1}_{\type{LOC}}}}
 \newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
 \newcommand{\Ves}[1]{\Ees{\var{#1}}}
-\newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{RULE}}}
-\newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\setOf{RULE}}}}
+\newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{\type{RULE}}}}
+\newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\setOf{\type{RULE}}}}}
 \newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
-\newcommand{\Vstr}[1]{\ensuremath{\var{#1}_{STR}}}
-\newcommand{\sym}[1]{#1_{SYM}}
-\newcommand{\Vsym}[1]{\ensuremath{\var{#1}_{SYM}}}
-\newcommand{\Vorig}[1]{\ensuremath{\var{#1}_{ORIG}}}
-\newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\setOf{SYM}}}}
-\newcommand{\term}[1]{#1_{TERM}}
-\newcommand{\token}[1]{#1_{TOK}}
+\newcommand{\Vstr}[1]{\ensuremath{\var{#1}_{\type{STR}}}}
+\newcommand{\sym}[1]{#1_{\type{SYM}}}
+\newcommand{\Vsym}[1]{\ensuremath{\var{#1}_{\type{SYM}}}}
+\newcommand{\Vorig}[1]{\ensuremath{\var{#1}_{\type{ORIG}}}}
+\newcommand{\Vsymset}[1]{\ensuremath{\var{#1}_{\setOf{\type{SYM}}}}}
+\newcommand{\term}[1]{#1_{\type{TERM}}}
+\newcommand{\token}[1]{#1_{\type{TOK}}}
 
 \newcommand{\alg}[1]{\ensuremath{\textsc{#1}}\xspace}
 \newcommand{\AH}{\ensuremath{\alg{AH}}\xspace}
@@ -415,7 +415,7 @@ as well as Earley's algorithm.
 We will use the type system
 of Farmer~2012~\cite{Farmer2012},
 without needing most of its apparatus.
-The notation \VVtyped{x}{T} indicates that the variable
+The notation \VTtyped{x}{T} indicates that the variable
 \V{x} is of type \V{T}.
 More often, this paper will
 use subscripts to indicate type.
@@ -430,10 +430,10 @@ But in this paper, every explicitly stated type will be a ZF set.
 }
 \begin{center}
 \begin{tabular}{ll}
-$\VVtyped{X}{T}$ & The variable \var{X} of type $T$ (wide form)\\
-$\var{X}_T$ & The variable \var{X} of type $T$ (narrow form)\\
-$\var{set-one}_\setOf{T}$ & The variable \var{set-one} of type set of $T$ \\
-$SYM$ & The type for a symbol \\
+$\VTtyped{X}{T}$ & The variable \var{X} of type \type{T} (wide form)\\
+$\var{X}_\type{T}$ & The variable \var{X} of type \type{T} (narrow form)\\
+$\var{set-one}_\setOf{\type{T}}$ & The variable \var{set-one} of type set of \type{T} \\
+$\type{SYM}$ & The type for a symbol \\
 \Vsym{a} & The variable \var{a} of type $SYM$ \\
 \Vsymset{set-two} & The variable \var{set-two}, a set of symbols \\
 \end{tabular}
@@ -559,12 +559,12 @@ The string type, \type{STR}, is the set of all finite sequences of
 symbols:
 $$ \V{STR} = \naturals \tfnMMap \V{vocab} $$
 
-Where \VVtyped{s}{STR} is a string,
+Where \VTtyped{s}{STR} is a string,
 we write \size{\Vstr{s}} for the string length, counted in symbols.
 We write $\var{STR}^+$ for the set of all non-null strings:
 $$
 \var{STR}^+ =
-\bigl\{ \Vtyped{x}{STR} \bigm| \Vsize{\Vstr{x}} > 0 \bigr\}.
+\bigl\{ \VTtyped{x}{STR} \bigm| \Vsize{\Vstr{x}} > 0 \bigr\}.
 $$
 
 In this paper we use,
@@ -684,7 +684,7 @@ is
 $$ \RightNN{\Vstr{x}} \defined \Vsym{rnn} $$
 where
 \[\begin{gathered}
-    \existQ{ \Vtyped{pre}{STR}, \; \Vtyped{post}{STR} \;}{ \\
+    \existQ{ \VTtyped{pre}{STR}, \; \VTtyped{post}{STR} \;}{ \\
       \Vstr{x} = \V{pre} \cat \Vsym{rnn} \cat \V{post} \\
       \land \; \Nullable{\V{post}} \land \neg \Nulling{\V{rnn}}
     }
@@ -857,7 +857,7 @@ between \Vsym{Y} and \Vsym{Z}.
   \Postdot{\Vdr{x}} \defined
   \begin{cases}
   \Vsym{next}, \text{ if } \existQ{
-      \Vtyped{pre}{STR}, \; \Vtyped{post}{STR}, \; \Vsym{A}}{ \\
+      \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
       \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}}} \\
   \unicorn, \text{ otherwise.}
   \end{cases} \\
@@ -866,7 +866,7 @@ between \Vsym{Y} and \Vsym{Z}.
 \[
   \Next{\Vdr{x}} \defined
   \begin{cases}
-    \Vtyped{\tuple{ \Vsym{A} \de \Vstr{pre} \cat \Vsym{next} \mydot \Vstr{post}}}{DR}, \\
+    \VTtyped{\tuple{ \Vsym{A} \de \Vstr{pre} \cat \Vsym{next} \mydot \Vstr{post}}}{DR}, \\
       \qquad \text{if } \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
     \unicorn, \text{ otherwise.}
   \end{cases} \\
@@ -876,7 +876,7 @@ between \Vsym{Y} and \Vsym{Z}.
   \Penult{\Vdr{x}} \defined
   \begin{cases}
   \Vsym{next}, \text{ if } \existQ{
-      \Vtyped{pre}{STR}, \; \Vtyped{post}{STR}, \; \Vsym{A}}{ \\
+      \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
       \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
       \qquad \land \; \Nullable{\V{post}} \land \; \neg \Nulling{\V{next}}} \\
   \unicorn, \text{ otherwise}
@@ -926,7 +926,7 @@ the origin element of an Earley item.
 We find it convenient to apply dotted rule concepts to
 \type{EIMT}'s,
 so that the concept applied to the \type{EIMT} is
-the concept applied to the dotted rule of the EIMT.
+the concept applied to the dotted rule of the \type{EIMT}.
 \begin{gather*}
 \LHS{\Veimt{x}} \defined \LHS{\DR{dr}}. \\
 \Postdot{\Veimt{x}} \defined \Postdot{\DR{dr}}. \\
@@ -954,7 +954,7 @@ named by location.
 Occasionally the naming location is a expression,
 so that
 $$ \Ees{(\Origin{\Veimt{x}})} $$
-is the Earley set at the origin of the EIMT \Veimt{x}.
+is the Earley set at the origin of the \type{EIMT} \Veimt{x}.
 
 At points,
 we will need to compare the Earley sets
@@ -1100,7 +1100,7 @@ order from 0 to \Vsize{w}.
 \end{equation*}
 Earley {\bf initialization} only takes
 place in Earley set 0,
-and always adds exactly one EIM,
+and always adds exactly one \type{EIM},
 with exactly one confluence.
 The mainstem and tributary of the confluence are both ill-defined.
 
@@ -1262,12 +1262,12 @@ deterministic) sequences,
 so that the top of the sequence can represent
 the entire sequence.
 We will call these memoized sequences, Leo sequences.
-All the other EIMT's in a Leo sequence
-can be derived from the top EIMT of the sequence.
+All the other \type{EIMT}'s in a Leo sequence
+can be derived from the top \type{EIMT} of the sequence.
 
 To guarantee that a Leo sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
-An EIMT \Veimt{x} is \dfn{Leo unique}
+An \type{EIMT} \Veimt{x} is \dfn{Leo unique}
 in the Earley set \Ves{es},
 $\LeoUnique{\var{x}, \var{es}}$,
 if and only if
@@ -1310,12 +1310,12 @@ because there can be only one of each.
 Let \var{n} be the length of a Leo sequence.
 In \Earley, each such sequence would be expanded in each
 of the \order{\var{n}} Earley sets
-that is the origin of an EIMT included in the
+that is the origin of an \type{EIMT} included in the
 sequence,
-so that the total number of EIMT's would be
+so that the total number of \type{EIMT}'s would be
 $\order{\var{n}}\mult\order{\var{n}} = \order{\var{n}^2}$.
 
-With Leo memoization, a single EIMT stands in for the sequence.
+With Leo memoization, a single \type{EIMT} stands in for the sequence.
 There are \Oc{} Leo items per Earley set,
 so the cost of the sequence is \Oc{} per Earley set,
 or \On{} for the entire sequence.
@@ -1323,8 +1323,8 @@ If, at evaluation time,
 it is desirable to expand the Leo sequence,
 only those items actually involved in the parse
 need to be expanded.
-All the EIMT's of a potential right-recursion
-will be in one Earley set and the number of EIMT's
+All the \type{EIMT}'s of a potential right-recursion
+will be in one Earley set and the number of \type{EIMT}'s
 will be \On{},
 so that even including expansion of the Leo sequence
 for evaluation, the time and space complexity of
@@ -1376,8 +1376,8 @@ items as LIMT's.
 
 In Section
 \ref{s:reduction},
-we defined the Earley mainstem of an EIMT.
-We define the LIMT mainstem of an EIMT by analogy.
+we defined the Earley mainstem of an \type{EIMT}.
+We define the LIMT mainstem of an \type{EIMT} by analogy.
 When say that \Vlimt{stem} is the LIMT mainstem of \Veimt{x}
 if and only if
 $\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
@@ -1401,7 +1401,7 @@ $\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
 \end{equation*}
 The new Leo reduction operation resembles the Earley reduction
 operation, except that it looks for a LIMT,
-instead of a mainstem EIMT.
+instead of a mainstem \type{EIMT}.
 \Vlimt{mainstem} and
 \Veimt{tributary} are the operands of the Leo reduction
 operation.
@@ -1446,7 +1446,7 @@ there is a Leo memoization.
 
 \subsection{Leo memoization}
 
-A EIMT \Veimt{x}
+A \type{EIMT} \Veimt{x}
 is \dfn{Leo eligible}
 in Earley set \Ves{es},
 $\LeoEligible{ \Veimt{x}, \Ves{es} }$
@@ -1460,7 +1460,7 @@ More precisely,
 \end{gather*}
 
 Our inference rules for Leo memoization take a slightly different form,
-than those we have used to add EIMT's to the Earley sets.
+than those we have used to add \type{EIMT}'s to the Earley sets.
 As previously,
 our premises will be conditions where
 \Vloc{current} is the current Earley set.
@@ -1478,7 +1478,7 @@ and writing
 $$ \Vlimt{result} \in \Ves{current}. $$
 
 We are now ready to define an inference rule which holds if
-a LIMT mainstem can be found for the tributary EIMT
+a LIMT mainstem can be found for the tributary \type{EIMT}
 in \Ves{current},
 \begin{equation*}
 \inference{
@@ -1553,7 +1553,7 @@ and conjectured that this would
 make Earley's algorithm faster in practice.
 
 As a reminder,
-the original Earley items (EIMT's)
+the original Earley items (type{EIMT}'s)
 were duples, $\tuple{\Vdr{x}, \Vorig{x}}$,
 where \Vdr{x} is a dotted rule.
 An Aycock-Horspool Earley item is a duple
@@ -1566,7 +1566,7 @@ where $\Vah{y}$ is an AHFA state.
 Earley items of the form
 created by Aycock and Horspool.
 A Marpa Earley item has type \type{EIM},
-and a Marpa Earley item is often referred to as an EIM.
+and a Marpa Earley item is often referred to as an \type{EIM}.
 
 Aycock and Horspool did not consider
 Leo's modifications,
@@ -1616,7 +1616,7 @@ then its AHFA state contains only one dotted rule.
 \end{theorem}
 
 \begin{proof}
-Let the EIM that is the result of the Leo
+Let the \type{EIM} that is the result of the Leo
 reduction be
 \begin{equation*}
 \Veim{result} = [\Vah{result}, \Vorig{result}]
@@ -1681,7 +1681,7 @@ This shows the first inner reductio.
 Next, we assume for the second inner reductio that
 $\Vrule{c} \ne \Vrule{o}$.
 Since both \Vdr{complete} and \Vdr{other}
-are in the same EIM
+are in the same \type{EIM}
 and neither is a prediction,
 both must result from transitions,
 and their transitions must have been from the same Earley set.
@@ -1723,7 +1723,7 @@ We can therefore conclude that
 \Vdr{other} \in \Vah{result} \implies \Vdr{other} = \Vdr{complete}.
 \end{equation*}
 If \Vdr{complete} is a dotted rule
-in the AHFA state of a Leo reduction EIM,
+in the AHFA state of a Leo reduction \type{EIM},
 then it must be the only dotted rule in that AHFA state.
 \end{proof}
 
@@ -1867,7 +1867,7 @@ including which tokens are acceptable during the scanning phase.
 \label{alg:initialization}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
-\State \Call{Add EIM pair}{$0_{ES}, \ah{start}, 0$}
+\State \Call{Add \type{EIM} pair}{$0_{ES}, \ah{start}, 0$}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -1886,11 +1886,11 @@ and is charged to the parse.
 \label{alg:scan-pass}
 \begin{algorithmic}[1]
 \Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
-\State Note: Each pass through this loop is an EIM attempt
+\State Note: Each pass through this loop is an \type{EIM} attempt
 \For{each $\Veim{mainstem} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
 \State $[\Vah{from}, \Vloc{origin}] \gets \Veim{mainstem}$
 \State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{a})$
-\State \Call{Add EIM pair}{$\Ves{i}, \Vah{to}, \Vloc{origin}$}
+\State \Call{Add \type{EIM} pair}{$\Ves{i}, \Vah{to}, \Vloc{origin}$}
 \EndFor
 \EndProcedure
 \end{algorithmic}
@@ -1926,7 +1926,7 @@ Overhead is charged to the Earley set at \Vloc{i}.
 \label{alg:reduction-pass}
 \begin{algorithmic}[1]
 \Procedure{Reduction pass}{\Vloc{i}}
-\State Note: \Vtable{i} may include EIM's added by
+\State Note: \Vtable{i} may include \type{EIM}'s added by
 \State \hspace{2.5em} by \Call{Reduce one LHS}{} and
 \State \hspace{2.5em} the loop must traverse these
 \For{each Earley item $\Veim{work} \in \Vtable{i}$}
@@ -1980,7 +1980,7 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \State \hspace\algorithmicindent to a LIM
 \Else
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
-\State \hspace\algorithmicindent to the set of EIM's that have
+\State \hspace\algorithmicindent to the set of \type{EIM}'s that have
 \State \hspace\algorithmicindent \Vsym{postdot} as their postdot symbol
 \EndIf
 \EndFor
@@ -1994,13 +1994,13 @@ The code for the memoization of transitions is
 Algorithm~\ref{alg:memoize-transitions}
 on page~\pageref{alg:memoize-transitions}.
 The \var{transitions} table for \Ves{i}
-is built once all EIMs have been
+is built once all \type{EIM}s have been
 added to \Ves{i}.
 We first look at the resource,
 excluding the processing of Leo items.
 The non-Leo processing can be done in
 a single pass over \Ves{i},
-in \Oc{} time per EIM.
+in \Oc{} time per \type{EIM}.
 Inclusive time and space are charged to the
 Earley items being examined.
 Overhead is charged to \Ves{i}.
@@ -2020,26 +2020,26 @@ for every rule, determines if it is right recursive.
 
 One part of the test for
 Leo eligibility cannot be done as a precomputation.
-This is the determination whether there is only one EIM
+This is the determination whether there is only one \type{EIM}
 in \Ves{i} whose postdot symbol is
 \Vsym{transition}.
 This can be done
-in a single pass over the EIM's of \Ves{i}
+in a single pass over the \type{EIM}'s of \Ves{i}
 that notes the postdot symbols as they are encountered
 and whether any is encountered twice.
 The time and space,
 including that for the creation of a LIM if necessary,
-will be \Oc{} time per EIM examined,
-and can be charged to EIM being examined.
+will be \Oc{} time per \type{EIM} examined,
+and can be charged to \type{EIM} being examined.
 
 \begin{algorithm}[ht]
 \caption{Reduce one LHS symbol}
 \label{alg:reduce-one-LHS-symbol}
 \begin{algorithmic}[1]
 \Procedure{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
-\State Note: Each pass through this loop is an EIM attempt
+\State Note: Each pass through this loop is an \type{EIM} attempt
 \For{each $\var{pim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
-\State \Comment \var{pim} is a ``postdot item'', either a LIM or an EIM
+\State \Comment \var{pim} is a ``postdot item'', either a LIM or an \type{EIM}
 \If{\var{pim} is a LIM, \Vlim{pim}}
 \State Perform a \Call{Leo reduction operation}{}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Vlim{pim}
@@ -2076,8 +2076,8 @@ As implemented in~\cite{Marpa-R2}, Marpa's
 Earley items have such links.
 
 Inclusive time
-for the loop over the EIM attempts
-is charged to each EIM attempt.
+for the loop over the \type{EIM} attempts
+is charged to each \type{EIM} attempt.
 Overhead is \Oc{} and caller-included.
 
 \begin{algorithm}[ht]
@@ -2087,7 +2087,7 @@ Overhead is \Oc{} and caller-included.
 \Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
 \State $[\Vah{from}, \Vloc{origin}] \gets \Veim{from}$
 \State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{trans})$
-\State \Call{Add EIM pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
+\State \Call{Add \type{EIM} pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -2100,8 +2100,8 @@ Algorithm~\ref{alg:earley-reduction}
 on page~\pageref{alg:earley-reduction}.
 Exclusive time and space is clearly \Oc.
 \call{Earley reduction operation}{} is always
-called as part of an EIM attempt,
-and inclusive time and space is charged to the EIM
+called as part of an \type{EIM} attempt,
+and inclusive time and space is charged to the \type{EIM}
 attempt.
 
 \begin{algorithm}[ht]
@@ -2111,7 +2111,7 @@ attempt.
 \Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
 \State $[\Vah{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
 \State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{trans})$
-\State \Call{Add EIM pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
+\State \Call{Add \type{EIM} pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -2124,15 +2124,15 @@ Algorithm~\ref{alg:leo-reduction}
 on page~\pageref{alg:leo-reduction}.
 Exclusive time and space is clearly \Oc.
 \call{Leo reduction operation}{} is always
-called as part of an EIM attempt,
-and inclusive time and space is charged to the EIM
+called as part of an \type{EIM} attempt,
+and inclusive time and space is charged to the \type{EIM}
 attempt.
 
 \begin{algorithm}[ht]
-\caption{Add EIM pair}
+\caption{Add \type{EIM} pair}
 \label{alg:add-EIM-pair}
 \begin{algorithmic}[1]
-\Procedure{Add EIM pair}{$\Ves{i},\Vah{confirmed}, \Vloc{origin}$}
+\Procedure{Add \type{EIM} pair}{$\Ves{i},\Vah{confirmed}, \Vloc{origin}$}
 \State $\Veim{confirmed} \gets [\Vah{confirmed}, \Vloc{origin}]$
 \State $\Vah{predicted} \gets \GOTO(\Vah{confirmed}, \epsilon)$
 \If{\Veim{confirmed} is new}
@@ -2157,11 +2157,11 @@ on page~\pageref{alg:add-EIM-pair}
 attempts to add a pair of Earley items (EIMs),
 one confirmed and the other a prediction.
 Algorithm~\ref{alg:add-EIM-pair}
-first attempts to add a confirmed EIM.
+first attempts to add a confirmed \type{EIM}.
 Then
 Algorithm~\ref{alg:add-EIM-pair}
-checks for the existence of \Veim{predicted}, the EIM for
-the null-transition of the confirmed EIM.
+checks for the existence of \Veim{predicted}, the \type{EIM} for
+the null-transition of the confirmed \type{EIM}.
 If \Veim{predicted} exists,
 Algorithm~\ref{alg:add-EIM-pair}
 attempts to add \Veim{predicted}.
@@ -2183,7 +2183,7 @@ set in \Oc{} time
 if Earley set is seen as a linked
 list, to the head of which the new Earley item is added.
 
-The resource used by \call{Add EIM Pair}{}
+The resource used by \call{Add \type{EIM} Pair}{}
 is always caller-included.
 No time or space is ever charged
 to a predicted Earley item.
@@ -2305,8 +2305,8 @@ is \Oc.
 \end{observation}
 
 For evaluation purposes, \Marpa{} adds a link to
-each EIM that records each attempt to
-add that EIM,
+each \type{EIM} that records each attempt to
+add that \type{EIM},
 whether originally or as a duplicate.
 Traditionally, complexity results treat parsers
 as recognizers, and such costs are ignored.
@@ -2381,23 +2381,23 @@ Marpa Earley item, \Veim{y}, if and only if
 \end{definition}
 
 \begin{definition}
-A set of EIM's is \dfn{consistent} with respect to
-a set of EIMT's,
-if and only if each of the EIM's in the first set
+A set of \type{EIM}'s is \dfn{consistent} with respect to
+a set of \type{EIMT}'s,
+if and only if each of the \type{EIM}'s in the first set
 corresponds to at least one of the
-EIMT's in the second set.
+\type{EIMT}'s in the second set.
 A \textnormal{\Marpa} Earley set \EVtable{\Marpa}{i}
 is \dfn{consistent} if and only if
-all of its EIM's correspond to
-EIMT's in
+all of its \type{EIM}'s correspond to
+\type{EIMT}'s in
 \EVtable{\Leo}{i}.
 \end{definition}
 
 \begin{definition}
-A set of EIM's is \dfn{complete} with respect to
-a set of EIMT's,
-if and only if for every EIMT in the second set,
-there is a corresponding EIM in the first set.
+A set of \type{EIM}'s is \dfn{complete} with respect to
+a set of \type{EIMT}'s,
+if and only if for every \type{EIMT} in the second set,
+there is a corresponding \type{EIM} in the first set.
 A \textnormal{\Marpa} Earley set \EVtable{\Marpa}{i}
 is \dfn{complete} if and only if for every
 traditional Earley item in \EVtable{\Leo}{i}
@@ -2511,8 +2511,8 @@ and a parse location \Vloc{i},
 \end{theorem}
 
 \begin{proof}
-EIM's have the form $[\Vah{x}, \Vorig{x}]$.
-\Vorig{x} is the origin of the EIM,
+\type{EIM}'s have the form $[\Vah{x}, \Vorig{x}]$.
+\Vorig{x} is the origin of the \type{EIM},
 which in Marpa cannot be after the current
 Earley set  at \Vloc{i},
 so that
@@ -2523,7 +2523,7 @@ The possibilities for \Vah{x} are finite,
 since the number of AHFA states is a constant,
 $\size{\Cfa}$,
 which depends on \Cg{}.
-Since duplicate EIM's are never added to an Earley set,
+Since duplicate \type{EIM}'s are never added to an Earley set,
 the maximum size of Earley set \Vloc{i} is therefore
 \begin{equation*}
 \Vloc{i} \mult \size{\Cfa} = \order{\Vloc{i}}.\qedhere
@@ -2580,12 +2580,12 @@ We show the step of the inner induction by cases:
 \label{s:scan-consistent}
 
 For Marpa's scanning operation, we know
-that the mainstem EIM is correct
+that the mainstem \type{EIM} is correct
 by the outer induction hypothesis,
 and that the token is correct
 by the definitions in the preliminaries.
 We know, from Section \ref{p:scan-op},
-that at most two EIM's will be added.
+that at most two \type{EIM}'s will be added.
 We now examine them in detail.
 
 Let
@@ -2645,7 +2645,7 @@ Next,
 we show that \Marpa{}'s reduction operation
 is consistent,
 in the case where there is no Leo reduction.
-The reduction will be the result of the two EIM's
+The reduction will be the result of the two \type{EIM}'s
 of a confluence, call
 them \Veim{mainstem} and \Veim{tributary}.
 \Veim{mainstem} will be correct by the outer induction
@@ -2717,7 +2717,7 @@ that, as the result of the Leo reduction,
 \end{equation*}
 to \EVtable{\Marpa}{j}.
 The consistency of \Veim{leo} follows from the definition
-of EIM consistency.
+of \type{EIM} consistency.
 The consistency of
 \EVtable{\Marpa}{i},
 once \Veim{leo} is added,
@@ -2747,8 +2747,8 @@ that
 \EVtable{\Marpa}{i} is complete.
 To do this,
 we show that
-at least one EIM in \EVtable{\Marpa}{i}
-corresponds to every EIMT in
+at least one \type{EIM} in \EVtable{\Marpa}{i}
+corresponds to every \type{EIMT} in
 \EVtable{\Leo}{i}.
 We will proceed by cases,
 where the cases are \Leo{} operations.
@@ -2771,7 +2771,7 @@ pair
 \begin{equation*}
 [\Veim{mainstem}, \Vsym{token}],
 \end{equation*}
-where \Veim{mainstem} is an EIM in the previous
+where \Veim{mainstem} is an \type{EIM} in the previous
 Earley set,
 and \Vsym{token} is the token scanned at \Vloc{i}.
 (The pseudocode actually finds
@@ -2828,7 +2828,7 @@ so a traversal of them must terminate.
 Consider, for the purposes of the level 2 induction,
 the reductions of \Leo{} to occur in generations.
 Let the scanned Earley items be generation 0.
-An EIMT produced by a reduction is generation $\var{n} + 1$
+An \type{EIMT} produced by a reduction is generation $\var{n} + 1$
 if its tributary Earley item was generation was \var{n}.
 Predicted Earley items do not need to be assigned generations.
 In Marpa grammars they can never contain completions,
@@ -2843,7 +2843,7 @@ we know that all Earley items in Marpa's sets are consistent.
 In Section \ref{s:scan-complete},
 we showed that generation 0 is complete --
 it contains Earley items
-corresponding to all of the generation 0 EIMT's of \Leo.
+corresponding to all of the generation 0 \type{EIMT}'s of \Leo.
 This is the basis of the level 2 induction.
 
 Since we stipulated that \Marpa{} adds Earley items
@@ -2903,7 +2903,7 @@ We now show completeness for \Marpa{}'s reduction operation,
 in the case where there is a Leo reduction.
 In Section \ref{s:leo-consistent},
 we found that where \Leo{} would create
-the EIMT $[\Vdr{top}, \Vorig{top}]$,
+the \type{EIMT} $[\Vdr{top}, \Vorig{top}]$,
 Marpa adds
 $[\Vah{top}, \Vorig{top}]$
 such that $\Vdr{top} \in \Vah{top}$.
@@ -3104,9 +3104,9 @@ where \var{c} is a constant that depends on the grammar.
 We know from Theorem \ref{t:table-correct}
 that every Marpa Earley item corresponds to one of
 \Leo's traditional Earley items.
-If an EIM corresponds to an EIMT,
-the AHFA state of the EIM contains the
-EIMT's dotted rule,
+If an \type{EIM} corresponds to an \type{EIMT},
+the AHFA state of the \type{EIM} contains the
+\type{EIMT}'s dotted rule,
 while their origins are identical.
 Even in the worst case, a dotted rule cannot
 appear in every AHFA state,
@@ -3144,7 +3144,7 @@ A dotted rule can occur in more than one AHFA
 state.
 Because of that,
 it is possible that two of \Marpa's
-operations to add an EIM
+operations to add an \type{EIM}
 will represent identical Earley conflunces,
 and therefore will be
 consistent with an unambiguous grammar.
@@ -3170,7 +3170,7 @@ that depends on the grammar.
 Let \var{initial-tries} be the number of attempts to add the initial item to
 the Earley sets.
 For Earley set 0, it is clear from the pseudocode
-that there will be no attempts to add duplicate EIM's:
+that there will be no attempts to add duplicate \type{EIM}'s:
 \begin{equation*}
 \var{initial-tries} = \bigsize{\Vtable{0}}
 \end{equation*}
@@ -3195,7 +3195,7 @@ Let \var{scan-tries} be the number of attempted scan operations in
 Earley set \Vloc{j}.
 Marpa attempts a scan operation,
 in the worst case,
-once for every EIM in the Earley set
+once for every \type{EIM} in the Earley set
 at $\Vloc{j} \subtract 1$.
 Therefore, the number of attempts
 to add scans
@@ -3211,10 +3211,10 @@ Let \var{predict-tries} be the number of attempted predictions in
 Earley set \Vloc{j}.
 \Marpa{} includes prediction
 in its scan and reduction operations,
-and the number of attempts to add duplicate predicted EIM's
+and the number of attempts to add duplicate predicted \type{EIM}'s
 must be less than or equal
 to the number of attempts
-to add duplicate confirmed EIM's
+to add duplicate confirmed \type{EIM}'s
 in the scan and reduction operations.
 \begin{equation*}
 \var{predict-tries} \le \var{reduction-tries} + \var{scan-tries}
@@ -3258,7 +3258,7 @@ $\Veim{mainstem} \in \Ves{j}$,
 and therefore we have
 $\Veim{choice1} \in \Ves{j}$ and
 $\Veim{choice2} \in \Ves{j}$.
-Since all EIM's in an Earley set must differ,
+Since all \type{EIM}'s in an Earley set must differ,
 and
 \Veim{choice1} and \Veim{choice2} both have the same
 AHFA state,
@@ -3304,7 +3304,7 @@ the size of the input,
 \begin{equation*}
 \begin{alignedat}{2}
 & \bigsize{\Vtable{0}} & \quad &
-\qquad \text{initial EIM's} \\
+\qquad \text{initial \type{EIM}'s} \\
 + \; & \sum\limits_{i=0}^{n}{
 \var{max-AHFA} \mult \bigsize{\Vtable{j}}
 } &&
@@ -3312,14 +3312,14 @@ the size of the input,
 + \; & 2 \mult \sum\limits_{i=1}^{n}{
 \bigsize{\Etable{\var{j} \subtract 1}}
 } &&
-\qquad \text{scanned EIM's} \\
+\qquad \text{scanned \type{EIM}'s} \\
 + \; & 2 \mult \sum\limits_{i=0}^{n}{\Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}} &&
-\qquad \text{reduction EIM's}.
+\qquad \text{reduction \type{EIM}'s}.
 \end{alignedat}
 \end{equation*}
 In this summation,
 \var{prediction-tries} was accounted for by counting the scanned and predicted
-EIM attempts twice.
+\type{EIM} attempts twice.
 Since \var{max-AHFA} and \Vsize{symbols} are both constants
 that depend only on \Cg{},
 if we collect the terms of the summation,
@@ -3356,7 +3356,7 @@ the size of the Earley set at \Vloc{i}
 is $\order{\var{i}}$.
 Summing over the length of the input,
 $\Vsize{\Cw} = \var{n}$,
-the number of EIM's in all of \Marpa's Earley sets
+the number of \type{EIM}'s in all of \Marpa's Earley sets
 is
 \begin{equation*}
 \sum\limits_{\Vloc{i}=0}^{\var{n}}{\order{\var{i}}}
@@ -3378,7 +3378,7 @@ was \var{reduction-tries},
 the count of the number of attempts to
 add Earley reductions.
 Let \var{other-tries}
-be attempts to add EIM's other than
+be attempts to add \type{EIM}'s other than
 as the result of Earley reductions.
 By Theorem \ref{t:eim-count},
 \begin{equation*}
@@ -3407,7 +3407,7 @@ We know still know that
 \end{equation*}
 where
 \Vloc{tributary-origin} is the origin of \Veim{tributary}.
-Worst case, every EIM in \Ves{tributary-origin} is a possible
+Worst case, every \type{EIM} in \Ves{tributary-origin} is a possible
 match, so that
 the number of possibilities for \Veim{mainstem} now grows to
 \size{\Ves{tributary-origin}}, and
@@ -3497,27 +3497,27 @@ states and this has the potential to increase the number
 of Earley items.
 
 By theorem \ref{t:leo-singleton},
-the definition of an EIMT,
+the definition of an \type{EIMT},
 and the construction of a Leo sequence,
 it can be seen that a Leo sequence
 corresponds step-for-step with a
 right derivation.
 It can therefore be seen that
-the number of EIMT's in the Leo sequence
+the number of \type{EIMT}'s in the Leo sequence
 and the number of right derivation steps
 in its corresponding right derivation
 will be the same.
 
-Consider one EIMT that is memoized in \Leo{}.
+Consider one \type{EIMT} that is memoized in \Leo{}.
 By theorem \ref{t:leo-singleton} it corresponds to
 a single dotted rule, and therefore a single rule.
 If not memoized because it is not a right recursion,
-this EIMT will be expanded to a sequence
-of EIMT's.
-How long will this sequence of non-memoized EIMT's
-be, if we still continue to memoize EIMT's
+this \type{EIMT} will be expanded to a sequence
+of \type{EIMT}'s.
+How long will this sequence of non-memoized \type{EIMT}'s
+be, if we still continue to memoize \type{EIMT}'s
 which correspond to right recursive rules?
-The EIMT sequence, which was formerly a memoized Leo sequence,
+The \type{EIMT} sequence, which was formerly a memoized Leo sequence,
 will correspond to a right
 derivation that does not include
 any steps that use right recursive rules.
@@ -3527,16 +3527,16 @@ right derivation can be
 of length at most \var{c1},
 where \var{c1} is a constant that depends on \Cg{}.
 As noted, this right derivation has
-the same length as its corresponding EIMT sequence,
-so that each EIMT not memoized in \Marpa{} will expand
-to at most \var{c1} EIMT's.
+the same length as its corresponding \type{EIMT} sequence,
+so that each \type{EIMT} not memoized in \Marpa{} will expand
+to at most \var{c1} \type{EIMT}'s.
 
 By Theorem \ref{t:marpa-O-leo},
-when EIMT's are replaced with EIM's,
-the number of EIM's \Marpa{} requires is at worst,
-$\var{c2}$ times the number of EIMT's,
+when \type{EIMT}'s are replaced with \type{EIM}'s,
+the number of \type{EIM}'s \Marpa{} requires is at worst,
+$\var{c2}$ times the number of \type{EIMT}'s,
 where \var{c2} is a constant that depends on \Cg{}.
-Therefore the number of EIM's per Earley set
+Therefore the number of \type{EIM}'s per Earley set
 for an LR-regular grammar in a \Marpa{} parse
 is less than
 \begin{equation*}
@@ -3546,8 +3546,8 @@ is less than
 LR-regular grammar are unambiguous, so that
 by Theorem \ref{t:tries-O-eims},
 the number of attempts that \Marpa{} will make to add
-EIM's is less than or equal to
-\var{c3} times the number of EIM's,
+\type{EIM}'s is less than or equal to
+\var{c3} times the number of \type{EIM}'s,
 where \var{c3} is a constant that depends on \Cg{}.
 Therefore,
 by Theorems \ref{t:O1-time-per-eim}
@@ -3570,7 +3570,7 @@ By assumption, \Cg{} is unambiguous, so that
 by Theorem \ref{t:tries-O-eims},
 and Theorem \ref{t:eim-count},
 the number of attempts that \Marpa{} will make to add
-EIM's is
+\type{EIM}'s is
 \begin{equation*}
 \var{c} \mult \order{\var{n}^2},
 \end{equation*}
