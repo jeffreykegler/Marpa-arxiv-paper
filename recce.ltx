@@ -19,7 +19,7 @@
 \newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
 
 % For a type name, when it occurs in text
-\newcommand{\type}[1]{\ensuremath{#1}}
+\newcommand{\type}[1]{\ensuremath{\texttt{#1}}}
 
 \newcommand{\mult}{\mathbin{\ast}}
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
@@ -171,10 +171,10 @@
 \newcommand{\Vdr}[1]{\ensuremath{\var{#1}_{DR}}}
 \newcommand{\Vdrset}[1]{\ensuremath{\var{#1}_{\setOf{DR}}}}
 \newcommand{\eim}[1]{#1_{EIM}}
-\newcommand{\Veim}[1]{\ensuremath{\var{#1}_{EIM}}}
-\newcommand{\Veimt}[1]{\ensuremath{\var{#1}_{EIMT}}}
-\newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\setOf{EIM}}}}
-\newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\setOf{EIMT}}}}
+\newcommand{\Veim}[1]{\ensuremath{\var{#1}_{\type{EIM}}}}
+\newcommand{\Veimt}[1]{\ensuremath{\var{#1}_{\type{EIMT}}}}
+\newcommand{\Veimset}[1]{\ensuremath{\var{#1}_{\setOf{\type{EIM}}}}}
+\newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\setOf{\type{EIMT}}}}}
 \newcommand{\pim}[1]{#1_{PIM}}
 \newcommand{\Vpim}[1]{\ensuremath{\var{#1}_{PIM}}}
 \newcommand{\Ees}[1]{\ensuremath{#1_{ES}}}
@@ -233,7 +233,7 @@
 \newcommand\Etable[1]{\ensuremath{\mymathop{table}[#1]}}
 \newcommand\bigEtable[1]{\ensuremath{\mymathop{table}\bigl[#1\bigr]}}
 \newcommand\Rtable[1]{\ensuremath{\mymathop{table}[#1]}}
-\newcommand\Rtablesize[1]{\ensuremath{\bigl| \mymathop{table}[#1] \bigr|}}
+\newcommand\Rtablesize[1]{\ensuremath{\sum\seq{\bigl| \mymathop{table}[#1,\V{i}] \bigr|}}}
 \newcommand\Vtable[1]{\Etable{\var{#1}}}
 \newcommand\EEtable[2]{\ensuremath{\mymathop{table}[#1,#2]}}
 \newcommand\EVtable[2]{\EEtable{#1}{\var{#2}}}
@@ -974,13 +974,15 @@ If \Ees{\var{working}} is an Earley set,
 $\size{\Ees{\var{working}}}$ is the number of Earley items
 in \Ees{\var{working}}.
 
-\Rtablesize{\alg{Recce}} is the total number
-of Earley items in all Earley sets for \alg{Recce},
-\begin{equation*}
-\Rtablesize{\alg{Recce}} =
-     \sum\limits_{\Vloc{i}=0}^{\size{\Cw}}
-	{\bigsize{\EVtable{\alg{Recce}}{i}}}.
-\end{equation*}
+We often want the count of all the Earley items
+in a table,
+and we abbreviate the expression for this by omitting
+the quantifier, so that
+$$
+\Rtablesize{\alg{Recce}}
+=
+\sum\seqB{\Vtyped{i}{\naturals} < \Vsize{w}}{\bigl| \mymathop{table}[\alg{Recce},\V{i}] \bigr|}.
+$$
 For example,
 \Rtablesize{\Marpa} is the total number
 of Earley items in all the Earley sets of
