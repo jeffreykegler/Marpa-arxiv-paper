@@ -678,8 +678,7 @@ where
 \[\begin{gathered}
     \existQ{ \Vtyped{pre}{STR}, \; \Vtyped{post}{STR} \;}{ \\
       \Vstr{x} = \V{pre} \cat \Vsym{rnn} \cat \V{post} \\
-      \land \; \Vstr{post} \destar \epsilon
-	\land \neg (\Vsym{rnn} \destar \epsilon).
+      \land \; \Nullable{\V{post}} \land \neg \Nulling{\V{rnn}}
     }
 \end{gathered}\]
 Our definition of the rightmost non-nulling symbol of a rule,
