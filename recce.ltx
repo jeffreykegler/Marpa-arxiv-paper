@@ -801,7 +801,7 @@ his semantics are applied.
 \label{s:earley}
 
 This paper presents a specialized version of Earley's
-algorithms.
+algorithm.
 The version in this paper is simplified to
 take advantage of Marpa{}'s rewriting.
 Descriptions of
@@ -831,11 +831,11 @@ the rule has been recognized,
 and is represented with a large raised dot,
 so that if
 \begin{equation*}
-[\Vsym{A} \de \Vsym{X} \cat \Vsym{Y} \cat \Vsym{Z}]
+\tuple{ \Vsym{A} \de \Vsym{X} \cat \Vsym{Y} \cat \Vsym{Z}}
 \end{equation*}
 is a rule,
 \begin{equation*}
-[\Vsym{A} \de \var{X} \cat \var{Y} \mydot \var{Z}]
+\tuple{ \Vsym{A} \de \var{X} \cat \var{Y} \mydot \var{Z}}
 \end{equation*}
 is the dotted rule with the dot at
 $\var{pos} = 2$,
