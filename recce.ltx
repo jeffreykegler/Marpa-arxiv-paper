@@ -177,14 +177,14 @@
 \newcommand{\Veimtset}[1]{\ensuremath{\var{#1}_{\setOf{\type{EIMT}}}}}
 \newcommand{\pim}[1]{#1_{\type{PIM}}}
 \newcommand{\Vpim}[1]{\ensuremath{\var{#1}_{\type{PIM}}}}
-\newcommand{\Ees}[1]{\ensuremath{#1_{\type{ES}}}}
+\newcommand{\es}[1]{\ensuremath{#1_{\type{ES}}}}
 \newcommand{\Elimt}[1]{\ensuremath{#1_{\type{LIMT}}}}
 \newcommand{\Vlim}[1]{\ensuremath{\var{#1}_{\type{LIM}}}}
 \newcommand{\Vlimt}[1]{\Elimt{\var{#1}}}
 \newcommand{\Vlimtset}[1]{\ensuremath{\var{#1}_{\setOf{\type{LIMT}}}}}
 \newcommand{\Eloc}[1]{\ensuremath{{#1}_{\type{LOC}}}}
 \newcommand{\Vloc}[1]{\Eloc{\var{#1}}}
-\newcommand{\Ves}[1]{\Ees{\var{#1}}}
+\newcommand{\Ves}[1]{\es{\var{#1}}}
 \newcommand{\Vrule}[1]{\ensuremath{\var{#1}_{\type{RULE}}}}
 \newcommand{\Vruleset}[1]{\ensuremath{\var{#1}_{\setOf{\type{RULE}}}}}
 \newcommand{\Vsize}[1]{\ensuremath{\size{\var{#1}}}}
@@ -434,7 +434,7 @@ $\VTtyped{X}{T}$ & The variable \var{X} of type \type{T} (wide form)\\
 $\var{X}_\type{T}$ & The variable \var{X} of type \type{T} (narrow form)\\
 $\var{set-one}_\setOf{\type{T}}$ & The variable \var{set-one} of type set of \type{T} \\
 $\type{SYM}$ & The type for a symbol \\
-\Vsym{a} & The variable \var{a} of type $SYM$ \\
+\Vsym{a} & The variable \var{a} of type $\type{SYM}$ \\
 \Vsymset{set-two} & The variable \var{set-two}, a set of symbols \\
 \end{tabular}
 \end{center}
@@ -557,13 +557,13 @@ $$
 Let \V{vocab} be a non-empty set of symbols.
 The string type, \type{STR}, is the set of all finite sequences of
 symbols:
-$$ \V{STR} = \naturals \tfnMMap \V{vocab} $$
+$$ \type{STR} = \naturals \tfnMMap \V{vocab} $$
 
 Where \VTtyped{s}{STR} is a string,
 we write \size{\Vstr{s}} for the string length, counted in symbols.
-We write $\var{STR}^+$ for the set of all non-null strings:
+We write $\type{STR}^+$ for the set of all non-null strings:
 $$
-\var{STR}^+ =
+\type{STR}^+ =
 \bigl\{ \VTtyped{x}{STR} \bigm| \Vsize{\Vstr{x}} > 0 \bigr\}.
 $$
 
@@ -575,8 +575,7 @@ where \Cg{} is the 3-tuple
     \tuple{\Vsymset{vocab}, \var{rules}, \Vsym{accept}}.
 \end{equation*}
 Here $\Vsym{accept} \in \var{vocab}$.
-Call the language of \var{g}, $\myL{\Cg}$,
-where $\myL{\Cg} \subseteq \var{STR}^\ast$.
+Call the language of \V{g}, $\typed{\myL{\Cg}}{\setOf{\type{STR}}}$.
 
 \Vruleset{rules} is a set of rules (type \type{RULE}),
 where a rule is a duple
@@ -584,7 +583,7 @@ of the form $\tuple{\Vsym{lhs} \de \Vstr{rhs}}$,
 such that
 \begin{equation*}
 \Vsym{lhs} \in \var{vocab} \quad \text{and}
-\quad \Vstr{rhs} \in \var{STR}^+.
+\quad \Vstr{rhs} \in \type{STR}^+.
 \end{equation*}
 \Vsym{lhs} is referred to as the left hand side (LHS)
 of \Vrule{r}.
@@ -720,7 +719,7 @@ as a result of these definitions,
 sentential forms will be of type \type{STR}.
 
 Let the input to
-the parse be \Cw{} such that $\Cw \in \var{STR}^+$.
+the parse be $\typed{\Cw}{\type{STR}^+}$.
 Locations in the input will be of type \type{LOC}.
 When we state our complexity results later,
 they will often be in terms of $\var{n}$,
@@ -928,11 +927,11 @@ We find it convenient to apply dotted rule concepts to
 so that the concept applied to the \type{EIMT} is
 the concept applied to the dotted rule of the \type{EIMT}.
 \begin{gather*}
-\LHS{\Veimt{x}} \defined \LHS{\DR{dr}}. \\
-\Postdot{\Veimt{x}} \defined \Postdot{\DR{dr}}. \\
-\Penult{\Veimt{x}} \defined \Penult{\DR{dr}}. \\
-\Next{\Veimt{x}} \defined \Next{\DR{dr}}. \\
-\Rule{\Veimt{x}} \defined \Rule{\DR{dr}}.
+\LHS{\Veimt{x}} \defined \LHS{\DR{\V{dr}}}. \\
+\Postdot{\Veimt{x}} \defined \Postdot{\DR{\V{dr}}}. \\
+\Penult{\Veimt{x}} \defined \Penult{\DR{\V{dr}}}. \\
+\Next{\Veimt{x}} \defined \Next{\DR{\V{dr}}}. \\
+\Rule{\Veimt{x}} \defined \Rule{\DR{\V{dr}}}.
 \end{gather*}
 
 An Earley parser builds a table of Earley sets,
@@ -953,7 +952,7 @@ especially in cases where the Earley set is not
 named by location.
 Occasionally the naming location is a expression,
 so that
-$$ \Ees{(\Origin{\Veimt{x}})} $$
+$$ \es{(\Origin{\Veimt{x}})} $$
 is the Earley set at the origin of the \type{EIMT} \Veimt{x}.
 
 At points,
@@ -970,9 +969,9 @@ In contexts where it is clear which recognizer is
 intended,
 \Vtable{k}, or \Ves{k}, will symbolize Earley set \Vloc{k}
 in that recognizer's table of Earley sets.
-If \Ees{\var{working}} is an Earley set,
-$\size{\Ees{\var{working}}}$ is the number of Earley items
-in \Ees{\var{working}}.
+If \es{\var{working}} is an Earley set,
+$\size{\es{\var{working}}}$ is the number of Earley items
+in \es{\var{working}}.
 
 We often want the count of all the Earley items
 in a table,
@@ -1001,7 +1000,7 @@ The input \Cw{} is accepted if and only if,
 An Earley item is also called a \dfn{parse item}.
 For Marpa, we will define another kind of parse item,
 a Leo item, later.
-Parse items have type \V{PIM}.
+Parse items have type \type{PIM}.
 
 In Marpa, with each parse item is a set of
 confluences, which
@@ -1054,7 +1053,7 @@ a current Earley set, \Ves{current}.
 Recall that
 we often write \Ves{i} for
 the Earley set at \Vloc{i},
-and \Ees{(\var{exp})} for the Earley set
+and \es{(\var{exp})} for the Earley set
 at the location given by the expression \var{exp}.
 
 Each Earley operation is shown in the form of
@@ -1093,8 +1092,8 @@ order from 0 to \Vsize{w}.
    \Vloc{current} = 0
 }{
     \begin{array}{c}
-        \Vtyped{ \tuple{ [ \Vsym{accept} \de \mydot \Vsym{start} ], 0 }}{ \V{EIMT} } \\
-	\Vtyped{\tuple{\unicorn, \unicorn}}{ \V{CFLU} }
+        \VTtyped{ \tuple{ [ \Vsym{accept} \de \mydot \Vsym{start} ], 0 }}{EIMT} \\
+	\VTtyped{\tuple{\unicorn, \unicorn}}{CFLU}
     \end{array}
 }
 \end{equation*}
@@ -1109,14 +1108,14 @@ The mainstem and tributary of the confluence are both ill-defined.
 \begin{equation*}
 \inference{
     \begin{array}{c}
-	\Veimt{mainstem} \in \Ees{ ( \Vloc{current} \subtract 1 ) } \\
+	\Veimt{mainstem} \in \es{ ( \Vloc{current} \subtract 1 ) } \\
 	\Postdot{\Veimt{mainstem}} =
 	   \Cw\bigl[ \Vloc{current} \subtract 1 \bigr]
     \end{array}
 }{
     \begin{array}{c}
-	\Vtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{ \V{EIMT} } \\
-	\Vtyped{\tuple{\Veim{mainsteam}, ( \Vloc{current} \subtract 1 ) }}{ \V{CFLU} }
+	\VTtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
+	\VTtyped{\tuple{\Veim{mainsteam}, ( \Vloc{current} \subtract 1 ) }}{CFLU}
     \end{array}
 }
 \end{equation*}
@@ -1134,13 +1133,13 @@ of the scanning operation.
 \inference{
     \begin{array}{c}
     \Veimt{tributary} \in \Ves{current} \\
-    \Veimt{mainstem} \in \Ees{(\Origin{\Veimt{tributary}})} \\
+    \Veimt{mainstem} \in \es{(\Origin{\Veimt{tributary}})} \\
     \Postdot{\Veimt{mainstem}} = \LHS{\Veimt{tributary}} \\
     \end{array}
 }{
     \begin{array}{c}
-	\Vtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{ \V{EIMT} } \\
-	\Vtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{ \V{CFLU} }
+	\VTtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
+	\VTtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{CFLU}
     \end{array}
 }
 \end{equation*}
@@ -1160,8 +1159,8 @@ of the reduction operation.
     \end{array}
 }{
   \begin{array}{c}
-      \Vtyped{ \tuple{ \tuple{ \Vsym{lhs} \de \mydot \Vstr{rhs} }, \Vloc{current} }}{ \V{EIMT}} \\
-      \Vtyped{\tuple{\Veimt{mainsteam}, \unicorn }}{ \V{CFLU} }
+      \VTtyped{ \tuple{ \tuple{ \Vsym{lhs} \de \mydot \Vstr{rhs} }, \Vloc{current} }}{EIMT} \\
+      \VTtyped{\tuple{\Veimt{mainsteam}, \unicorn }}{CFLU}
   \end{array}
 }
 \end{equation*}
@@ -1200,7 +1199,7 @@ will be type \type{LIM}.
 that is, those of the form used in Leo's paper~\cite{Leo1991},
 will be type \type{LIMT}.
 
-A traditional Leo item (LIMT) is a triple
+A traditional Leo item (\type{LIMT}) is a triple
 consisting of a dotted rule,
 a symbol (called the transition symbol),
 and a location.
@@ -1208,23 +1207,23 @@ Where
 \begin{equation*}
 \Vlimt{limt} = [ \Vdr{top}, \Vsym{transition}, \Vorig{top} ],
 \end{equation*}
-is a LIMT, then
+is a \type{LIMT}, then
 \begin{gather*}
 \DR{\Vlimt{limt}} \defined \Vdr{top}, \\
 \Transition{\Vlimt{limt}} \defined \Vsym{transition} \text{, and} \\
 \Origin{\Vlimt{limt}} \defined \Vorig{top}.
 \end{gather*}
 As will be explained in more detail later,
-the LIMT \Vlimt{limt} indicates that
+the \type{LIMT} \Vlimt{limt} indicates that
 \begin{equation*}
 [\DR{\Vlimt{limt}}, \Origin{\Vlimt{limt}}]
 \end{equation*}
 is the Earley item to be added on Leo reductions over
 the symbol $\Transition{\Vlimt{limt}}$.
 
-Pedantically, LIMT's are not members of Earley sets,
+Pedantically, \type{LIMT}'s are not members of Earley sets,
 so we introduce a partial function from pairs of location
-and symbol to LIMT's:
+and symbol to \type{LIMT}'s:
 \begin{equation}
 \label{e:def-limtmap}
 \mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \Vlimtset{limts}.
@@ -1238,7 +1237,7 @@ In practice we will usually avoid direct reference to $\mymathop{LIMT-Map}$,
 finding it convenient and natural to overload
 the notion and notation for Earley set membership.
 If an Earley set \Ves{i}
-and a LIMT \Vlimt{x} is such that
+and a \type{LIMT} \Vlimt{x} is such that
 \begin{equation}
 \label{e:limtmap-overload}
 \exists \, \var{postdot} \in \var{vocab} \mid
@@ -1370,21 +1369,21 @@ adding Leo reduction as a new basic operation,
 adding a new premise to the Earley reduction
 operation,
 and extending the Earley sets to memoize Earley
-items as LIMT's.
+items as \type{LIMT}'s.
 
-\subsection{LIMT mainstems}
+\subsection{\V{LIMT} mainstems}
 
 In Section
 \ref{s:reduction},
 we defined the Earley mainstem of an \type{EIMT}.
-We define the LIMT mainstem of an \type{EIMT} by analogy.
-When say that \Vlimt{stem} is the LIMT mainstem of \Veimt{x}
+We define the \type{LIMT} mainstem of an \type{EIMT} by analogy.
+When say that \Vlimt{stem} is the \type{LIMT} mainstem of \Veimt{x}
 if and only if
 $\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
 \begin{gather*}
 \LIMTMainstem{\Vlimt{stem},\Veimt{x}} \defined \\
 \Transition{\Vlimt{stem}} = \LHS{\Veimt{x}} \\
-\land \; \Vlimt{stem} \in \Ees{(\Origin{\Veimt{x}})}.
+\land \; \Vlimt{stem} \in \es{(\Origin{\Veimt{x}})}.
 \end{gather*}
 
 \subsection{Leo reduction}
@@ -1400,7 +1399,7 @@ $\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
 }
 \end{equation*}
 The new Leo reduction operation resembles the Earley reduction
-operation, except that it looks for a LIMT,
+operation, except that it looks for a \type{LIMT},
 instead of a mainstem \type{EIMT}.
 \Vlimt{mainstem} and
 \Veimt{tributary} are the operands of the Leo reduction
@@ -1424,20 +1423,20 @@ still applies, with an additional premise:
     \begin{array}{c}
     \Veimt{tributary} \in \Ves{current} \\
     \nexists \; \Vlimt{x} \; \mid \; \LIMTMainstem{\var{x},\var{tributary}} \\
-    \Veimt{mainstem} \in \Ees{(\Origin{\Veimt{tributary}})} \\
+    \Veimt{mainstem} \in \es{(\Origin{\Veimt{tributary}})} \\
     \Postdot{\Veimt{mainstem}} = \LHS{\Veimt{tributary}} \\
     \end{array}
 }{
     \begin{array}{c}
-	\Vtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{ \V{EIMT} } \\
-	\Vtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{ \V{CFLU} }
+	\VTtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
+	\VTtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{CFLU}
     \end{array}
 }
 \end{equation*}
 
 The additional premise
 prevents Earley reduction from being applied
-where there is an LIMT with
+where there is an \type{LIMT} with
 $\LHS{\Veimt{tributary}}$
 as its transition symbol.
 This reflects the fact that
@@ -1464,21 +1463,21 @@ than those we have used to add \type{EIMT}'s to the Earley sets.
 As previously,
 our premises will be conditions where
 \Vloc{current} is the current Earley set.
-But the result of our inferences will be a LIMT such that
+But the result of our inferences will be a \type{LIMT} such that
 where \Vlimt{result} is the result,
 we have
 \begin{equation}
 \label{e:limt-inference-result}
   \mymathop{LIMT-Map}(\Vloc{current}, \Transition{\var{result}}) = \var{result}.
 \end{equation}
-Recall that we usually prefer to avoid direct reference to the LIMT maps,
+Recall that we usually prefer to avoid direct reference to the \type{LIMT} maps,
 instead overloading set notation
 and writing
 \eqref{e:limt-inference-result} as
 $$ \Vlimt{result} \in \Ves{current}. $$
 
 We are now ready to define an inference rule which holds if
-a LIMT mainstem can be found for the tributary \type{EIMT}
+a \type{LIMT} mainstem can be found for the tributary \type{EIMT}
 in \Ves{current},
 \begin{equation*}
 \inference{
@@ -1491,7 +1490,7 @@ in \Ves{current},
 }
 \end{equation*}
 and another inference rule that holds if
-\Veimt{trib} has no mainstem LIMT,
+\Veimt{trib} has no mainstem \type{LIMT},
 \begin{equation*}
 \inference{
     \begin{array}{c}
@@ -1572,7 +1571,7 @@ Aycock and Horspool did not consider
 Leo's modifications,
 but \Marpa{} incorporates them,
 and \Marpa{} also changes its Leo items to use AHFA states.
-Marpa's Leo items (LIM's) are triples
+Marpa's Leo items (\type{LIM}'s) are triples
 of the form
 \begin{equation*}
 [\Vah{top}, \Vsym{transition}, \Vorig{top}],
@@ -1610,7 +1609,7 @@ Aycock and Horspool~\cite{AH2002},
 the following theorem is crucial.
 
 \begin{theorem}\label{t:leo-singleton}
-If a \textnormal{\Marpa} Earley item (EIM) is the result of a
+If a \textnormal{\Marpa} Earley item (\type{EIM}) is the result of a
 Leo reduction,
 then its AHFA state contains only one dotted rule.
 \end{theorem}
@@ -1867,7 +1866,7 @@ including which tokens are acceptable during the scanning phase.
 \label{alg:initialization}
 \begin{algorithmic}[1]
 \Procedure{Initial}{}
-\State \Call{Add \type{EIM} pair}{$0_{ES}, \ah{start}, 0$}
+\State \Call{Add \type{EIM} pair}{$\es{(0)}, \Vah{start}, 0$}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -1977,7 +1976,7 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \State \hspace\algorithmicindent  Leo unique and its rule is right recursive
 \If{\Vsym{postdot} is Leo eligible}
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
-\State \hspace\algorithmicindent to a LIM
+\State \hspace\algorithmicindent to a \type{LIM}
 \Else
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
 \State \hspace\algorithmicindent to the set of \type{EIM}'s that have
@@ -2028,7 +2027,7 @@ in a single pass over the \type{EIM}'s of \Ves{i}
 that notes the postdot symbols as they are encountered
 and whether any is encountered twice.
 The time and space,
-including that for the creation of a LIM if necessary,
+including that for the creation of a \type{LIM} if necessary,
 will be \Oc{} time per \type{EIM} examined,
 and can be charged to \type{EIM} being examined.
 
@@ -2039,8 +2038,8 @@ and can be charged to \type{EIM} being examined.
 \Procedure{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
 \State Note: Each pass through this loop is an \type{EIM} attempt
 \For{each $\var{pim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
-\State \Comment \var{pim} is a ``postdot item'', either a LIM or an \type{EIM}
-\If{\var{pim} is a LIM, \Vlim{pim}}
+\State \Comment \var{pim} is a ``postdot item'', either a \type{LIM} or an \type{EIM}
+\If{\var{pim} is a \type{LIM}, \Vlim{pim}}
 \State Perform a \Call{Leo reduction operation}{}
 \State \hspace\algorithmicindent for operands \Vloc{i}, \Vlim{pim}
 \Else
@@ -2703,7 +2702,7 @@ As the result of a Leo reduction,
 \Leo{} will add
 $[\Vdr{top}, \Vorig{top}]$
 to \EVtable{\Leo}{j}.
-Because the \Marpa{} LIM is correct,
+Because the \Marpa{} \type{LIM} is correct,
 using Observations \ref{o:confirmed-AHFA-consistent}
 and \ref{o:confirmed-AHFA-complete}
 and Theorem \ref{t:leo-singleton},
@@ -3308,7 +3307,7 @@ the size of the input,
 + \; & \sum\limits_{i=0}^{n}{
 \var{max-AHFA} \mult \bigsize{\Vtable{j}}
 } &&
-\qquad \text{LIM's} \\
+\qquad \text{\type{LIM}'s} \\
 + \; & 2 \mult \sum\limits_{i=1}^{n}{
 \bigsize{\Etable{\var{j} \subtract 1}}
 } &&
