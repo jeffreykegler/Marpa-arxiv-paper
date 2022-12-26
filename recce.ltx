@@ -886,9 +886,10 @@ A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\var{d}} \isWellDef$.
 We note that $\Penult{\Vdr{x}}$
 is never a nullable symbol.
 The \dfn{initial dotted rule} is
-\begin{equation*}
+\begin{equation}
+\label{eq:initial-dr}
 \Vdr{initial} = \tuple{\Vsym{accept} \de \mydot \Vsym{start} }.
-\end{equation*}
+\end{equation}
 A \dfn{predicted dotted rule} is a dotted rule,
 other than the initial dotted rule,
 with a dot position of zero,
@@ -1069,7 +1070,7 @@ We note that when we said the confluence and parse item were ``added'' just now,
 that they are added to sets, and that an ``add'' is a no-op for an object that is
 already an element of the set.
 Implementions must take care not to allow duplicate confluences in confluence sets,
-and duplicates Earley items in Earley sets.
+and duplicate Earley items in Earley sets.
 
 Each location starts with an empty Earley set.
 For the purposes of this description of
@@ -1077,13 +1078,11 @@ For the purposes of this description of
 Earley operations
 when building an
 Earley set is non-deterministic.
-After each Earley operation is performed,
-its result is unioned with the
-current Earley set.
 When no more Earley items
 can be added, the Earley set is
 complete.
-The Earley sets are built in
+In the \Marpa implementation,
+the Earley sets are built in
 order from 0 to \Vsize{w}.
 
 \subsection{Initialization}
@@ -1093,11 +1092,12 @@ order from 0 to \Vsize{w}.
    \Vloc{current} = 0
 }{
     \begin{array}{c}
-        \VTtyped{ \tuple{ [ \Vsym{accept} \de \mydot \Vsym{start} ], 0 }}{EIMT} \\
+        \VTtyped{ \tuple{ \Vdr{initial}, 0 }}{EIMT} \\
 	\VTtyped{\tuple{\unicorn, \unicorn}}{CFLU}
     \end{array}
 }
 \end{equation*}
+Here \Vdr{initial} is from \eqref{eq:initial-dr}.
 Earley {\bf initialization} only takes
 place in Earley set 0,
 and always adds exactly one \type{EIM},
@@ -1116,16 +1116,23 @@ The mainstem and tributary of the confluence are both ill-defined.
 }{
     \begin{array}{c}
 	\VTtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
-	\VTtyped{\tuple{\Veim{mainsteam}, ( \Vloc{current} \subtract 1 ) }}{CFLU}
+	\VTtyped{\tuple{\Veim{mainsteam}, (
+	   \Cw\bigl[ \Vloc{current} \subtract 1 \bigr]_\type{SYM}
+	) }}{CFLU}
     \end{array}
 }
 \end{equation*}
-\Veimt{mainstem} is the mainstem of each confluence.
-The token
+
+In the confluence added by a scanning operation,
+\Veimt{mainstem} is the mainstem,
+and the symbol
 $\Cw[ \Vloc{current} \subtract 1 ]$
-is the tributary of each confluence.
+is the tributary.
+In the context of a parse location,
+a symbol is often called a \dfn{token}.
+We also say that
 $\Postdot{\Veimt{mainstem}}$ is the transition symbol
-of the scanning operation.
+of the confluence, and of the scanning operation.
 
 \subsection{Reduction}
 \label{s:reduction}
