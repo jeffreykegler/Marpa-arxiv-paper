@@ -998,16 +998,16 @@ The input \Cw{} is accepted if and only if,
 \section{Confluences}
 
 An Earley item is also called a \dfn{parse item}.
-For Marpa, we will define another kind of parse item,
+For \Marpa, we will define another kind of parse item,
 a Leo item, later.
 Parse items have type \type{PIM}.
 
-In Marpa, with each parse item is a set of
+In \Marpa, with each parse item is a set of
 confluences, which
-track the reasons the Marpa algorithm had
+track the reasons the \Marpa algorithm had
 for adding that parse to the
 Earley set.
-In an ambiguous parse, the Marpa algorithm may have
+In an ambiguous parse, the \Marpa algorithm may have
 more than one reason to add a parse item to an Earley set.
 Each reason is called a \dfn{confluence}.
 
@@ -1030,7 +1030,8 @@ Of the two upstream channels, one (usually the larger) is the mainstem,
 and the other is a tributary.
 For example, near Cairo, Illinois, there is a confluence of
 the Ohio and Mississippi Rivers,
-in which the Mississippi is the mainstem
+in which the the upstream Mississippi channel
+is the mainstem
 and the Ohio is a tributary.
 
 We sometimes refer to the confluences and their elements
