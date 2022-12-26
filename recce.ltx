@@ -1172,11 +1172,15 @@ of the reduction operation.
   \end{array}
 }
 \end{equation*}
-A prediction operation can add many Earley items
+The \type{EIMT} added by a prediction operation can be the mainstem
+of other prediction operations at \Vloc{current},
+so that one prediction operation can trigger a long series of others.
+These prediction operations can add many Earley items
 to \Ves{current},
-but the items added do not depend on the location or the input ---
-they depend only on the postdot symbol of the mainstem.
+but the items added will not depend on the location or the input ---
+they will depend only on the postdot symbol of the mainstem.
 This means that a number of optimizations are possible.
+
 The tributary of the operation is ill-defined.
 
 \section{The Leo algorithm}
@@ -1211,22 +1215,17 @@ A traditional Leo item (\type{LIMT}) is a triple
 consisting of a dotted rule,
 a symbol (called the transition symbol),
 and a location.
-Where
-\begin{equation*}
-\Vlimt{limt} = [ \Vdr{top}, \Vsym{transition}, \Vorig{top} ],
-\end{equation*}
-is a \type{LIMT}, then
 \begin{gather*}
-\DR{\Vlimt{limt}} \defined \Vdr{top}, \\
-\Transition{\Vlimt{limt}} \defined \Vsym{transition} \text{, and} \\
-\Origin{\Vlimt{limt}} \defined \Vorig{top}.
+\DR{\Vlimt{limt}} \defined \Hd{\V{limt}}. \\
+\Transition{\Vlimt{limt}} \defined \HTl{\V{limt}}. \\
+\Origin{\Vlimt{limt}} \defined \TTl{\V{limt}}.
 \end{gather*}
 As will be explained in more detail later,
 the \type{LIMT} \Vlimt{limt} indicates that
 \begin{equation*}
-[\DR{\Vlimt{limt}}, \Origin{\Vlimt{limt}}]
+\typed{\tuple{\DR{\Vlimt{limt}}, \Origin{\Vlimt{limt}}}}{\type{EIMT}}
 \end{equation*}
-is the Earley item to be added on Leo reductions over
+is to be added on Leo reductions over
 the symbol $\Transition{\Vlimt{limt}}$.
 
 Pedantically, \type{LIMT}'s are not members of Earley sets,
