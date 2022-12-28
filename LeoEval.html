@@ -1,47 +1,63 @@
+<h1>Recreating the Leo stack</h1>
+
+<p>This describes the procedure for recreating a Leo stack.
+Leo stacks will be defined below.
+
 <p>A parse item is a LIM or an EIM.
-Every parse item has one or more confluences,
-or causations.
-A causation indicates a reason why the parse item was added
+Every parse item has a confluence set,
+which is a set of one or more confluences.
+A confluence indicates a reason why the parse item was added
 to the Earley table.
 
-<p>A causation is a duple of mainstem and tributary.  It is the pair of
+<p>A confluence is a duple of mainstem and tributary.  It is the pair of
 parse items which caused the creation of a parse item.  In an ambiguous
-parse, parse items may have more than one causation.
+parse, parse items may have more than one confluence.
 I have previously called the mainstems, predecessors;
 and called the tributaries, causes, components or bases.
-We can write a causation as <tt>[ m, t ]</tt>,
+We can write a confluence as <tt>[ m, t ]</tt>,
 where <tt>m</tt> is the mainstem
 and <tt>t</tt> is the tributary.
+If the confluence is a Leo confluence
+(that is, if it is the result of a Leo reduction)
+the mainstem will be ill-defined, or a LIM;
+and the tributary will be an EIM.
 
-<p>Here's pseudo-code for recreating the missing Leo completions for a
-causation of the EIM <tt>top</tt>.
-Let the causation be
+<p>A Leo stack is a sequence of EIM's, where all but the first
+EIM is the tributary of its predecessor.  The first EIM in the sequence
+is the top of the stack, and the last EIM is the bottom.
+
+<p>Below is pseudo-code for recreating the Leo stack for a
+confluence of a top EIM, call it <tt>top</tt>.
+Let the confluence be
 <tt>[lim0, baseEIM]</tt>.
 Both <tt>top</tt>
-and <tt>baseEIM</tt> are in the ES at location <tt>current</tt>.
-Note that <tt>top</tt> may have more than
-one causation, and the others may be either Leo or ordinary causations.
+and <tt>baseEIM</tt> are in the same ES, call it <tt>currentES</tt>.
+We note that <tt>top</tt> may have more than
+one confluence, and the others may be either Leo or ordinary confluences.
 
-<p>"Require" means that the EIM is to be added to the ES, or
-the causation is to be added to the parse item, unless it
-already exists.
+<p>We also note that we treat <tt>currentES</tt>,
+and the confluence set of each parse item,
+as sets.
+This means that "adding" an element to the set is a no-op if the
+element already exists in the set.
+Implementations must avoid adding duplicate EIM's and confluences.
 In Libmarpa, the nulled EIMs are added at the same time,
 but the logic to do this is not shown here.
 
 <pre>
 workingLIM = lim0
 previousCompletion = baseEIM
-while workingLIM exists
+currentES <font face="serif">is the ES for</font> top
+while workingLIM is well-defined
 do
-    <font face="serif"># LIMs always have exactly one causation</font>
-    [ previousLIM, workingBase ] = causation(workingLIM)
+    <font face="serif"># LIMs always have exactly one confluence</font>
+    [ previousLIM, workingBase ] = confluence(workingLIM)
     <font face="serif">Let</font> completion <font face="serif">be a new EIM such that</font>
         DR(completion) = Next(DR(workingBase))
-	Origin(completion) = Origin(workingBase)
-    <font face="serif">Require</font> completion<!--
-       --> <font face="serif">in</font> <tt>current</tt>.
-    <font face="serif">Require the causation</font> [ workingBase, previousCompletion ]<!--
-        --> <font face="serif">for</font> completion.
+        Origin(completion) = Origin(workingBase)
+    <font face="serif">Add</font> completion <font face="serif">to</font> currentES.
+    <font face="serif">Add the confluence</font> [ workingBase, previousCompletion ]<!--
+        --> <font face="serif">to the confluence set of</font> completion.
     workingLIM = previousLIM
     previousCompletion = completion
 done
