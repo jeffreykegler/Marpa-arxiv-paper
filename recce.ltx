@@ -1231,20 +1231,17 @@ the symbol $\Transition{\Vlimt{limt}}$.
 Pedantically, \type{LIMT}'s are not members of Earley sets,
 so we introduce a partial function from pairs of location
 and symbol to \type{LIMT}'s:
-\begin{equation}
-\label{e:def-limtmap}
-\mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \Vlimtset{limts}.
-\end{equation}
-In \eqref{e:def-limtmap},
-\var{limts} is the set of traditional Leo items.
+$$
+  \mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \type{LIMT}.
+$$
 That $\mymathop{LIMT-Map}$ is a function implies that,
 in each Earley set, there is at most one Leo item per symbol.
 
 In practice we will usually avoid direct reference to $\mymathop{LIMT-Map}$,
 finding it convenient and natural to overload
 the notion and notation for Earley set membership.
-If an Earley set \Ves{i}
-and a \type{LIMT} \Vlimt{x} is such that
+Where an Earley set \Ves{i}
+and a \type{LIMT} \Vlimt{x} are such that
 \begin{equation}
 \label{e:limtmap-overload}
 \exists \, \var{postdot} \in \var{vocab} \mid
@@ -1262,16 +1259,19 @@ and therefore its value is not necessarily defined.
 
 
 Leo items memoize what would otherwise be sequences
-of Earley items.
+of Earley items,
+in which each Earley item is a tributary of its successor.
 Leo items only memoize unambiguous (or
-deterministic) sequences,
-so that the top of the sequence can represent
+deterministic) tributary sequences,
+so that the final value (or \dfn{top})
+of the tributary sequence can represent
 the entire sequence.
-We will call these memoized sequences, Leo sequences.
-All the other \type{EIMT}'s in a Leo sequence
-can be derived from the top \type{EIMT} of the sequence.
+We will call these memoized tributary sequences,
+\dfn{Leo tributary sequences} or,
+in contexts where the meaning is clear,
+\dfn{tributary sequences}.
 
-To guarantee that a Leo sequence is deterministic,
+To guarantee that a Leo tributary sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
 An \type{EIMT} \Veimt{x} is \dfn{Leo unique}
 in the Earley set \Ves{es},
@@ -1284,17 +1284,12 @@ More precisely,
 \label{e:def-leo-unique}
 \begin{gathered}
     \LeoUnique{\Veimt{eim}, \Ves{es}} \defined \\
-    \var{eim} \in \var{es} \land \Penult{\var{eim}} \neq \Lambda \\
-    \land \, \left(
-    \forall \, \var{eim2} \; \middle| \;
-    \begin{gathered}
-    \left( \begin{gathered}
-	\Veimt{eim2} \in \var{es} \\
-	 \land \; \Postdot{\var{eim}} = \Postdot{\var{eim2}}
-	\end{gathered} \right) \\
-	\implies \var{eim} = \var{eim2}
-    \end{gathered}
-	\right)
+    \V{eim} \in \V{es} \land \Penult{\V{eim}} \isWellDef \\
+    \land \; \univQ{\Vtyped{eim2}{\type{EIM}} \; }{ \\
+    \left(
+	\V{eim2} \in \V{es}
+	 \land \; \Postdot{\V{eim}} = \Postdot{\V{eim2}} \right) \\
+	\implies \V{eim} = \V{eim2} }
 \end{gathered}
 \end{equation}
 In \eqref{e:def-leo-unique}
@@ -1309,24 +1304,24 @@ If \Veimt{eim} in
 is Leo unique, then the symbol $\Postdot{\var{eim}}$ is
 also said to be \dfn{Leo unique}.
 In cases where a symbol \Vsym{transition} is Leo unique in \Ves{es},
-we can speak of the dotted rule for \Vsym{transition} in \var{es},
-and the rule for \Vsym{transition} in \var{es},
+we can speak of the dotted rule for \V{transition} in \var{es},
+and the rule for \V{transition} in \var{es},
 because there can be only one of each.
 
-Let \var{n} be the length of a Leo sequence.
+Let \var{n} be the length of a Leo tributary sequence.
 In \Earley, each such sequence would be expanded in each
 of the \order{\var{n}} Earley sets
 that is the origin of an \type{EIMT} included in the
-sequence,
+tributary sequence,
 so that the total number of \type{EIMT}'s would be
 $\order{\var{n}}\mult\order{\var{n}} = \order{\var{n}^2}$.
 
-With Leo memoization, a single \type{EIMT} stands in for the sequence.
+With Leo memoization, a single \type{EIMT} stands in for the tributary sequence.
 There are \Oc{} Leo items per Earley set,
 so the cost of the sequence is \Oc{} per Earley set,
 or \On{} for the entire sequence.
 If, at evaluation time,
-it is desirable to expand the Leo sequence,
+it is desirable to expand the Leo tributary sequence,
 only those items actually involved in the parse
 need to be expanded.
 All the \type{EIMT}'s of a potential right-recursion
