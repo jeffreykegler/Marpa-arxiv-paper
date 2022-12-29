@@ -1315,6 +1315,59 @@ we can speak of the dotted rule for \V{transition} in \var{es},
 and the rule for \V{transition} in \var{es},
 because there can be only one of each.
 
+\begin{equation*}
+\begin{aligned}
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 0 }&\quad \text{ES }0&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 0 }&\quad \text{ES }0&\\
+&\tuple{\tuple{\V{S} ::= \mydot \V{RR}}, 0 }&\quad \text{ES }0&\\
+\end{aligned}
+\end{equation*}
+\medskip
+\begin{equation*}
+\begin{aligned}
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 1 }&\quad \text{ES }1&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 0 }&\quad \text{ES }1&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 1 }&\quad \text{ES }1&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 0 }&\quad \text{ES }1&\\
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }1&\\
+\end{aligned}
+\end{equation*}
+\medskip
+\begin{equation*}
+\begin{aligned}
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 2 }&\quad \text{ES }2&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 1 }&\quad \text{ES }2&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }&\quad \text{ES }2&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 2 }&\quad \text{ES }2&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 1 }&\quad \text{ES }2&\\
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }2&\\
+\end{aligned}
+\end{equation*}
+\medskip
+\begin{equation*}
+\begin{aligned}
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 3 }&\quad \text{ES }3&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 2 }&\quad \text{ES }3&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }&\quad \text{ES }3&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }&\quad \text{ES }3&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 3 }&\quad \text{ES }3&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 2 }&\quad \text{ES }3&\\
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }3&\\
+\end{aligned}
+\end{equation*}
+\medskip
+\begin{equation*}
+\begin{aligned}
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 4 }&\quad \text{ES }4&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 3 }&\quad \text{ES }4&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }&\quad \text{ES }4&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }&\quad \text{ES }4&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 2 }&\quad \text{ES }4&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 4 }&\quad \text{ES }4&\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 3 }&\quad \text{ES }4&\\
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }4&\\
+\end{aligned}
+\end{equation*}
 Let \var{n} be the length of a Leo stack.
 In \Earley, a Leo stack would be expanded in each
 of the \order{\var{n}} Earley sets
