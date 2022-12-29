@@ -1257,19 +1257,26 @@ Note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
 
-
 Leo items memoize what would otherwise be sequences
 of Earley items,
 in which each Earley item is a tributary of its successor.
 Leo items only memoize unambiguous (or
 deterministic) tributary sequences,
-so that the final value (or \dfn{top})
+so that the final value
 of the tributary sequence can represent
 the entire sequence.
-We will call these memoized tributary sequences,
+We can call these memoized tributary sequences,
 \dfn{Leo tributary sequences} or,
 in contexts where the meaning is clear,
 \dfn{tributary sequences}.
+
+More often, we call tributary sequences \dfn{Leo stacks}.
+We find this intuitive because, since every value of a tributary sequence
+is in the same Earley set,
+the sequence can be visualized as a vertical stack.
+The first value of the tributary sequence is the bottom
+of the Leo stack,
+and the final value is the \dfn{top} of the Leo stack.
 
 To guarantee that a Leo tributary sequence is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
