@@ -1327,9 +1327,9 @@ because there can be only one of each.
 \begin{equation*}
 \begin{aligned}
 &\tuple{\tuple{\V{S} ::= \mydot \V{RR}}, 0 }&\quad \text{ES }0
-    &\phantom{Stack bottom}&\phantom{\quad \text{Not used}} \\
+    &\phantom{\quad \text{Accept EIMT}}&\phantom{\quad \text{Not used}} \\
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 0 }&\quad \text{ES }0&&\\
-&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 0 }&\quad \text{ES }0&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 0 }&\quad \text{ES }0&&\\
 \end{aligned}
 \end{equation*}
 \medskip
@@ -1337,12 +1337,12 @@ because there can be only one of each.
 \begin{aligned}
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 0 }&\quad \text{ES }1
     &\phantom{Stack bottom}&\phantom{\quad \text{Not used}} \\
-&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 1 }&\quad \text{ES }1&\phantom{\quad \text{Stack bottom}}
-    &\quad \text{Not used} \\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 1 }&\quad \text{ES }1&&\\
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 1 }&\quad \text{ES }1&\\
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 0 }&\quad \text{ES }1&\quad \text{Trivial stack}
     &\quad \text{Not used} \\
-&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }1&\\
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }1&\quad \text{Accept EIMT}
+    &\quad \text{Not used} \\
 \end{aligned}
 \end{equation*}
 \medskip
@@ -1356,7 +1356,8 @@ because there can be only one of each.
     &\quad \text{Not used} \\
 &\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }&\quad \text{ES }2&\quad \text{Stack top}
     &\quad \text{Not used} \\
-&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }2&\\
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }&\quad \text{ES }2&\quad \text{Accept EIMT}
+    &\quad \text{Not used} \\
 \end{aligned}
 \end{equation*}
 \medskip
