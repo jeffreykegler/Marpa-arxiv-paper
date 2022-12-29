@@ -1278,7 +1278,7 @@ The first value of the tributary sequence is the bottom
 of the Leo stack,
 and the final value is the \dfn{top} of the Leo stack.
 
-To guarantee that a Leo tributary sequence is deterministic,
+To guarantee that a Leo stack is deterministic,
 \Leo{} enforced \dfn{Leo uniqueness}.
 An \type{EIMT} \Veimt{x} is \dfn{Leo unique}
 in the Earley set \Ves{es},
@@ -1303,7 +1303,7 @@ In \eqref{e:def-leo-unique}
 it is important to emphasize that \Veimt{eim2} ranges over all the dotted
 rules of Earley set \Ves{i}.
 This means that if a penult \Veimt{pen} shares a postdot symbol
-with an non-penult \Veimt{np} in the same earley set,
+with an non-penult \Veimt{np} in the same Earley set,
 then \Veimt{pen} is {\bf not} Leo unique.
 
 If \Veimt{eim} in
@@ -1315,18 +1315,21 @@ we can speak of the dotted rule for \V{transition} in \var{es},
 and the rule for \V{transition} in \var{es},
 because there can be only one of each.
 
-Let \var{n} be the length of a Leo tributary sequence.
-In \Earley, each such sequence would be expanded in each
+Let \var{n} be the length of a Leo stack.
+In \Earley, a Leo stack would be expanded in each
 of the \order{\var{n}} Earley sets
 that is the origin of an \type{EIMT} included in the
-tributary sequence,
+Leo stack,
 so that the total number of \type{EIMT}'s would be
 $\order{\var{n}}\mult\order{\var{n}} = \order{\var{n}^2}$.
 
-With Leo memoization, a single \type{EIMT} stands in for the tributary sequence.
+With Leo memoization, a single \type{EIMT} stands in for each Leo stack.
 There are \Oc{} Leo items per Earley set,
-so the cost of the sequence is \Oc{} per Earley set,
-or \On{} for the entire sequence.
+so the cost of each Leo stack is \Oc{}.
+As before, there is one Leo stack for each potential endpoint of the
+right recursion.
+or $\Oc\mult\On = \On$
+for the entire sequence.
 If, at evaluation time,
 it is desirable to expand the Leo tributary sequence,
 only those items actually involved in the parse
@@ -1337,7 +1340,7 @@ will be \On{},
 so that even including expansion of the Leo sequence
 for evaluation, the time and space complexity of
 the sequence remain
-$\On{}+\On=\On{}$.
+$\On+\On=\On$.
 
 Recall that we
 call a dotted rule \Vdr{d} a \dfn{penult} if $\Penult{\var{d}} \neq \Lambda$.
