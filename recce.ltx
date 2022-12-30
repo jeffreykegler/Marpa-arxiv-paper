@@ -1328,8 +1328,8 @@ because there can be only one of each.
 \label{ES0-1}%
 &\tuple{\tuple{\V{S} ::= \mydot \V{RR}}, 0 }\text{@}0
     &\phantom{\; \text{Accept}}
-    &\phantom{\; \tuple{\eqref{ES0-1}, \eqref{ES0-1}}}
-    &\phantom{\; \text{Not used}} \\
+    &\phantom{\; \text{(XX), (XX)}}
+    &\phantom{\; \text{!Used}} \\
 \label{ES0-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 0 }\text{@}0&&\\
 \label{ES0-3}%
@@ -1340,8 +1340,8 @@ because there can be only one of each.
 \label{ES1-1}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 0 }\text{@}1
     &\phantom{\; \text{Accept}}
-    &\phantom{\quad \tuple{\eqref{ES4-1}, \eqref{ES4-1}}}
-    &\phantom{\; \text{Not used}} \\
+    &\phantom{\; \text{(XX), (XX)}}
+    &\phantom{\; \text{!Used}} \\
 \label{ES1-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 1 }\text{@}1&&\\
 \label{ES1-3}%
@@ -1349,76 +1349,89 @@ because there can be only one of each.
 \label{ES1-4}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 0 }\text{@}1&
     &\quad \tuple{\eqref{ES1-3}, \text{'x'}}
-    &\; \text{Not used} \\
+    &\; \text{!Used} \\
 \label{ES1-5}%
-&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}1&\; \text{Accept}
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}1
+    &\; \text{Accept}
     &\quad \tuple{\eqref{ES0-1}, \eqref{ES1-4}}
-    &\; \text{Not used}
+    &\; \text{!Used}
 \end{align}
 \medskip
 \begin{align}
 \label{ES2-1}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 1 }\text{@}2
-    &\phantom{Stack bottom}&\phantom{\quad \text{Not used}} \\
+    &\phantom{\; \text{Accept}}
+    &\phantom{\; \text{(XX), (XX)}}
+    &\phantom{\; \text{!Used}} \\
 \label{ES2-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 2 }\text{@}2&\\
 \label{ES2-3}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 2 }\text{@}2&\\
 \label{ES2-4}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 1 }\text{@}2&\quad \text{Stack bottom}
-    &\quad \text{Not used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 1 }\text{@}2&\quad \text{Bottom}
+    &\quad \text{!Used} \\
 \label{ES2-5}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}2&\quad \text{Stack top}
-    &\quad \text{Not used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}2&\quad \text{Top}
+    &\quad \text{!Used} \\
 \label{ES2-6}%
-&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}2&\quad \text{Accept EIMT}
-    &\quad \text{Not used}
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}2
+    &\; \text{Accept}
+    &\quad \tuple{\eqref{ES0-1}, \eqref{ES2-5}}
+    &\; \text{!Used}
 \end{align}
 \medskip
 \begin{align}
 \label{ES3-1}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 2 }\text{@}3
-    &\phantom{Stack bottom}&\phantom{\quad \text{Not used}} \\
+    &\phantom{\; \text{Accept}}
+    &\phantom{\; \text{(XX), (XX)}}
+    &\phantom{\; \text{!Used}} \\
 \label{ES3-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 3 }\text{@}3&\\
 \label{ES3-3}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 3 }\text{@}3&\\
 \label{ES3-4}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 2 }\text{@}3&\quad \text{Stack bottom}
-    &\quad \text{Not used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 2 }\text{@}3&\quad \text{Bottom}
+    &\quad \text{!Used} \\
 \label{ES3-5}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}3&\quad \text{Stack interior}
-    &\quad \text{Not used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}3&\quad \text{Interior}
+    &\quad \text{!Used} \\
 \label{ES3-6}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}3&\quad \text{Stack top}
-    &\quad \text{Not used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}3&\quad \text{Top}
+    &\quad \text{!Used} \\
 \label{ES3-7}%
-&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}3&\quad \text{Accept EIMT}
-    &\quad \text{Not used}
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}3
+    &\; \text{Accept}
+    &\quad \tuple{\eqref{ES0-1}, \eqref{ES3-6}}
+    &\; \text{!Used}
 \end{align}
 \medskip
 \begin{align}
 \label{ES4-1}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 3 }\text{@}4&
-    &\phantom{\quad \text{Not used}} \\
+    &\phantom{\; \text{Accept}}
+    &\phantom{\; \text{(XX), (XX)}}
+    &\phantom{\; \text{!Used}} \\
 \label{ES4-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 4 }\text{@}4&\\
 \label{ES4-3}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 4 }\text{@}4&\\
 \label{ES4-4}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 3 }\text{@}4&\quad \text{Stack bottom}&\quad \text{Used}\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 3 }\text{@}4&\quad \text{Bottom}&\quad \text{Used}\\
 \label{ES4-5}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 2 }\text{@}4&\quad \text{Stack interior}
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 2 }\text{@}4&\quad \text{Interior}
    &\quad \text{Used}\\
 \label{ES4-6}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}4&\quad \text{Stack interior}
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}4&\quad \text{Interior}
    &\quad \text{Used}\\
 \label{ES4-7}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}4&\quad \text{Stack top}
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}4&\quad \text{Top}
    &\quad \text{Used}\\
 \label{ES4-8}%
-&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}4&\quad \text{Accept EIMT}
-   &\quad \text{Used}
+&\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}4
+    &\; \text{Accept}
+    &\quad \tuple{\eqref{ES0-1}, \eqref{ES4-7}}
+    &\; \text{!Used}
 \end{align}
 Let \var{n} be the length of a Leo stack.
 In \Earley, a Leo stack would be expanded in each
