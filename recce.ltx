@@ -1328,7 +1328,7 @@ because there can be only one of each.
 \label{ES0-1}%
 &\tuple{\tuple{\V{S} ::= \mydot \V{RR}}, 0 }\text{@}0
     &&\phantom{\; \text{Accept}}
-    &&\phantom{\quad \text{(XX), (XX)}}
+    &&\phantom{\quad \text{<(XX), (XX)>}}
     &\phantom{\; \text{!Used}} \\
 \label{ES0-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 0 }\text{@}0&&\\
@@ -1340,8 +1340,8 @@ because there can be only one of each.
 \label{ES1-1}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 0 }\text{@}1
     &&\phantom{\; \text{Accept}}
-    &&\phantom{\quad \text{(XX), (XX)}}
-    &&\phantom{\; \text{!Used}} \\
+    &&\phantom{\quad \text{<(XX), (XX)>}}
+    &\phantom{\; \text{!Used}} \\
 \label{ES1-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 1 }\text{@}1&&\\
 \label{ES1-3}%
@@ -1361,49 +1361,59 @@ because there can be only one of each.
 \begin{align}
 \label{ES2-1}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 1 }\text{@}2
-    &\phantom{\; \text{Accept}}
-    &\phantom{\; \text{(XX), (XX)}}
+    &&\phantom{\; \text{Accept}}
+    &&\phantom{\quad \text{<(XX), (XX)>}}
     &\phantom{\; \text{!Used}} \\
 \label{ES2-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 2 }\text{@}2&\\
 \label{ES2-3}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 2 }\text{@}2&\\
 \label{ES2-4}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 1 }\text{@}2&\quad \text{Bottom}
-    &\quad \text{!Used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 1 }\text{@}2
+    &&\; \text{Bottom}
+    &&\quad \tuple{\eqref{ES1-3}, \text{'x'}}
+    &\; \text{!Used} \\
 \label{ES2-5}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}2&\quad \text{Top}
-    &\quad \text{!Used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}2
+    &&\; \text{Top}
+    &&\quad \tuple{\eqref{ES1-1}, \eqref{ES2-4}}
+    &\; \text{!Used} \\
 \label{ES2-6}%
 &\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}2
-    &\; \text{Accept}
-    &\quad \tuple{\eqref{ES0-1}, \eqref{ES2-5}}
+    &&\; \text{Accept}
+    &&\quad \tuple{\eqref{ES0-1}, \eqref{ES2-5}}
     &\; \text{!Used}
 \end{align}
 \medskip
 \begin{align}
 \label{ES3-1}%
 &\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 2 }\text{@}3
-    &\phantom{\; \text{Accept}}
-    &\phantom{\; \text{(XX), (XX)}}
+    &&\phantom{\; \text{Accept}}
+    &&\phantom{\; \text{(XX), (XX)}}
     &\phantom{\; \text{!Used}} \\
 \label{ES3-2}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 3 }\text{@}3&\\
 \label{ES3-3}%
 &\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 3 }\text{@}3&\\
 \label{ES3-4}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 2 }\text{@}3&\quad \text{Bottom}
-    &\quad \text{!Used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 2 }\text{@}3
+    &&\; \text{Bottom}
+    &&\quad \tuple{\eqref{ES2-3}, \text{'x'}}
+    &\; \text{!Used} \\
 \label{ES3-5}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}3&\quad \text{Interior}
-    &\quad \text{!Used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}3
+    &&\; \text{Interior}
+    &&\quad \tuple{\eqref{ES2-1}, \eqref{ES3-4}}
+    &\; \text{!Used} \\
 \label{ES3-6}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}3&\quad \text{Top}
-    &\quad \text{!Used} \\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}3
+    &&\; \text{Top}
+    &&\quad \tuple{\eqref{ES1-1}, \eqref{ES3-5}}
+    &\; \text{!Used} \\
 \label{ES3-7}%
 &\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}3
-    &\; \text{Accept}
-    &\quad \tuple{\eqref{ES0-1}, \eqref{ES3-6}}
+    &&\; \text{Accept}
+    &&\quad \tuple{\eqref{ES0-1}, \eqref{ES3-6}}
     &\; \text{!Used}
 \end{align}
 \medskip
@@ -1443,6 +1453,7 @@ because there can be only one of each.
     &&\quad \tuple{\eqref{ES0-1}, \eqref{ES4-7}}
     &\; \text{Used}
 \end{align}
+\bigskip\par
 Let \var{n} be the length of a Leo stack.
 In \Earley, a Leo stack would be expanded in each
 of the \order{\var{n}} Earley sets
