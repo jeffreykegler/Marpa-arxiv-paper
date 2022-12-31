@@ -1408,30 +1408,39 @@ because there can be only one of each.
 \medskip
 \begin{align}
 \label{ES4-1}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 3 }\text{@}4&
-    &\phantom{\; \text{Accept}}
-    &\phantom{\; \text{(XX), (XX)}}
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot \V{RR}}, 3 }\text{@}4
+    &&\phantom{\; \text{Accept}}
+    &&\phantom{\; \text{(XX), (XX)}}
     &\phantom{\; \text{!Used}} \\
 \label{ES4-2}%
-&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 4 }\text{@}4&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x} \cat \V{RR}}, 4 }\text{@}4\\
 \label{ES4-3}%
-&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 4 }\text{@}4&\\
+&\tuple{\tuple{\V{RR} ::= \mydot \V{x}}, 4 }\text{@}4\\
 \label{ES4-4}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 3 }\text{@}4&\quad \text{Bottom}&\quad \text{Used}\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \mydot}, 3 }\text{@}4
+    &&\; \text{Bottom}
+    &&\quad \tuple{\eqref{ES3-3}, \text{'x'}}
+    &\; \text{Used}\\
 \label{ES4-5}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 2 }\text{@}4&\quad \text{Interior}
-   &\quad \text{Used}\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 2 }\text{@}4
+    &&\; \text{Interior}
+    &&\quad \tuple{\eqref{ES3-1}, \eqref{ES4-4}}
+    &\; \text{Used}\\
 \label{ES4-6}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}4&\quad \text{Interior}
-   &\quad \text{Used}\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 1 }\text{@}4
+    &&\; \text{Interior}
+    &&\quad \tuple{\eqref{ES2-1}, \eqref{ES4-5}}
+    &\; \text{Used}\\
 \label{ES4-7}%
-&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}4&\quad \text{Top}
-   &\quad \text{Used}\\
+&\tuple{\tuple{\V{RR} ::= \V{x} \cat \V{RR} \mydot}, 0 }\text{@}4
+    &&\; \text{Top}
+    &&\quad \tuple{\eqref{ES1-1}, \eqref{ES4-6}}
+    &\; \text{Used}\\
 \label{ES4-8}%
 &\tuple{\tuple{\V{S} ::= \V{RR} \mydot}, 0 }\text{@}4
-    &\; \text{Accept}
-    &\quad \tuple{\eqref{ES0-1}, \eqref{ES4-7}}
-    &\; \text{!Used}
+    &&\; \text{Accept}
+    &&\quad \tuple{\eqref{ES0-1}, \eqref{ES4-7}}
+    &\; \text{Used}
 \end{align}
 Let \var{n} be the length of a Leo stack.
 In \Earley, a Leo stack would be expanded in each
