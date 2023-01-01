@@ -255,6 +255,11 @@
 \hyphenation{look-ahead}
 \hyphenation{memo-ization}
 
+% "Local" commands: Thee are not traditional
+% in Latex, so I predeclare them here as globals
+\newcommand{\firstRReqref}{UNDEFINED!}
+\newcommand{\lastRReqref}{UNDEFINED!}
+
 \begin{document}
 
 \date{\today.  Revision 3.}
@@ -1254,12 +1259,14 @@ Leo stacks will be explained below.
 \item
 The third column shows the \type{EIMT}'s confluence.
 Our grammar is unambiguous,
-so there is always exactly one confluence.
+so there is always exactly one confluence for each \type{EIMT}.
 Within the confluence, \type{EIMT} inflows are represented by their
 equation number.
 \item
 The fourth column indicates whether the EIM is actually used as part
 of the parse.
+Our grammar is unambiguous,
+so there is only one parse.
 \end{itemize}
 
 \begin{align}
@@ -1391,7 +1398,97 @@ of the parse.
     &&\quad \tuple{\eqref{ES0-1}, \eqref{ES4-7}}
     &\; \text{Used}
 \end{align}
+\renewcommand{\firstRReqref}{\eqref{ES0-1}}
+\renewcommand{\lastRReqref}{\eqref{ES4-8}}
 \bigskip\par
+
+A glance at \firstRReqref-\lastRReqref{} shows
+that many of the completions are not used in the
+parse.
+For our analysis of the reasons,
+we introduce concepts of Leo uniqueness,
+Leo eligibility,
+and Leo stack.
+
+We say that a \type{EIMT} \Veimt{x} is \dfn{Leo unique}
+in the Earley set \Ves{es},
+$\LeoUnique{\var{x}, \var{es}}$,
+iff
+it is a penult in \var{es},
+and its postdot symbol is unique in \var{es}.
+More precisely,
+\begin{equation}
+\label{e:def-leo-unique}
+\begin{gathered}
+    \LeoUnique{\Veimt{eim}, \Ves{es}} \defined \\
+        \V{eim} = \iotaQ{\Vtyped{eim2}{\type{EIMT}} \; }{
+	    \V{eim2} \in \V{es} \land \Penult{\V{eim2}} \isWellDef }
+\end{gathered}
+\end{equation}
+In \eqref{e:def-leo-unique}
+it is important to emphasize that \Veimt{eim2} ranges over all the dotted
+rules of Earley set \Ves{i}.
+This means that if a penult \Veimt{pen} shares a postdot symbol
+with an non-penult \Veimt{np} in the same Earley set,
+then \Veimt{pen} is {\bf not} Leo unique.
+
+More often, we call tributary sequences \dfn{Leo stacks}.
+We find this intuitive because, since every value of a tributary sequence
+is in the same Earley set,
+the sequence can be visualized as a vertical stack.
+The first value of the tributary sequence is the bottom
+of the Leo stack,
+and the final value is the \dfn{top} of the Leo stack.
+
+
+If \Veimt{eim} in
+\eqref{e:def-leo-unique}
+is Leo unique, then the symbol $\Postdot{\var{eim}}$ is
+also said to be \dfn{Leo unique}.
+In cases where a symbol \Vsym{transition} is Leo unique in \Ves{es},
+we can speak of the dotted rule for \V{transition} in \var{es},
+and the rule for \V{transition} in \var{es},
+because there can be only one of each.
+
+Let \var{n} be the length of a Leo stack.
+In \Earley, a Leo stack would be expanded in each
+of the \order{\var{n}} Earley sets
+that is the origin of an \type{EIMT} included in the
+Leo stack,
+so that the total number of \type{EIMT}'s would be
+$\order{\var{n}}\mult\order{\var{n}} = \order{\var{n}^2}$.
+
+Leo items memoize what would otherwise be sequences
+of Earley items,
+in which each Earley item is a tributary of its successor.
+Leo items only memoize unambiguous (or
+deterministic) tributary sequences,
+so that the final value
+of the tributary sequence can represent
+the entire sequence.
+We can call these memoized tributary sequences,
+\dfn{Leo tributary sequences} or,
+in contexts where the meaning is clear,
+\dfn{tributary sequences}.
+
+With Leo memoization, a single \type{EIMT} stands in for each Leo stack.
+There are \Oc{} Leo items per Earley set,
+so the cost of each Leo stack is \Oc{}.
+As before, there is one Leo stack for each potential endpoint of the
+right recursion.
+or $\Oc\mult\On = \On$
+for the entire sequence.
+If, at evaluation time,
+it is desirable to expand the Leo tributary sequence,
+only those items actually involved in the parse
+need to be expanded.
+All the \type{EIMT}'s of a potential right-recursion
+will be in one Earley set and the number of \type{EIMT}'s
+will be \On{},
+so that even including expansion of the Leo sequence
+for evaluation, the time and space complexity of
+the sequence remain
+$\On+\On=\On$.
 
 A traditional Leo item (\type{LIMT}) is a triple
 consisting of a dotted rule,
@@ -1438,91 +1535,6 @@ being ``added to the Earley set'', and we will continue to speak in this way.
 Note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
-
-Leo items memoize what would otherwise be sequences
-of Earley items,
-in which each Earley item is a tributary of its successor.
-Leo items only memoize unambiguous (or
-deterministic) tributary sequences,
-so that the final value
-of the tributary sequence can represent
-the entire sequence.
-We can call these memoized tributary sequences,
-\dfn{Leo tributary sequences} or,
-in contexts where the meaning is clear,
-\dfn{tributary sequences}.
-
-More often, we call tributary sequences \dfn{Leo stacks}.
-We find this intuitive because, since every value of a tributary sequence
-is in the same Earley set,
-the sequence can be visualized as a vertical stack.
-The first value of the tributary sequence is the bottom
-of the Leo stack,
-and the final value is the \dfn{top} of the Leo stack.
-
-To guarantee that a Leo stack is deterministic,
-\Leo{} enforced \dfn{Leo uniqueness}.
-An \type{EIMT} \Veimt{x} is \dfn{Leo unique}
-in the Earley set \Ves{es},
-$\LeoUnique{\var{x}, \var{es}}$,
-if and only if
-it is a penult in \var{es},
-and its postdot symbol is unique in \var{es}.
-More precisely,
-\begin{equation}
-\label{e:def-leo-unique}
-\begin{gathered}
-    \LeoUnique{\Veimt{eim}, \Ves{es}} \defined \\
-    \V{eim} \in \V{es} \land \Penult{\V{eim}} \isWellDef \\
-    \land \; \univQ{\Vtyped{eim2}{\type{EIM}} \; }{ \\
-    \left(
-	\V{eim2} \in \V{es}
-	 \land \; \Postdot{\V{eim}} = \Postdot{\V{eim2}} \right) \\
-	\implies \V{eim} = \V{eim2} }
-\end{gathered}
-\end{equation}
-In \eqref{e:def-leo-unique}
-it is important to emphasize that \Veimt{eim2} ranges over all the dotted
-rules of Earley set \Ves{i}.
-This means that if a penult \Veimt{pen} shares a postdot symbol
-with an non-penult \Veimt{np} in the same Earley set,
-then \Veimt{pen} is {\bf not} Leo unique.
-
-If \Veimt{eim} in
-\eqref{e:def-leo-unique}
-is Leo unique, then the symbol $\Postdot{\var{eim}}$ is
-also said to be \dfn{Leo unique}.
-In cases where a symbol \Vsym{transition} is Leo unique in \Ves{es},
-we can speak of the dotted rule for \V{transition} in \var{es},
-and the rule for \V{transition} in \var{es},
-because there can be only one of each.
-
-Let \var{n} be the length of a Leo stack.
-In \Earley, a Leo stack would be expanded in each
-of the \order{\var{n}} Earley sets
-that is the origin of an \type{EIMT} included in the
-Leo stack,
-so that the total number of \type{EIMT}'s would be
-$\order{\var{n}}\mult\order{\var{n}} = \order{\var{n}^2}$.
-
-With Leo memoization, a single \type{EIMT} stands in for each Leo stack.
-There are \Oc{} Leo items per Earley set,
-so the cost of each Leo stack is \Oc{}.
-As before, there is one Leo stack for each potential endpoint of the
-right recursion.
-or $\Oc\mult\On = \On$
-for the entire sequence.
-If, at evaluation time,
-it is desirable to expand the Leo tributary sequence,
-only those items actually involved in the parse
-need to be expanded.
-All the \type{EIMT}'s of a potential right-recursion
-will be in one Earley set and the number of \type{EIMT}'s
-will be \On{},
-so that even including expansion of the Leo sequence
-for evaluation, the time and space complexity of
-the sequence remain
-$\On+\On=\On$.
 
 Recall that we
 call a dotted rule \Vdr{d} a \dfn{penult} if $\Penult{\var{d}} \neq \Lambda$.
