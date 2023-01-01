@@ -1012,10 +1012,11 @@ In an ambiguous parse, the \Marpa algorithm may have
 more than one reason to add a parse item to an Earley set.
 Each reason is called a \dfn{confluence}.
 
-A \dfn{confluence} is a duple.
-The first element of a confluence is the \dfn{mainstem},
+A \dfn{confluence} is a duple,
+whose elements are called \dfn{inflows}.
+The first inflow of a confluence is the \dfn{mainstem},
 and is either a parse item or ill-defined.
-The second element of a confluence is the \dfn{tributary},
+The second inflow of a confluence is the \dfn{tributary},
 and may be an Earley item, a token, or ill-defined.
 The hydrological terminology may seem ornate,
 but experience
@@ -1220,109 +1221,46 @@ will be type \type{LIM}.
 that is, those of the form used in Leo's paper~\cite{Leo1991},
 will be type \type{LIMT}.
 
-A traditional Leo item (\type{LIMT}) is a triple
-consisting of a dotted rule,
-a symbol (called the transition symbol),
-and a location.
-\begin{gather*}
-\DR{\Vlimt{limt}} \defined \Hd{\V{limt}}. \\
-\Transition{\Vlimt{limt}} \defined \HTl{\V{limt}}. \\
-\Origin{\Vlimt{limt}} \defined \TTl{\V{limt}}.
-\end{gather*}
-As will be explained in more detail later,
-the \type{LIMT} \Vlimt{limt} indicates that
-\begin{equation*}
-\typed{\tuple{\DR{\Vlimt{limt}}, \Origin{\Vlimt{limt}}}}{\type{EIMT}}
-\end{equation*}
-is to be added on Leo reductions over
-the symbol $\Transition{\Vlimt{limt}}$.
-
-Pedantically, \type{LIMT}'s are not members of Earley sets,
-so we introduce a partial function from pairs of location
-and symbol to \type{LIMT}'s:
-$$
-  \mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \type{LIMT}.
-$$
-That $\mymathop{LIMT-Map}$ is a function implies that,
-in each Earley set, there is at most one Leo item per symbol.
-
-In practice we will usually avoid direct reference to $\mymathop{LIMT-Map}$,
-finding it convenient and natural to overload
-the notion and notation for Earley set membership.
-Where an Earley set \Ves{i}
-and a \type{LIMT} \Vlimt{x} are such that
-\begin{equation}
-\label{e:limtmap-overload}
-\exists \, \var{postdot} \in \var{vocab} \mid
-     \var{x} = \LIMTMap{\Vloc{i}, \Vsym{postdot}},
-\end{equation}
-then we will often say that \Vlimt{x} is \dfn{in}
-the Earley set \Ves{i},
-and write
-$$\Vlimt{x} \in \Ves{i}.$$
-Accordingly, we have spoken of parse items, which may be Leo items,
-being ``added to the Earley set'', and we will continue to speak in this way.
-Note that in \eqref{e:limtmap-overload},
-$\mymathop{LIMT-Map}$ is a partial function,
-and therefore its value is not necessarily defined.
-
-Leo items memoize what would otherwise be sequences
-of Earley items,
-in which each Earley item is a tributary of its successor.
-Leo items only memoize unambiguous (or
-deterministic) tributary sequences,
-so that the final value
-of the tributary sequence can represent
-the entire sequence.
-We can call these memoized tributary sequences,
-\dfn{Leo tributary sequences} or,
-in contexts where the meaning is clear,
-\dfn{tributary sequences}.
-
-More often, we call tributary sequences \dfn{Leo stacks}.
-We find this intuitive because, since every value of a tributary sequence
-is in the same Earley set,
-the sequence can be visualized as a vertical stack.
-The first value of the tributary sequence is the bottom
-of the Leo stack,
-and the final value is the \dfn{top} of the Leo stack.
-
-To guarantee that a Leo stack is deterministic,
-\Leo{} enforced \dfn{Leo uniqueness}.
-An \type{EIMT} \Veimt{x} is \dfn{Leo unique}
-in the Earley set \Ves{es},
-$\LeoUnique{\var{x}, \var{es}}$,
-if and only if
-it is a penult in \var{es},
-and its postdot symbol is unique in \var{es}.
-More precisely,
-\begin{equation}
-\label{e:def-leo-unique}
-\begin{gathered}
-    \LeoUnique{\Veimt{eim}, \Ves{es}} \defined \\
-    \V{eim} \in \V{es} \land \Penult{\V{eim}} \isWellDef \\
-    \land \; \univQ{\Vtyped{eim2}{\type{EIM}} \; }{ \\
-    \left(
-	\V{eim2} \in \V{es}
-	 \land \; \Postdot{\V{eim}} = \Postdot{\V{eim2}} \right) \\
-	\implies \V{eim} = \V{eim2} }
-\end{gathered}
-\end{equation}
-In \eqref{e:def-leo-unique}
-it is important to emphasize that \Veimt{eim2} ranges over all the dotted
-rules of Earley set \Ves{i}.
-This means that if a penult \Veimt{pen} shares a postdot symbol
-with an non-penult \Veimt{np} in the same Earley set,
-then \Veimt{pen} is {\bf not} Leo unique.
-
-If \Veimt{eim} in
-\eqref{e:def-leo-unique}
-is Leo unique, then the symbol $\Postdot{\var{eim}}$ is
-also said to be \dfn{Leo unique}.
-In cases where a symbol \Vsym{transition} is Leo unique in \Ves{es},
-we can speak of the dotted rule for \V{transition} in \var{es},
-and the rule for \V{transition} in \var{es},
-because there can be only one of each.
+We illustrate the Leo method by examining an \Earley parse
+of the input ``{\tt xxxx}''
+using the grammar
+\begin{align*}
+&\tuple{\V{S} \de \V{RR}} \\
+&\tuple{\V{RR} \de \V{x}} \\
+&\tuple{\V{RR} \de \V{x} \cat \V{RR}}.
+\end{align*}
+This grammar and input produce the Earley sets
+in the display which follows.
+Each line in the display shows one \type{EIMT},
+and has four columns.
+\begin{itemize}
+\item The first column shows the \type{EIMT}.
+The notation $\text{@}\V{n}$ indicates that the \type{EIMT}
+in \type{ES} $\V{n}$,
+so that
+$\text{@}3$ indicates that EIMT which precedes it
+is in \type{ES} 3.
+\end{itemize}
+Since our primary interest is in completions,
+the next three columns are shown only for completed
+\type{EIMT}'s.
+\begin{itemize}
+\item
+The second column is a note.
+``Accept'' indicates that the \type{EIMT} is an accept \type{EIMT}.
+``Bottom'', ``Interior'' and ``Top'' indicate that the \type{EIMT}
+is in a corresponding position in a Leo stack.
+Leo stacks will be explained below.
+\item
+The third column shows the \type{EIMT}'s confluence.
+Our grammar is unambiguous,
+so there is always exactly one confluence.
+Within the confluence, \type{EIMT} inflows are represented by their
+equation number.
+\item
+The fourth column indicates whether the EIM is actually used as part
+of the parse.
+\end{itemize}
 
 \begin{align}
 \label{ES0-1}%
@@ -1454,6 +1392,111 @@ because there can be only one of each.
     &\; \text{Used}
 \end{align}
 \bigskip\par
+
+A traditional Leo item (\type{LIMT}) is a triple
+consisting of a dotted rule,
+a symbol (called the transition symbol),
+and a location.
+\begin{gather*}
+\DR{\Vlimt{limt}} \defined \Hd{\V{limt}}. \\
+\Transition{\Vlimt{limt}} \defined \HTl{\V{limt}}. \\
+\Origin{\Vlimt{limt}} \defined \TTl{\V{limt}}.
+\end{gather*}
+As will be explained in more detail later,
+the \type{LIMT} \Vlimt{limt} indicates that
+\begin{equation*}
+\typed{\tuple{\DR{\Vlimt{limt}}, \Origin{\Vlimt{limt}}}}{\type{EIMT}}
+\end{equation*}
+is to be added on Leo reductions over
+the symbol $\Transition{\Vlimt{limt}}$.
+
+Pedantically, \type{LIMT}'s are not members of Earley sets,
+so we introduce a partial function from pairs of location
+and symbol to \type{LIMT}'s:
+$$
+  \mymathop{LIMT-Map} : \naturals \times \var{vocab} \rightharpoonup \type{LIMT}.
+$$
+That $\mymathop{LIMT-Map}$ is a function implies that,
+in each Earley set, there is at most one Leo item per symbol.
+
+In practice we will usually avoid direct reference to $\mymathop{LIMT-Map}$,
+finding it convenient and natural to overload
+the notion and notation for Earley set membership.
+Where an Earley set \Ves{i}
+and a \type{LIMT} \Vlimt{x} are such that
+\begin{equation}
+\label{e:limtmap-overload}
+\exists \, \var{postdot} \in \var{vocab} \mid
+     \var{x} = \LIMTMap{\Vloc{i}, \Vsym{postdot}},
+\end{equation}
+then we will often say that \Vlimt{x} is \dfn{in}
+the Earley set \Ves{i},
+and write
+$$\Vlimt{x} \in \Ves{i}.$$
+Accordingly, we have spoken of parse items, which may be Leo items,
+being ``added to the Earley set'', and we will continue to speak in this way.
+Note that in \eqref{e:limtmap-overload},
+$\mymathop{LIMT-Map}$ is a partial function,
+and therefore its value is not necessarily defined.
+
+Leo items memoize what would otherwise be sequences
+of Earley items,
+in which each Earley item is a tributary of its successor.
+Leo items only memoize unambiguous (or
+deterministic) tributary sequences,
+so that the final value
+of the tributary sequence can represent
+the entire sequence.
+We can call these memoized tributary sequences,
+\dfn{Leo tributary sequences} or,
+in contexts where the meaning is clear,
+\dfn{tributary sequences}.
+
+More often, we call tributary sequences \dfn{Leo stacks}.
+We find this intuitive because, since every value of a tributary sequence
+is in the same Earley set,
+the sequence can be visualized as a vertical stack.
+The first value of the tributary sequence is the bottom
+of the Leo stack,
+and the final value is the \dfn{top} of the Leo stack.
+
+To guarantee that a Leo stack is deterministic,
+\Leo{} enforced \dfn{Leo uniqueness}.
+An \type{EIMT} \Veimt{x} is \dfn{Leo unique}
+in the Earley set \Ves{es},
+$\LeoUnique{\var{x}, \var{es}}$,
+if and only if
+it is a penult in \var{es},
+and its postdot symbol is unique in \var{es}.
+More precisely,
+\begin{equation}
+\label{e:def-leo-unique}
+\begin{gathered}
+    \LeoUnique{\Veimt{eim}, \Ves{es}} \defined \\
+    \V{eim} \in \V{es} \land \Penult{\V{eim}} \isWellDef \\
+    \land \; \univQ{\Vtyped{eim2}{\type{EIM}} \; }{ \\
+    \left(
+	\V{eim2} \in \V{es}
+	 \land \; \Postdot{\V{eim}} = \Postdot{\V{eim2}} \right) \\
+	\implies \V{eim} = \V{eim2} }
+\end{gathered}
+\end{equation}
+In \eqref{e:def-leo-unique}
+it is important to emphasize that \Veimt{eim2} ranges over all the dotted
+rules of Earley set \Ves{i}.
+This means that if a penult \Veimt{pen} shares a postdot symbol
+with an non-penult \Veimt{np} in the same Earley set,
+then \Veimt{pen} is {\bf not} Leo unique.
+
+If \Veimt{eim} in
+\eqref{e:def-leo-unique}
+is Leo unique, then the symbol $\Postdot{\var{eim}}$ is
+also said to be \dfn{Leo unique}.
+In cases where a symbol \Vsym{transition} is Leo unique in \Ves{es},
+we can speak of the dotted rule for \V{transition} in \var{es},
+and the rule for \V{transition} in \var{es},
+because there can be only one of each.
+
 Let \var{n} be the length of a Leo stack.
 In \Earley, a Leo stack would be expanded in each
 of the \order{\var{n}} Earley sets
