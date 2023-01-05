@@ -853,10 +853,18 @@ is the dotted rule with the dot at
 $\var{pos} = 2$,
 between \Vsym{Y} and \Vsym{Z}.
 
-\[ \LHS{\Vdr{x}} \defined \LHS{\Rule{\V{x}}}. \]
+Every rule concept, when applied to a dotted rule,
+is applied to the rule of the dotted rule.
+The following are examples:
+\[
+\begin{gathered}
+  \LHS{\Vdr{x}} \defined \LHS{\Rule{\V{x}}}. \\
+  \RHS{\Vdr{x}} \defined \RHS{\Rule{\V{x}}}. \\
+  \RightRecursive{\Vdr{x}} \defined \RightRecursive{\Rule{\V{x}}}.
+\end{gathered}
+\]
 
-\[ \RHS{\Vdr{x}} \defined \RHS{\Rule{\V{x}}}. \]
-
+We also state the following:
 \[
   \Postdot{\Vdr{x}} \defined
   \begin{cases}
@@ -920,7 +928,7 @@ A traditional Earley item (type \type{EIMT}) is a duple
 of dotted rule and origin.
 \begin{gather*}
      \DR{\Veimt{x}} = \Hd{\V{x}}. \\
-     \Origin{\Veimt{x}} = \Tl{\V{x}}. \\
+     \Origin{\Veimt{x}} = \Tl{\V{x}}.
 \end{gather*}
 The origin is the location where recognition of the rule
 started.
@@ -932,12 +940,14 @@ We find it convenient to apply dotted rule concepts to
 \type{EIMT}'s,
 so that the concept applied to the \type{EIMT} is
 the concept applied to the dotted rule of the \type{EIMT}.
+The following are examples:
 \begin{gather*}
 \LHS{\Veimt{x}} \defined \LHS{\DR{\V{dr}}}. \\
 \Postdot{\Veimt{x}} \defined \Postdot{\DR{\V{dr}}}. \\
 \Penult{\Veimt{x}} \defined \Penult{\DR{\V{dr}}}. \\
 \Next{\Veimt{x}} \defined \Next{\DR{\V{dr}}}. \\
-\Rule{\Veimt{x}} \defined \Rule{\DR{\V{dr}}}.
+\Rule{\Veimt{x}} \defined \Rule{\DR{\V{dr}}}. \\
+\RightRecursive{\Veimt{x}} \defined \RightRecursive{\DR{\V{dr}}}.
 \end{gather*}
 
 An Earley parser builds a table of Earley sets,
