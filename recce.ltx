@@ -1060,6 +1060,16 @@ and the last value is the \dfn{bottom} of the trunk.
 Sequence values which are neither top or bottom are
 \dfn{interior} values of the trunk.
 
+Similarly, we can define a \dfn{tributary sequence}
+as a sequence in which all but the first is the successor of
+its tributary.
+Once again,
+the first value in the tributary
+sequence is the \dfn{top} of the \dfn{trunk},
+and the last value is the \dfn{bottom} of the trunk.
+Tributary sequence values which are neither top or bottom are
+\dfn{interior} values of the trunk.
+
 We sometimes refer to the confluences and their elements
 as the \dfn{links} of parse items,
 reflecting that fact that they are typically implemented
@@ -1468,6 +1478,32 @@ and exactly one rule, call it \V{r}.
 We call \Vdr{dr}, the dotted rule for \Vsym{transition} in \Ves{es}.
 We call \Vrule{r}, the rule for \Vsym{transition} in \Ves{es}.
 
+An \type{EIMT} \Veimt{x}
+is \dfn{Leo eligible}
+in Earley set \Ves{es},
+$\LeoEligible{ \Veimt{x}, \Ves{es} }$
+if and only if it is right recursive and Leo unique
+in \Ves{es}.
+More precisely,
+\begin{gather*}
+\LeoEligible{ \Veimt{x}, \Ves{es} } \defined \\
+\RightRecursive{\Rule{\Veimt{x}}}
+\land \LeoUnique{\Veimt{x}, \Ves{es}}
+\end{gather*}
+An \type{EIMT} is a
+\dfn{Leo completion}
+iff the mainstem of one of its confluences is
+Leo eligible.
+
+% [ Is this right? ]
+% The tributary sequence of a Leo completion is a \dfn{Leo stack}
+% iff it is maximal.
+% By ``maximal'' we mean that the tributary sequence
+% is not a segment of another, longer,
+% tributary sequence of a Leo completion.
+
+
+
 More often, we call tributary sequences \dfn{Leo stacks}.
 We find this intuitive because, since every value of a tributary sequence
 is in the same Earley set,
@@ -1676,19 +1712,6 @@ Leo reduction replaces Earley reduction if and only if
 there is a Leo memoization.
 
 \subsection{Leo memoization}
-
-A \type{EIMT} \Veimt{x}
-is \dfn{Leo eligible}
-in Earley set \Ves{es},
-$\LeoEligible{ \Veimt{x}, \Ves{es} }$
-if and only if it is right recursive and Leo unique
-in \Ves{es}.
-More precisely,
-\begin{gather*}
-\LeoEligible{ \Veimt{x}, \Ves{es} } \defined \\
-\RightRecursive{\Rule{\Veimt{x}}}
-\land \LeoUnique{\Veimt{x}, \Ves{es}}
-\end{gather*}
 
 Our inference rules for Leo memoization take a slightly different form,
 than those we have used to add \type{EIMT}'s to the Earley sets.
