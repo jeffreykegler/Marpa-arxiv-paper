@@ -1506,21 +1506,46 @@ An \type{EIMT}, call it \V{eim1},
 is a \dfn{Leo tributary} of another \type{EIMT}, call it \V{eim2},
 in the Earley set at \Vloc{current}
 iff \V{eim2} has a confluence whose tributary is \Veimt{eim1},
-and whose mainstem is Leo eligible at the origin of \V{eimt2}.
+and whose mainstem is Leo eligible at the origin of \V{eim1}.
 More precisely, \V{eim1} is a Leo tributary of \V{eim2} iff
 \[
 \begin{gathered}
 \existQ{ \VTtyped{main}{EIMT} }{ \\
   \tuple{\V{main},\V{eim1}} \in \Confluences{\V{eim2},\V{current}} \\
-  \land \; \LeoEligible{\V{main}, \Origin{\V{eim2}}}.
+  \land \; \LeoEligible{\V{main}, \Origin{\V{eim1}}}.
 }
 \end{gathered}
 \]
 
-More often, we call tributary sequences \dfn{Leo stacks}.
-We find this intuitive because, since every value of a tributary sequence
-is in the same Earley set,
-the sequence can be visualized as a vertical stack.
+A \dfn{Leo tributary sequence} is a tributary sequence in which
+every element except the top is a tributary of its successor.
+Every element of a Leo tributary sequence is in the same Earley set,
+so that it is intuitive to
+visualize a Leo tributary sequence as vertical stack.
+
+A \dfn{Leo stack} is a Leo tributary sequence such that
+all of the following are true:
+\begin{itemize}
+\item The bottom of the sequence is not a Leo completion.
+\item The top of the sequence is not a Leo tributary of any \type{EIMT}.
+\item The top and bottom are distinct.
+\end{itemize}
+
+A Leo stack must have at least two elements,
+and all the bottom element will be a Leo completion.
+Joop Leo's technique for eliminating useless items from an Earley table
+was based on the following insight:
+\begin{center}
+In a Leo stack, every other Leo completion\linebreak
+can be deduced from the top of the stack.\footnote{%
+   For this reason,
+   in his 1991~\cite{Leo1991},
+   Leo's term for what we call a Leo stack was
+   ``deterministic reduction path''.}
+\end{center}
+This meant that all items in a Leo stack, except the top and bottom
+can be memoized during the parse,
+and omitted entirely if they turn to be useless.
 
 A traditional Leo item (\type{LIMT}) is a triple
 consisting of a dotted rule,
