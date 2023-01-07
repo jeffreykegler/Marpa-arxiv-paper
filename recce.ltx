@@ -1548,7 +1548,7 @@ can be deduced from the top of the stack.\footnote{%
 \end{center}
 This meant that all items in a Leo stack, except the top and bottom
 can be memoized during the parse,
-and omitted entirely if they turn to be useless.
+and ignored if they turn to be useless.
 
 Where \V{n} is the size of the largest Leo stack in
 a parse using the grammar in \eqref{eq:leo-example-grammar},
@@ -1559,10 +1559,10 @@ the number of ``Leo memoizable'' \type{EIMT}'s is
 \end{equation}
 of which
 \begin{equation}
-\label{eq:omittable-count}
+\label{eq:ignorable-count}
 \sum \seqB{2 \le \V{i} < \V{n}}{ \V{i} - 2 }
 \end{equation}
-can be omitted completely.
+can be ignored.
 
 For the example parse of \firstRReqref-\lastRReqref{},
 the number of items which can be memoized is 3,
@@ -1571,12 +1571,68 @@ so that we actually save the processing of only one \type{EIMT}.
 This is, frankly, unimpressive.
 
 But \eqref{eq:memoizable-count} and
-\eqref{eq:omittable-count} are both \order{\V{n}^2},
+\eqref{eq:ignorable-count} are both \order{\V{n}^2},
 and for larger \V{n} the effect of quadratic growth
 takes over quickly.
+Continuing to use
+the grammar in \eqref{eq:leo-example-grammar},
+and to let \V{n} be the size of the largest Leo stack,
+when $\V{n} \ge 4$, the number of ignorable \type{EIMT}'s
+is
+\[
+\genfrac{}{}{1pt}{}{ (\V{n} \subtract 3)\mult(\V{n} \subtract 2) }{ 2}
+\]
+and the number of other \type{EIMT}'s works out to
+$7 \mult \V{n}.$
+For $\V{n}=19$, over half of the \type{EIMT}'s can be ignored.
+Right recursions are often very long,
+so Leo memoization, if the cost is low,
+is a clear win for many practical grammars.
+Beginning in section \label{sec:leo-items},
+we shall outline such a low-cost method.
 
-[ TO HERE ]
+\subsection{Right recursion}
 
+Recall that we
+call an \type{EIMT} \Vdr{eim} a penult if $\Penult{\var{eim}} \isWellDef$.
+In Leo's original algorithm, any penult
+was subject to Leo memoization,
+not just right recursions.
+\Marpa{} applies the Leo memoizations in more restricted circumstances.
+For \Marpa{} to consider an \type{EIMT}
+\Veimt{candidate}
+for Leo memoization,
+\Veimt{candidate} must be right-recursive as well as a penult.
+
+By restricting Leo memoization to right-recursive rules,
+\Marpa{} incurs the cost of Leo memoization only in cases
+where Leo sequences could be infinitely
+long.
+This more careful targeting of the memoization is for efficiency reasons.
+If all penults are memoized,
+memoizations will be performed where
+the longest Leo stack is finite,
+and often quite short,
+so that the payoff is limited.
+A future optimization might be to identify
+non-right-recursive rules
+which generate Leo stacks which,
+although finite,
+are long enough to
+justify inclusion in the Leo memoizations.
+But more research would be needed to determine if such an
+optimization is worthwhile.
+
+Omission of a memoization does not affect correctness,
+so \Marpa{}'s restriction of Leo memoization
+preserves the correctness as shown in Leo~\cite{Leo1991}.
+Later in this paper we will
+show that this change also leaves
+the complexity results of
+Leo~\cite{Leo1991} intact.
+
+\subsection{Leo items}
+\label{sec:leo-items}
 
 A traditional Leo item (\type{LIMT}) is a triple
 consisting of a dotted rule,
@@ -1624,39 +1680,6 @@ Note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
 
-Recall that we
-call a dotted rule \Vdr{d} a \dfn{penult} if $\Penult{\var{d}} \neq \Lambda$.
-In Leo's original algorithm, any penult
-was treated as a potential right-recursion.
-\Marpa{} applies the Leo memoizations in more restricted circumstances.
-For \Marpa{} to consider a dotted rule
-\Vdr{candidate}
-for Leo memoization,
-\Vdr{candidate} must be a penult and
-$\Rule{\Vdr{candidate}}$ must be right-recursive.
-
-By restricting Leo memoization to right-recursive rules,
-\Marpa{} incurs the cost of Leo memoization only in cases
-where Leo sequences could be infinitely
-long.
-This more careful targeting of the memoization is for efficiency reasons.
-If all penults are memoized,
-many memoizations will be performed where
-the longest potential Leo sequence is short,
-and the payoff is therefore very limited.
-One future extension might be to identify
-non-right-recursive rules
-which generate Leo sequences long enough to
-justify inclusion in the Leo memoizations.
-Such cases would be unusual, but may occur.
-
-Omission of a memoization does not affect correctness,
-so \Marpa{}'s restriction of Leo memoization
-preserves the correctness as shown in Leo~\cite{Leo1991}.
-Later in this paper we will
-show that this change also leaves
-the complexity results of
-Leo~\cite{Leo1991} intact.
 
 Implementing the Leo logic requires
 adding Leo reduction as a new basic operation,
