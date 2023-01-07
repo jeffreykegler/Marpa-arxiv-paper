@@ -1256,11 +1256,14 @@ will be type \type{LIMT}.
 We illustrate the Leo method by examining an \Earley parse
 of the input ``{\tt xxxx}''
 using the grammar
-\begin{align*}
-&\tuple{\V{S} \de \V{RR}} \\
-&\tuple{\V{RR} \de \V{x}} \\
-&\tuple{\V{RR} \de \V{x} \cat \V{RR}}.
-\end{align*}
+\begin{equation}
+\label{eq:leo-example-grammar}
+\begin{aligned}
+  &\tuple{\V{S} \de \V{RR}} \\
+  &\tuple{\V{RR} \de \V{x}} \\
+  &\tuple{\V{RR} \de \V{x} \cat \V{RR}}.
+\end{aligned}
+\end{equation}
 This grammar and input produce the Earley sets
 in the display which follows.
 Each line in the display shows one \type{EIMT},
@@ -1540,12 +1543,40 @@ In a Leo stack, every other Leo completion\linebreak
 can be deduced from the top of the stack.\footnote{%
    For this reason,
    in his 1991~\cite{Leo1991},
-   Leo's term for what we call a Leo stack was
+   Leo's term for his concept analogous to our Leo stack was
    ``deterministic reduction path''.}
 \end{center}
 This meant that all items in a Leo stack, except the top and bottom
 can be memoized during the parse,
 and omitted entirely if they turn to be useless.
+
+Where \V{n} is the size of the largest Leo stack in
+a parse using the grammar in \eqref{eq:leo-example-grammar},
+the number of ``Leo memoizable'' \type{EIMT}'s is
+\begin{equation}
+\label{eq:memoizable-count}
+\sum \seqB{2 \le \V{i} \le \V{n}}{ \V{i} - 2 }
+\end{equation}
+of which
+\begin{equation}
+\label{eq:omittable-count}
+\sum \seqB{2 \le \V{i} < \V{n}}{ \V{i} - 2 }
+\end{equation}
+can be omitted completely.
+
+For the example parse of \firstRReqref-\lastRReqref{},
+the number of items which can be memoized is 3,
+but 2 of these need to be used for evaluation,
+so that we actually save the processing of only one \type{EIMT}.
+This is, frankly, unimpressive.
+
+But \eqref{eq:memoizable-count} and
+\eqref{eq:omittable-count} are both \order{\V{n}^2},
+and for larger \V{n} the effect of quadratic growth
+takes over quickly.
+
+[ TO HERE ]
+
 
 A traditional Leo item (\type{LIMT}) is a triple
 consisting of a dotted rule,
