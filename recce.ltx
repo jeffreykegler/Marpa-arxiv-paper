@@ -1739,6 +1739,9 @@ operation, except that it looks for a mainstem \type{LIMT},
 instead of an \type{EIMT}.
 $\LHS{\Veimt{tributary}}$ is the transition symbol
 of the Leo reduction.
+A confluence which results from Leo reduction is
+called a \dfn{Leo confluence}.
+The mainstem of a Leo confluence is always a \type{LIMT}.
 
 \subsection{Revised Earley reduction}
 
@@ -1807,6 +1810,32 @@ and another inference rule that holds if
 We note that when the confluence of a \type{LIMT} has no mainstem,
 its mainstem is ill-defined.
 
+\begin{algorithm}[ht]
+\caption{Leo stack expansion}
+\label{alg:leo-expansion}
+\begin{algorithmic}[1]
+\Procedure{LeoExpand}{$\VTtyped{top}{EIMT},\VTtyped{confl}{CFLU},\VTtyped{current}{ES}$}
+\Comment{Expand Leo stack for $\V{confl}\in\Confluences{\V{top},\V{current}}$.
+    \V{top} may have more than one Leo confluence and this algorithm must be run for each of them.}
+\State $\tuple{\Vlimt{workLIM},\Veimt{base}} \gets \V{confl}$
+\State $\Veimt{previousCompletion} \gets \V{base}$
+\While{$\Vlimt{workLIM}\isWellDef$}
+\State $\tuple{\Vlimt{previousLIM}, \Veimt{workEIM}}$
+\State \hspace{5em} $\gets\; \iotaQ{\V{c}}{\V{c}\in\Confluences{\V{workLIM},\V{current}}}$
+\Statex \Comment{\type{LIMT}'s always have exactly one confluence.}
+\State \Comment     Let completion be a new EIM such that
+\State \Comment         DR(completion) = Next(DR(workingBase))
+\State \Comment         Origin(completion) = Origin(workingBase)
+\State \Comment     Add completion to currentES.
+\State \Comment     Add the confluence [ workingBase, previousCompletion ]
+\State \Comment         to the confluence set of completion.
+\State \Comment     workingLIM = previousLIM
+\State \Comment     previousCompletion = completion
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Leo evaluation}
 
 \Marpa evaluation deals with Leo-memoized \type{EIMT}'s by expanding
@@ -1815,18 +1844,13 @@ For each right recursion, there will be only one such Leo stack.
 In the example parse of \firstRReqref-\lastRReqref{},
 that Leo stack is in \type{ES} 4.
 
-Below is pseudo-code for recreating the Leo stack for a
+Algorithm \ref{alg:leo-expansion}
+recreates the Leo stack for a
 confluence of a top \type{EIMT}.
-Call that top \type{EIMT}, \V{top};
-and let the confluence be
-\tuple{\Vlimt{lim0}, \Veimt{base}}.
-\Veimt{top} and \Veimt{base} will be in the same \type{ES},
-call it \V{current}.
-We note that \Veimt{top} may have more than
-one confluence, and the others may be either Leo or ordinary confluences.
-The algorithm below must be run for each of the Leo confluences.
+We note that top of a Leo stack may have more than
+one confluence, and that the others may be either Leo or ordinary confluences.
+Algorithm \ref{alg:leo-expansion} must be run for each of the Leo confluences.
 
-Our algorithm is as follows:
 % workingLIM = lim0
 % previousCompletion = baseEIM
 % currentES <font face="serif">is the ES for</font> top
