@@ -74,7 +74,7 @@
 
 \newcommand{\suchthat}{\mcoloncolon}
 \newcommand{\quantify}[3]{% quantifier, binding, predicate
-    \ensuremath{\mathrel{#1}#2 \suchthat #3}%
+    \ensuremath{\mathrel{#1}#2 \; \suchthat \; #3}%
 }
 
 \newcommand{\rIota}{\mathop{\scalebox{1.5}{\rotatebox[origin=c]{180}{$\iota$}}}}
@@ -96,6 +96,8 @@
 % extra {} in existQOP and univQOp to raise to baseline
 \newcommand{\existQOp}{\mathop{\exists{}}}
 \newcommand{\existQ}[2]{\quantify{\existQOp}{#1}{#2}}
+\newcommand{\nexistQOp}{\mathop{\nexists{}}}
+\newcommand{\nexistQ}[2]{\quantify{\nexistQOp}{#1}{#2}}
 % extra {} in existQOP and univQOp to raise to baseline
 \newcommand{\univQOp}{\mathop{\forall{}\,}}
 \newcommand{\univQ}[2]{\quantify{\univQOp}{#1}{#2}}
@@ -1735,7 +1737,7 @@ still applies, with an additional premise:
 \inference{
     \begin{array}{c}
     \Veimt{tributary} \in \Ves{current} \\
-    \nexists \; \Vlimt{x} \; \mid \; \LIMTMainstem{\var{x},\var{tributary}} \\
+    \nexistQ{ \VTtyped{x}{LIMT} }{ \LIMTMainstem{\var{x},\var{tributary}}} \\
     \Veimt{mainstem} \in \es{(\Origin{\Veimt{tributary}})} \\
     \Postdot{\Veimt{mainstem}} = \LHS{\Veimt{tributary}} \\
     \end{array}
@@ -1779,11 +1781,14 @@ and another inference rule that holds if
 \begin{equation*}
 \inference{
     \begin{array}{c}
-    (\forall \; \Vlimt{stem} \; \mid \; \neg \LIMTMainstem{\var{stem},\Veimt{trib}} \\
+    \univQ{ \VTtyped{stem}{LIMT} }{ \neg \LIMTMainstem{\V{stem},\Veimt{trib}}} \\
     \LeoEligible{\Veimt{trib}, \Ves{current}}
     \end{array}
 }{
-    \Elimt{ \big[ \Next{\Veimt{trib}}, \Penult{\var{trib}}, \Origin{\var{trib}} \big] }
+    \begin{array}{c}
+	\VTtyped{ \tuple{\DR{\Veimt{trib}}, \Penult{\V{trib}}, \Origin{\V{trib}}}}{LIMT} \\
+	\VTtyped{\tuple{\unicorn,\Veimt{trib}}}{CFLU}
+    \end{array}
 }
 \end{equation*}
 
