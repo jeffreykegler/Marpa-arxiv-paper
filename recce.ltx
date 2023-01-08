@@ -31,7 +31,7 @@
 \newcommand{\cat}{\,.\,}
 \newcommand{\size}[1]{\ensuremath{\left | {#1} \right |}}
 \newcommand{\bigsize}[1]{\ensuremath{\bigl| {#1} \bigr|}}
-\newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}}
+\newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}\xspace}
 \newcommand{\Oc}{\order{1}}
 \newcommand{\On}{\order{\var{n}}}
 \newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
@@ -1585,10 +1585,12 @@ is
 and the number of other \type{EIMT}'s works out to
 $7 \mult \V{n}.$
 For $\V{n}=19$, over half of the \type{EIMT}'s can be ignored.
+
 Right recursions are often very long,
-so Leo memoization, if the cost is low,
-is a clear win for many practical grammars.
-Beginning in section \label{sec:leo-items},
+so Leo memoization, if the cost is \Oc
+with small constants,
+is a clear win for many grammars in practical use.
+Beginning in section \eqref{sec:leo-items},
 we shall outline such a low-cost method.
 
 \subsection{Right recursion}
@@ -1612,15 +1614,14 @@ This more careful targeting of the memoization is for efficiency reasons.
 If all penults are memoized,
 memoizations will be performed where
 the longest Leo stack is finite,
-and often quite short,
 so that the payoff is limited.
-A future optimization might be to identify
+and often quite small.
+A possible future optimization would be to identify
 non-right-recursive rules
-which generate Leo stacks which,
-although finite,
+which generate Leo stacks which
 are long enough to
 justify inclusion in the Leo memoizations.
-But more research would be needed to determine if such an
+But research would be needed to show that such an
 optimization is worthwhile.
 
 Omission of a memoization does not affect correctness,
@@ -1676,7 +1677,7 @@ and write
 $$\Vlimt{x} \in \Ves{i}.$$
 Accordingly, we have spoken of parse items, which may be Leo items,
 being ``added to the Earley set'', and we will continue to speak in this way.
-Note that in \eqref{e:limtmap-overload},
+We note that in \eqref{e:limtmap-overload},
 $\mymathop{LIMT-Map}$ is a partial function,
 and therefore its value is not necessarily defined.
 
