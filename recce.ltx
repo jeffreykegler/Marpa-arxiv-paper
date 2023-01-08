@@ -1758,24 +1758,6 @@ there is a Leo memoization.
 
 \subsection{Leo memoization}
 
-Our inference rules for Leo memoization take a slightly different form,
-than those we have used to add \type{EIMT}'s to the Earley sets.
-As previously,
-our premises will be conditions where
-\Vloc{current} is the current Earley set.
-But the result of our inferences will be a \type{LIMT} such that
-where \Vlimt{result} is the result,
-we have
-\begin{equation}
-\label{e:limt-inference-result}
-  \mymathop{LIMT-Map}(\Vloc{current}, \Transition{\var{result}}) = \var{result}.
-\end{equation}
-Recall that we usually prefer to avoid direct reference to the \type{LIMT} maps,
-instead overloading set notation
-and writing
-\eqref{e:limt-inference-result} as
-$$ \Vlimt{result} \in \Ves{current}. $$
-
 We are now ready to define an inference rule which holds if
 a \type{LIMT} mainstem can be found for the tributary \type{EIMT}
 in \Ves{current},
@@ -1786,7 +1768,10 @@ in \Ves{current},
     \LeoEligible{\Veimt{trib}, \Ves{current}}
     \end{array}
 }{
-    \Elimt{ \big[ \DR{\Vlimt{stem}}, \Penult{\Veimt{trib}}, \Origin{\var{stem}} \big] }
+    \begin{array}{c}
+	\VTtyped{ \tuple{\DR{\Vlimt{stem}}, \Penult{\Veimt{trib}}, \Origin{\var{stem}}}}{LIMT} \\
+	\VTtyped{\tuple{\Vlimt{stem},\Veimt{trib}}}{CFLU}
+    \end{array}
 }
 \end{equation*}
 and another inference rule that holds if
