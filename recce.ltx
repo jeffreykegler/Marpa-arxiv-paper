@@ -1713,22 +1713,17 @@ $\LIMTMainstem{\Vlimt{stem},\Veimt{x}}$ is true, where
     \LIMTMainstem{\Vlimt{mainstem},\var{tributary}} \\
     \end{array}
 }{
-    \bigset{ [ \DR{\Vlimt{mainstem}}, \Origin{\var{mainstem}} ] }
+    \begin{array}{c}
+	\VTtyped{\tuple{ \DR{\Vlimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
+	\VTtyped{\tuple{ \Vlimt{mainstem}, \Veimt{tributary}}}{CFLU}
+    \end{array}
 }
 \end{equation*}
 The new Leo reduction operation resembles the Earley reduction
-operation, except that it looks for a \type{LIMT},
-instead of a mainstem \type{EIMT}.
-\Vlimt{mainstem} and
-\Veimt{tributary} are the operands of the Leo reduction
-operation.
-$\LHS{\var{tributary}}$ is the transition symbol
+operation, except that it looks for a mainstem \type{LIMT},
+instead of an \type{EIMT}.
+$\LHS{\Veimt{tributary}}$ is the transition symbol
 of the Leo reduction.
-As with Earley reduction,
-it may be convenient to treat the transition
-symbol as an operand,
-so that the operands
-are \Vlimt{mainstem} and $\LHS{\Veimt{tributary}}$.
 
 \subsection{Revised Earley reduction}
 
@@ -1747,7 +1742,7 @@ still applies, with an additional premise:
 }{
     \begin{array}{c}
 	\VTtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
-	\VTtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{CFLU}
+	\VTtyped{\tuple{\Veimt{mainsteam}, \Veimt{tributary} }}{CFLU}
     \end{array}
 }
 \end{equation*}
