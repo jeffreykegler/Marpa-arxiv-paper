@@ -1604,7 +1604,7 @@ while that of~\cite{Leo1991} is lazy.
 Second, Marpa only does Leo memoization for
 right recursive rules.
 Omission of Leo memoization does not affect correctness,
-so these changes 
+so these changes
 preserve the correctness as shown in Leo~\cite{Leo1991}.
 And, later in this paper, we will
 show that this changes also leave
@@ -1806,6 +1806,43 @@ and another inference rule that holds if
 \end{equation*}
 We note that when the confluence of a \type{LIMT} has no mainstem,
 its mainstem is ill-defined.
+
+\subsection{Leo evaluation}
+
+\Marpa evaluation deals with Leo-memoized \type{EIMT}'s by expanding
+those Leo stacks which contain memoized \type{EIMT}'s that are useful.
+For each right recursion, there will be only one such Leo stack.
+In the example parse of \firstRReqref-\lastRReqref{},
+that Leo stack is in \type{ES} 4.
+
+Below is pseudo-code for recreating the Leo stack for a
+confluence of a top \type{EIMT}.
+Call that top \type{EIMT}, \V{top};
+and let the confluence be
+\tuple{\Vlimt{lim0}, \Veimt{base}}.
+\Veimt{top} and \Veimt{base} will be in the same \type{ES},
+call it \V{current}.
+We note that \Veimt{top} may have more than
+one confluence, and the others may be either Leo or ordinary confluences.
+The algorithm below must be run for each of the Leo confluences.
+
+Our algorithm is as follows:
+% workingLIM = lim0
+% previousCompletion = baseEIM
+% currentES <font face="serif">is the ES for</font> top
+% while workingLIM is well-defined
+% do
+%     <font face="serif"># LIMs always have exactly one confluence</font>
+%     [ previousLIM, workingBase ] = confluence(workingLIM)
+%     <font face="serif">Let</font> completion <font face="serif">be a new EIM such that</font>
+%         DR(completion) = Next(DR(workingBase))
+%         Origin(completion) = Origin(workingBase)
+%     <font face="serif">Add</font> completion <font face="serif">to</font> currentES.
+%     <font face="serif">Add the confluence</font> [ workingBase, previousCompletion ]<!--
+%         --> <font face="serif">to the confluence set of</font> completion.
+%     workingLIM = previousLIM
+%     previousCompletion = completion
+% done
 
 \section{The Aycock-Horspool finite automaton}
 \label{s:AHFA}
