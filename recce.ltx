@@ -1595,18 +1595,39 @@ is a clear win for many grammars in practical use.
 Beginning in section \eqref{sec:leo-items},
 we shall outline such a low-cost method.
 
-\subsection{Right recursion}
+\subsection{Differences with Leo 1991}
 
-Recall that we
-call an \type{EIMT} \Vdr{eim} a penult if $\Penult{\var{eim}} \isWellDef$.
-In Leo's original algorithm, any penult
+Our version of Leo memoization is somewhat
+different from that in Leo 1991~\cite{Leo1991}.
+First, in Marpa, Leo memoization is eager,
+while that of~\cite{Leo1991} is lazy.
+Second, Marpa only does Leo memoization for
+right recursive rules.
+Omission of Leo memoization does not affect correctness,
+so these changes 
+preserve the correctness as shown in Leo~\cite{Leo1991}.
+And, later in this paper, we will
+show that this changes also leave
+the complexity results of
+Leo~\cite{Leo1991} intact.
+
+The algorithm of \cite{Leo1991}
+in some cases delayed Leo memoization
+until after later \type{ES}'s were constructed.
+It was not clear to us that this produced any savings.
+It did make the algorithm more complex,
+and presented a real obstacle to \Marpa's on-the-fly
+features, such as event generation.
+For these reasons, in \Marpa,
+Leo memoization is eager.
+
+We also have been considering Leo memoization only for
+right recursive \type{EIMT}'s,
+In \cite{Leo1991}, any penult
 was subject to Leo memoization,
 not just right recursions.
-\Marpa{} applies the Leo memoizations in more restricted circumstances.
-For \Marpa{} to consider an \type{EIMT}
-\Veimt{candidate}
-for Leo memoization,
-\Veimt{candidate} must be right-recursive as well as a penult.
+(We recall that
+an \type{EIMT} \Vdr{eim} is a penult if $\Penult{\var{eim}} \isWellDef$.)
 
 By restricting Leo memoization to right-recursive rules,
 \Marpa{} incurs the cost of Leo memoization only in cases
@@ -1625,14 +1646,6 @@ are long enough to
 justify inclusion in the Leo memoizations.
 But research would be needed to show that such an
 optimization is worthwhile.
-
-Omission of a memoization does not affect correctness,
-so \Marpa{}'s restriction of Leo memoization
-preserves the correctness as shown in Leo~\cite{Leo1991}.
-Later in this paper we will
-show that this change also leaves
-the complexity results of
-Leo~\cite{Leo1991} intact.
 
 \subsection{Leo items}
 \label{sec:leo-items}
