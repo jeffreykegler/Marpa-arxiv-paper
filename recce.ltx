@@ -2738,9 +2738,9 @@ track each other closely.
 \begin{definition}
 A \textnormal{\Marpa} Earley item \dfn{corresponds}
 to a traditional Earley item
-$\Veimt{x} = [\Vdr{x}, \Vorig{x}]$
+$\Veimt{x} = \tuple{\Vdr{x}, \Vorig{x}}$
 if and only if the \textnormal{\Marpa} Earley item is a
-$\Veim{y} = [\Vah{y}, \Vorig{x}]$
+$\Veim{y} = \tuple{\Vah{y}, \Vorig{x}}$
 such that $\Vdr{x} \in \Vah{y}$.
 A traditional Earley item, \Veimt{x}, corresponds to a
 Marpa Earley item, \Veim{y}, if and only if
