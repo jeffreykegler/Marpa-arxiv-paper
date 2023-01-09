@@ -1944,7 +1944,7 @@ and \Marpa{} also changes its Leo items to use AHFA states.
 Marpa's Leo items (\type{LIM}'s) are triples
 of the form
 \begin{equation*}
-[\Vah{top}, \Vsym{transition}, \Vorig{top}],
+\tuple{\Vah{top}, \Vsym{transition}, \Vorig{top}},
 \end{equation*}
 where \Vsym{transition} and \Vorig{top}
 are as in the traditional Leo items,
@@ -1964,9 +1964,10 @@ If \Vah{predicted} is the result of a null transition,
 it is called a \dfn{predicted} AHFA state.
 If an AHFA state is not a \dfn{predicted} AHFA state,
 it is called a \dfn{confirmed} AHFA state.
-The initial AHFA state is a confirmed AHFA state.
-(In~\cite{AH2002} confirmed states are called ``kernel states'',
-and predicted states are called ``non-kernel states''.)
+The initial AHFA state is a confirmed AHFA state.\footnote{%
+In~\cite{AH2002} confirmed states are called ``kernel states'',
+and predicted states are called ``non-kernel states''.
+}
 
 The states of an AHFA
 are not a partition of the dotted
@@ -1988,7 +1989,7 @@ then its AHFA state contains only one dotted rule.
 Let the \type{EIM} that is the result of the Leo
 reduction be
 \begin{equation*}
-\Veim{result} = [\Vah{result}, \Vorig{result}]
+\Veim{result} = \tuple{\Vah{result}, \Vorig{result}}.
 \end{equation*}
 Let the Earley set that contains \Veim{result} be
 \Ves{i}.
@@ -2003,7 +2004,7 @@ where
 Let \Vrule{c} be the rule of \Vdr{complete},
 and \var{cp} its dot position,
 \begin{equation*}
-\Vdr{complete} = [ \Vrule{c}, \var{cp} ].
+\Vdr{complete} = \tuple{ \Vrule{c}, \var{cp} }.
 \end{equation*}
 $\var{cp} > 0$ because, in \Marpa{}
 grammars, completions are never
@@ -2019,7 +2020,7 @@ where $\Vdr{complete} \neq \Vdr{other}$.
 Let \Vrule{o} be the rule of \Vdr{other},
 and \var{op} its dot position,
 \begin{equation*}
-\Vdr{other} = [ \Vrule{o}, \var{op} ].
+\Vdr{other} = \tuple{ \Vrule{o}, \var{op} }.
 \end{equation*}
 AHFA construction never places a prediction in the same
 AHFA state as a completion, so
