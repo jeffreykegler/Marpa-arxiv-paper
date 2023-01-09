@@ -2406,15 +2406,15 @@ and can be charged to \type{EIM} being examined.
 \label{alg:reduce-one-LHS-symbol}
 \begin{algorithmic}[1]
 \Procedure{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
-\State Note: Each pass through this loop is an \type{EIM} attempt
+\Statex \Comment{Each pass through the following loop is an \type{EIM} attempt}
 \For{each $\var{pim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
-\State \Comment \var{pim} is a ``postdot item'', either a \type{LIM} or an \type{EIM}
+\Statex \Comment \var{pim} is a ``postdot item'', either a \type{LIM} or an \type{EIM}
 \If{\var{pim} is a \type{LIM}, \Vlim{pim}}
 \State Perform a \Call{Leo reduction operation}{}
-\State \hspace\algorithmicindent for operands \Vloc{i}, \Vlim{pim}
+\Statex \hspace\algorithmicindent\hspace{4em} for operands \Vloc{i}, \Vlim{pim}
 \Else
 \State Perform a \Call{Earley reduction operation}{}
-\State \hspace\algorithmicindent for operands \Vloc{i}, \Veim{pim}, \Vsym{lhs}
+\Statex \hspace\algorithmicindent\hspace{4em} for operands \Vloc{i}, \Veim{pim}, \Vsym{lhs}
 \EndIf
 \EndFor
 \EndProcedure
