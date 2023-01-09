@@ -1537,11 +1537,12 @@ all of the following are true:
 \end{itemize}
 
 A Leo stack must have at least two elements,
-and all the bottom element will be a Leo completion.
+and all but the bottom element will be a Leo completion.
 Joop Leo's technique for eliminating useless items from an Earley table
 was based on the following insight:
 \begin{center}
-In a Leo stack, every other Leo completion\linebreak
+Every Leo completion in a Leo stack,\linebreak
+except the top of the stack,\linebreak
 can be deduced from the top of the stack.\footnote{%
    For this reason,
    in his 1991~\cite{Leo1991},
