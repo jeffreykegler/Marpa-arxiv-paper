@@ -1817,20 +1817,19 @@ its mainstem is ill-defined.
 \Procedure{LeoExpand}{$\VTtyped{top}{EIMT},\VTtyped{confl}{CFLU},\VTtyped{current}{ES}$}
 \Comment{Expand Leo stack for $\V{confl}\in\Confluences{\V{top},\V{current}}$.
     \V{top} may have more than one Leo confluence and this algorithm must be run for each of them.}
-\State $\tuple{\Vlimt{workLIM},\Veimt{base}} \gets \V{confl}$
-\State $\Veimt{previousCompletion} \gets \V{base}$
-\While{$\Vlimt{workLIM}\isWellDef$}
-\State $\tuple{\Vlimt{previousLIM}, \Veimt{workEIM}}$
-\State \hspace{5em} $\gets\; \iotaQ{\V{c}}{\V{c}\in\Confluences{\V{workLIM},\V{current}}}$
+\State $\tuple{\Vlimt{TrunkLIM},\Veimt{previousCompletion}} \gets \V{confl}$
+\While{$\Vlimt{TrunkLIM}\isWellDef$}
+\State $\VTtyped{\tuple{\Vlimt{nextTrunkLIM}, \Veimt{penult}}}{CFLU}$
+\Statex \hspace\algorithmicindent\hspace{2em}
+  $\gets\; \iotaQ{\V{c}}{\V{c}\in\Confluences{\V{TrunkLIM},\V{current}}}$
 \Statex \Comment{\type{LIMT}'s always have exactly one confluence.}
-\State \Comment     Let completion be a new EIM such that
-\State \Comment         DR(completion) = Next(DR(workingBase))
-\State \Comment         Origin(completion) = Origin(workingBase)
-\State \Comment     Add completion to currentES.
-\State \Comment     Add the confluence [ workingBase, previousCompletion ]
-\State \Comment         to the confluence set of completion.
-\State \Comment     workingLIM = previousLIM
-\State \Comment     previousCompletion = completion
+\State $\Veimt{completion} \gets \tuple{\Next{\DR{\Veimt{penult}}}, \Origin{\V{penult}}}$
+\State Add completion \Veimt{completion} to \Ves{current}.
+\State Add $\VTtyped{\tuple{\Veimt{penult}, \V{previousCompletion}}}{CFLU}$
+\Statex \hspace\algorithmicindent\hspace{2em} to $\Confluences{\V{completion}, \Ves{current}}$
+\Statex \Comment{"Adds" are to sets --- elements already in the set must not be duplicated.}
+\State $\Vlimt{TrunkLIM} \gets \Vlimt{nextTrunkLIM}$
+\State $\Veimt{previousCompletion} \gets \Veimt{completion}$
 \EndWhile
 \EndProcedure
 \end{algorithmic}
