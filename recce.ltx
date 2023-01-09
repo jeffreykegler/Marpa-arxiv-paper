@@ -2257,9 +2257,9 @@ and is charged to the parse.
 \label{alg:scan-pass}
 \begin{algorithmic}[1]
 \Procedure{Scan pass}{$\Vloc{i},\Vsym{a}$}
-\State Note: Each pass through this loop is an \type{EIM} attempt
 \For{each $\Veim{mainstem} \in \var{transitions}((\var{i} \subtract 1),\var{a})$}
-\State $[\Vah{from}, \Vloc{origin}] \gets \Veim{mainstem}$
+\Statex \Comment{Each pass through this loop is an \type{EIM} attempt.}
+\State $\tuple{\Vah{from}, \Vloc{origin}} \gets \Veim{mainstem}$
 \State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{a})$
 \State \Call{Add \type{EIM} pair}{$\Ves{i}, \Vah{to}, \Vloc{origin}$}
 \EndFor
@@ -2297,13 +2297,12 @@ Overhead is charged to the Earley set at \Vloc{i}.
 \label{alg:reduction-pass}
 \begin{algorithmic}[1]
 \Procedure{Reduction pass}{\Vloc{i}}
-\State Note: \Vtable{i} may include \type{EIM}'s added by
-\State \hspace{2.5em} by \Call{Reduce one LHS}{} and
-\State \hspace{2.5em} the loop must traverse these
+\Statex \Comment{\Vtable{i} may include \type{EIM}'s added by
+    by \Call{Reduce one LHS}{} and the loop must traverse these.}
 \For{each Earley item $\Veim{work} \in \Vtable{i}$}
-\State $[\Vah{work}, \Vloc{origin}] \gets \Veim{work}$
+\State $\tuple{\Vah{work}, \Vloc{origin}} \gets \Veim{work}$
 \State $\Vsymset{lh-sides} \gets$ a set containing the LHS
-\State \hspace\algorithmicindent of every completed rule in \Veim{work}
+\State \hspace\algorithmicindent of every completed rule in \Vah{work}
 \For{each $\Vsym{lhs} \in \Vsymset{lh-sides}$}
 \State \Call{Reduce one LHS}{\Vloc{i}, \Vloc{origin}, \Vsym{lhs}}
 \EndFor
@@ -2332,7 +2331,7 @@ some of the time required by
 and therefore charged to this procedure.
 Inclusive time from \call{Reduce one LHS}{}
 is \Oc{} per call,
-as will be seen in Section \ref{p:reduce-one-lhs},
+as will be seen in Section~\ref{p:reduce-one-lhs},
 and is charged to the \Veim{work}
 that is current
 during that call to \call{Reduce one LHS}{}.
