@@ -2186,14 +2186,14 @@ Per-set-lists will be described in Section \ref{s:per-set-lists}.
 \Procedure{Main}{}
 \State \Call{Initial}{}
 \For{ $\var{i}, 0 \le \var{i} \le \Vsize{w}$ }
-\State \Comment At this point, $\Ves{x}$ is complete, for $0 \le \var{x} < \var{i}$
+\Statex \Comment At this point, $\Ves{x}$ is complete, for $0 \le \var{x} < \var{i}$
 \State \Call{Scan pass}{$\var{i}, \var{w}[\var{i} \subtract 1]$}
 \If{$\size{\Ves{i}} = 0$}
 \State reject \Cw{} and return
 \EndIf
 \State \Call{Reduction pass}{\var{i}}
 \EndFor
-\For{every $[\Vah{x}, 0] \in \Etable{\Vsize{w}}$}
+\For{every $\VTtyped{\tuple{\Vah{x}, 0}}{EIM} \in \Etable{\Vsize{w}}$}
 \If{$\Vdr{accept} \in \Vah{x}$}
 \State accept \Cw{} and return
 \EndIf
