@@ -2500,13 +2500,13 @@ attempt.
 \label{alg:add-EIM-pair}
 \begin{algorithmic}[1]
 \Procedure{Add \type{EIM} pair}{$\Ves{i},\Vah{confirmed}, \Vloc{origin}$}
-\State $\Veim{confirmed} \gets [\Vah{confirmed}, \Vloc{origin}]$
+\State $\Veim{confirmed} \gets \tuple{\Vah{confirmed}, \Vloc{origin}}$
 \State $\Vah{predicted} \gets \GOTO(\Vah{confirmed}, \epsilon)$
 \If{\Veim{confirmed} is new}
 \State Add \Veim{confirmed} to \Vtable{i}
 \EndIf
 \If{$\Vah{predicted} \neq \Lambda$}
-\State $\Veim{predicted} \gets [\Vah{predicted}, \Vloc{i}]$
+\State $\Veim{predicted} \gets \tuple{\Vah{predicted}, \Vloc{i}}$
 \If{\Veim{predicted} is new}
 \State Add \Veim{predicted} to \Vtable{i}
 \EndIf
