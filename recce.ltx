@@ -1600,19 +1600,22 @@ we shall outline such a low-cost method.
 
 Our version of Leo memoization is somewhat
 different from that in Leo 1991~\cite{Leo1991}.
-First, in Marpa, Leo memoization is eager,
-while that of~\cite{Leo1991} is lazy.
-Second, Marpa only does Leo memoization for
-right recursive rules.
+  \begin{itemize}
+  \item \Marpa's Leo memoization is eager,
+  while that of~\cite{Leo1991} is lazy.
+  \item \Marpa only does Leo memoization
+  for right recursive rules.
+  \end{itemize}
 Omission of Leo memoization does not affect correctness,
 so these changes
-preserve the correctness as shown in Leo~\cite{Leo1991}.
+preserve the correctness as shown in \cite{Leo1991}.
 And, later in this paper, we will
 show that this changes also leave
 the complexity results of
-Leo~\cite{Leo1991} intact.
+\cite{Leo1991} intact.
 
-The algorithm of \cite{Leo1991}
+Looking more closely at our first difference,
+the algorithm of \cite{Leo1991}
 in some cases delayed Leo memoization
 until after later \type{ES}'s were constructed.
 It was not clear to us that this produced any savings.
@@ -1622,8 +1625,9 @@ features, such as event generation.
 For these reasons, in \Marpa,
 Leo memoization is eager.
 
-We also have been considering Leo memoization only for
-right recursive \type{EIMT}'s,
+Our second difference was to
+consider Leo memoization only for
+right recursive \type{EIMT}'s.
 In \cite{Leo1991}, any penult
 was subject to Leo memoization,
 not just right recursions.
@@ -1632,7 +1636,7 @@ an \type{EIMT} \Vdr{eim} is a penult if $\Penult{\var{eim}} \isWellDef$.)
 
 By restricting Leo memoization to right-recursive rules,
 \Marpa{} incurs the cost of Leo memoization only in cases
-where Leo sequences could be infinitely
+where Leo sequences can be infinitely
 long.
 This more careful targeting of the memoization is for efficiency reasons.
 If all penults are memoized,
