@@ -2343,15 +2343,14 @@ Overhead may be charged to the Earley set at \Vloc{i}.
 \begin{algorithmic}[1]
 \Procedure{Memoize transitions}{\Vloc{i}}
 \For{every \Vsym{postdot}, a postdot symbol of $\Ves{i}$}
-\State Note: \Vsym{postdot} is ``Leo eligible" if it is
-\State \hspace\algorithmicindent  Leo unique and its rule is right recursive
-\If{\Vsym{postdot} is Leo eligible}
-\State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
-\State \hspace\algorithmicindent to a \type{LIM}
+\If{$\LeoEligible{\Vsym{postdot},\Ves{i}}$}
+\State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$ to a \type{LIM}
 \Else
 \State Set $\var{transitions}(\Vloc{i},\Vsym{postdot})$
-\State \hspace\algorithmicindent to the set of \type{EIM}'s that have
-\State \hspace\algorithmicindent \Vsym{postdot} as their postdot symbol
+\Statex \hspace{\algorithmicindent}\hspace{4em}
+    to the set of \VTtyped{eim}{EIM} such that
+\Statex \hspace{\algorithmicindent}\hspace{4em}
+    $\V{eim} \in \Ves{i} \land \Postdot{\V{eim}} = \Vsym{postdot}$
 \EndIf
 \EndFor
 \EndProcedure
