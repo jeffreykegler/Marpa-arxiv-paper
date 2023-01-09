@@ -2410,11 +2410,9 @@ and can be charged to \type{EIM} being examined.
 \For{each $\var{pim} \in \var{transitions}(\Vloc{origin},\Vsym{lhs})$}
 \Statex \Comment \var{pim} is a ``postdot item'', either a \type{LIM} or an \type{EIM}
 \If{\var{pim} is a \type{LIM}, \Vlim{pim}}
-\State Perform a \Call{Leo reduction operation}{}
-\Statex \hspace\algorithmicindent\hspace{4em} for operands \Vloc{i}, \Vlim{pim}
+\State \Call{Leo reduction}{\Vloc{i}, \Vlim{pim}}
 \Else
-\State Perform a \Call{Earley reduction operation}{}
-\Statex \hspace\algorithmicindent\hspace{4em} for operands \Vloc{i}, \Veim{pim}, \Vsym{lhs}
+\State \Call{Earley reduction}{\Vloc{i}, \Veim{pim}, \Vsym{lhs}}
 \EndIf
 \EndFor
 \EndProcedure
@@ -2450,11 +2448,11 @@ is charged to each \type{EIM} attempt.
 Overhead is \Oc{} and caller-included.
 
 \begin{algorithm}[ht]
-\caption{Earley reduction operation}
+\caption{Earley reduction}
 \label{alg:earley-reduction}
 \begin{algorithmic}[1]
-\Procedure{Earley reduction operation}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
-\State $[\Vah{from}, \Vloc{origin}] \gets \Veim{from}$
+\Procedure{Earley reduction}{\Vloc{i}, \Veim{from}, \Vsym{trans}}
+\State $\tuple{\Vah{from}, \Vloc{origin}} \gets \Veim{from}$
 \State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{trans})$
 \State \Call{Add \type{EIM} pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
 \EndProcedure
@@ -2468,17 +2466,17 @@ The code that performs Earley reduction is
 Algorithm~\ref{alg:earley-reduction}
 on page~\pageref{alg:earley-reduction}.
 Exclusive time and space is clearly \Oc.
-\call{Earley reduction operation}{} is always
+\call{Earley reduction}{} is always
 called as part of an \type{EIM} attempt,
 and inclusive time and space is charged to the \type{EIM}
 attempt.
 
 \begin{algorithm}[ht]
-\caption{Leo reduction operation}
+\caption{Leo reduction}
 \label{alg:leo-reduction}
 \begin{algorithmic}[1]
-\Procedure{Leo reduction operation}{\Vloc{i}, \Vlim{from}}
-\State $[\Vah{from}, \Vsym{trans}, \Vloc{origin}] \gets \Vlim{from}$
+\Procedure{Leo reduction}{\Vloc{i}, \Vlim{from}}
+\State $\tuple{\Vah{from}, \Vsym{trans}, \Vloc{origin}} \gets \Vlim{from}$
 \State $\Vah{to} \gets \GOTO(\Vah{from}, \Vsym{trans})$
 \State \Call{Add \type{EIM} pair}{\Ves{i}, \Vah{to}, \Vloc{origin}}
 \EndProcedure
@@ -2492,7 +2490,7 @@ The code that performs Leo reduction is
 Algorithm~\ref{alg:leo-reduction}
 on page~\pageref{alg:leo-reduction}.
 Exclusive time and space is clearly \Oc.
-\call{Leo reduction operation}{} is always
+\call{Leo reduction}{} is always
 called as part of an \type{EIM} attempt,
 and inclusive time and space is charged to the \type{EIM}
 attempt.
