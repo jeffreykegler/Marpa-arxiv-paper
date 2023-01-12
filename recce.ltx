@@ -3272,9 +3272,9 @@ We now show completeness for \Marpa{}'s reduction operation,
 in the case where there is a Leo reduction.
 In Section \ref{s:leo-consistent},
 we found that where \Leo{} would create
-the \type{EIMT} $[\Vdr{top}, \Vorig{top}]$,
+the \type{EIMT} $\tuple{\Vdr{top}, \Vorig{top}}$,
 \Marpa adds
-$[\Vah{top}, \Vorig{top}]$
+$\tuple{\Vah{top}, \Vorig{top}}$
 such that $\Vdr{top} \in \Vah{top}$.
 Since \Vdr{top} is a completed rule,
 there are no predictions.
@@ -3321,11 +3321,11 @@ We are now is a position to show that \Marpa is correct.
 From Theorem \ref{t:table-correct},
 we know that
 \begin{equation*}
-[\Vdr{accept},0] \in \EVtable{\Leo}{\Vsize{w}}
+\tuple{\Vdr{accept},0} \in \EVtable{\Leo}{\Vsize{w}}
 \end{equation*}
 if and only there is a
 \begin{equation*}
-[\Vah{accept},0] \in \EVtable{\Marpa}{\Vsize{w}}
+\tuple{\Vah{accept},0} \in \EVtable{\Marpa}{\Vsize{w}}
 \end{equation*}
 such that $\Vdr{accept} \in \Vah{accept}$.
 From the acceptance criteria in the \Leo{} definitions
