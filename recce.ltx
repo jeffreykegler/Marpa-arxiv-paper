@@ -2992,7 +2992,7 @@ induction hypothesis,
 it remains consistent, trivially.
 Otherwise, let
 \begin{equation*}
-\Veim{predicted} = [\Vah{predicted}, \Vloc{i}].
+\Veim{predicted} = \tuple{\Vah{predicted}, \Vloc{i}}.
 \end{equation*}
 \begin{sloppypar}
 We see that \Veim{predicted} is consistent with respect
@@ -3032,7 +3032,7 @@ If $\Vah{confirmed} = \Lambda$, we do nothing,
 and \EVtable{\Marpa}{i} remains consistent, trivially.
 Otherwise, let
 \begin{equation*}
-\Veim{confirmed} = [\Vah{confirmed}, \Vloc{i}].
+\Veim{confirmed} = \tuple{\Vah{confirmed}, \Vloc{i}}.
 \end{equation*}
 We see that \Veim{confirmed} is consistent with respect
 to \EVtable{\Leo}{i}
@@ -3056,7 +3056,7 @@ in the case where there is a Leo reduction.
 If there is a Leo reduction, it is signaled by the
 presence of \Vlim{mainstem},
 \begin{equation*}
-\Vlim{mainstem} = [ \Vah{top}, \Vsym{lhs}, \Vorig{top} ]
+\Vlim{mainstem} = \tuple{ \Vah{top}, \Vsym{lhs}, \Vorig{top} }
 \end{equation*}
 in the Earley set where we would look
 for the \Veim{mainstem}.
