@@ -279,12 +279,12 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-The Marpa recognizer is described.
+The \Marpa recognizer is described.
 Marpa is
 a practical and fully implemented
 algorithm for the recognition,
 parsing and evaluation of context-free grammars.
-The Marpa recognizer is the first
+The \Marpa recognizer is the first
 to unite the improvements
 to Earley's algorithm found in
 Joop Leo's 1991 paper
@@ -311,7 +311,7 @@ as of 2010
 it had never been incorporated into a highly available tool
 like those that exist for LALR~\cite{Johnson} or
 regular expressions.
-The Marpa project was intended
+The \Marpa project was intended
 to take the best results from the literature
 on Earley parsing off the pages
 of the journals and bring them
@@ -385,7 +385,7 @@ treating them as highly defective HTML.
 Section
 \ref{s:preliminaries} describes the notation and conventions
 of this paper.
-Section \ref{s:rewrite} deals with Marpa's
+Section \ref{s:rewrite} deals with \Marpa's
 grammar rewrites.
 Sections \ref{s:earley} and \ref{s:earley-ops}
 introduce Earley's algorithm.
@@ -394,7 +394,7 @@ to Earley's algorithm.
 Section \ref{s:AHFA} describes the modifications
 proposed by Aycock and Horspool.
 Section \ref{s:pseudocode} presents the pseudocode
-for Marpa's recognizer.
+for \Marpa's recognizer.
 Section
 \ref{s:proof-preliminaries}
 describes notation for,
@@ -402,12 +402,12 @@ and other preliminaries to,
 the theoretical results.
 Section
 \ref{s:correct}
-contain a proof of Marpa's correctness,
+contain a proof of \Marpa's correctness,
 while Section \ref{s:complexity} contains
 its complexity results.
 Finally,
 Section \ref{s:input}
-generalizes Marpa's input model.
+generalizes \Marpa's input model.
 
 The nature of this paper is such that
 an adequate literature survey
@@ -744,7 +744,7 @@ of \Cw{} did not allow zero-length inputs.
 To simplify the mathematics, we exclude null parses
 and trivial grammars from consideration.
 In the implementation of~\cite{Marpa-R2},
-the Marpa parser
+the \Marpa parser
 deals with null parses and trivial grammars as special cases.
 (Trivial grammars are those that recognize only the null string.)
 
@@ -777,7 +777,7 @@ is done by rewriting the grammar.
 \cite{AH2002} shows how to do this
 without loss of generality.
 
-Because Marpa claims to be a practical parser,
+Because \Marpa claims to be a practical parser,
 it is important to emphasize
 that all grammar rewrites in this paper
 are done in such a way that the semantics
@@ -794,11 +794,11 @@ into operands that are properly formed
 for that original semantics.
 
 In the implementation of~\cite{Marpa-R2},
-the Marpa parser allows users to associate
+the \Marpa parser allows users to associate
 semantics with an original grammar
 that has none of the restrictions imposed
 on grammars in this paper.
-The user of a Marpa parser
+The user of a \Marpa parser
 may specify any context-free grammar,
 including one with properly nullable symbols,
 empty rules, etc.
@@ -820,7 +820,7 @@ his semantics are applied.
 This paper presents a specialized version of Earley's
 algorithm.
 The version in this paper is simplified to
-take advantage of Marpa{}'s rewriting.
+take advantage of \Marpa{}'s rewriting.
 Descriptions of
 the standard \Earley{}'s algorithm
 are now plentiful.%
@@ -1249,7 +1249,7 @@ Earley set, using what Leo called
 ``transitive items''.
 In this paper Leo's ``transitive items''
 will be called Leo items.
-Leo items in the form that Marpa uses
+Leo items in the form that \Marpa uses
 will be type \type{LIM}.
 ``Traditional'' Leo items,
 that is, those of the form used in Leo's paper~\cite{Leo1991},
@@ -1885,7 +1885,7 @@ or AHFA.
 This section will
 summarize the ideas
 from~\cite{AH2002}
-that are central to Marpa.
+that are central to \Marpa.
 
 Aycock and Horspool based their AHFA's
 on a few observations.
@@ -1935,8 +1935,8 @@ where $\Vah{y}$ is an AHFA state.
 \Marpa{} uses
 Earley items of the form
 created by Aycock and Horspool.
-A Marpa Earley item has type \type{EIM},
-and a Marpa Earley item is often referred to as an \type{EIM}.
+A \Marpa Earley item has type \type{EIM},
+and a \Marpa Earley item is often referred to as an \type{EIM}.
 
 Aycock and Horspool did not consider
 Leo's modifications,
@@ -1950,7 +1950,7 @@ of the form
 where \Vsym{transition} and \Vorig{top}
 are as in the traditional Leo items,
 and \Vah{top} is an AHFA state.
-A Marpa Leo item has type \type{LIM}.
+A \Marpa Leo item has type \type{LIM}.
 
 \cite{AH2002} also defines
 a partial transition function for
@@ -2098,7 +2098,7 @@ in the AHFA state of a Leo reduction \type{EIM},
 then it must be the only dotted rule in that AHFA state.
 \end{proof}
 
-\section{The Marpa recognizer}
+\section{The \Marpa recognizer}
 \label{s:recce}
 \label{s:pseudocode}
 
@@ -2439,7 +2439,7 @@ This requires that \Veim{work}
 in \call{Reduction pass}{}
 carry a link
 back to its origin.
-As implemented in~\cite{Marpa-R2}, Marpa's
+As implemented in~\cite{Marpa-R2}, \Marpa's
 Earley items have such links.
 
 Inclusive time
@@ -2625,7 +2625,7 @@ Let $\PSL{\Ves{x}}{\var{y}}$
 be the entry for integer \var{y} in the PSL in
 the Earley set at \Vloc{x}.
 
-Consider the case where Marpa is building \Ves{j}
+Consider the case where \Marpa is building \Ves{j}
 and wants to check whether Earley item
 $\Veim{x} = [\Vah{x}, \Vorig{x}]$ is new.
 \Marpa{} looks at
@@ -2702,7 +2702,7 @@ or to attempts to add predicted Earley items.
 \subsection{Nulling symbols}
 \label{s:nulling}
 
-Recall that Marpa grammars,
+Recall that \Marpa grammars,
 without loss of generality,
 contain neither empty rules or
 properly nullable symbols.
@@ -2862,10 +2862,10 @@ then there exists \Vah{to} such that
 \end{equation*}
 \end{observation}
 
-\section{Marpa is correct}
+\section{\Marpa is correct}
 \label{s:correct}
 
-\subsection{Marpa's Earley sets grow at worst linearly}
+\subsection{\Marpa's Earley sets grow at worst linearly}
 
 \begin{theorem}\label{t:es-count}
 For a context-free grammar,
@@ -2880,7 +2880,7 @@ and a parse location \Vloc{i},
 \begin{proof}
 \type{EIM}'s have the form $[\Vah{x}, \Vorig{x}]$.
 \Vorig{x} is the origin of the \type{EIM},
-which in Marpa cannot be after the current
+which in \Marpa cannot be after the current
 Earley set  at \Vloc{i},
 so that
 \begin{equation*}
@@ -2897,7 +2897,7 @@ the maximum size of Earley set \Vloc{i} is therefore
 \end{equation*}
 \end{proof}
 
-\subsection{Marpa's Earley sets are correct}
+\subsection{\Marpa's Earley sets are correct}
 
 \begin{theorem}\label{t:table-correct}
 \textnormal{\Marpa}'s Earley sets are correct.
@@ -2926,7 +2926,7 @@ basis of the induction, that
 To show the outer induction step, we show first
 consistency, then completeness.
 We show consistency by
-an inner induction on the Marpa operations.
+an inner induction on the \Marpa operations.
 The inner induction hypothesis is that
 \EVtable{\Marpa}{i},
 as so far built,
@@ -2934,7 +2934,7 @@ is consistent with respect to
 \EVtable{\Leo}{i}.
 
 As the basis of the inner induction,
-an empty Marpa Earley set is
+an empty \Marpa Earley set is
 consistent, trivially.
 We show the step of the inner induction by cases:
 \begin{itemize}
@@ -2943,10 +2943,10 @@ We show the step of the inner induction by cases:
 \item \Marpa{}'s Leo reductions
 \end{itemize}
 
-\subsubsection{Marpa scanning is consistent}
+\subsubsection{\Marpa scanning is consistent}
 \label{s:scan-consistent}
 
-For Marpa's scanning operation, we know
+For \Marpa's scanning operation, we know
 that the mainstem \type{EIM} is correct
 by the outer induction hypothesis,
 and that the token is correct
@@ -3068,7 +3068,7 @@ the outer induction hypothesis.
 
 As the result of a Leo reduction,
 \Leo{} will add
-$[\Vdr{top}, \Vorig{top}]$
+$\tuple{\Vdr{top}, \Vorig{top}}$
 to \EVtable{\Leo}{j}.
 Because the \Marpa{} \type{LIM} is correct,
 using Observations \ref{o:confirmed-AHFA-consistent}
@@ -3080,7 +3080,7 @@ From Section \ref{p:leo-op}, we see
 that, as the result of the Leo reduction,
 \Marpa{} will add
 \begin{equation*}
-\Veim{leo} = [\Vah{top}, \Vorig{top}]
+\Veim{leo} = \tuple{\Vah{top}, \Vorig{top}}
 \end{equation*}
 to \EVtable{\Marpa}{j}.
 The consistency of \Veim{leo} follows from the definition
@@ -3091,7 +3091,7 @@ once \Veim{leo} is added,
 follows by the invariance
 of consistency under union.
 
-\subsubsection{Marpa's Earley sets are consistent}
+\subsubsection{\Marpa's Earley sets are consistent}
 \label{s:sets-consistent}
 
 Sections
@@ -3103,12 +3103,12 @@ show the cases for the step of the inner induction,
 which shows the induction.
 It was the purpose of the inner induction to show
 that consistency of \EVtable{\Marpa}{i} is invariant
-under Marpa's operations.
+under \Marpa's operations.
 
 \subsubsection{The inner induction for completeness}
 
 It remains to show that,
-when Marpa's operations are run as described
+when \Marpa's operations are run as described
 in the pseudocode of Section \ref{s:pseudocode},
 that
 \EVtable{\Marpa}{i} is complete.
@@ -3132,16 +3132,18 @@ and Earley predictions.
 \subsubsection{Scanning is complete}
 \label{s:scan-complete}
 
-For scanning, the Marpa pseudocode shows
+For scanning, the \Marpa pseudocode
+(Algorithm \ref{alg:scan-pass} on page \pageref{alg:scan-pass})
+shows
 that a scan is attempted for every
 pair
 \begin{equation*}
-[\Veim{mainstem}, \Vsym{token}],
+\tuple{\Veim{mainstem}, \Vsym{token}},
 \end{equation*}
 where \Veim{mainstem} is an \type{EIM} in the previous
 Earley set,
 and \Vsym{token} is the token scanned at \Vloc{i}.
-(The pseudocode actually finds
+(Algorithm \ref{alg:scan-pass} actually finds
 \Veim{mainstem} in a set
 returned by $\mymathop{transitions}()$.
 This is a memoization for efficiency
@@ -3152,11 +3154,11 @@ is the same in both \Earley{} and \Leo.
 By the outer induction hypothesis we know that,
 for every traditional Earley item in the previous
 Earley set,
-there is at least one corresponding Marpa Earley item.
+there is at least one corresponding \Marpa Earley item.
 Therefore, \Marpa{} performs its scan operation on a complete set
-of correct operands.
+of mainstems.
 
-Comparing the Marpa pseudocode (Section \ref{p:scan-op}),
+Comparing the \Marpa pseudocode (Section \ref{p:scan-op}),
 with the Earley scanning operation (Section \ref{d:scan})
 and using
 Observations~\ref{o:confirmed-AHFA-complete}
@@ -3178,7 +3180,7 @@ a scanned Earley item in \EVtable{\Leo}{i}.
 We now examine Earley reduction,
 under the assumption that there is
 no Leo transition.
-The Marpa pseudocode shows that the Earley items
+The \Marpa pseudocode shows that the Earley items
 in \EVtable{\Marpa}{i}
 are traversed in a single pass for reduction.
 
@@ -3198,7 +3200,7 @@ Let the scanned Earley items be generation 0.
 An \type{EIMT} produced by a reduction is generation $\var{n} + 1$
 if its tributary Earley item was generation was \var{n}.
 Predicted Earley items do not need to be assigned generations.
-In Marpa grammars they can never contain completions,
+In \Marpa grammars they can never contain completions,
 and therefore can never act as the tributary of a reduction.
 
 The induction hypothesis for the level 2 induction
@@ -3206,7 +3208,7 @@ is that for some \var{n},
 the Earley items of \EVtable{\Marpa}{i} for generations 0 through \var{n}
 are complete and consistent.
 From Section \ref{s:sets-consistent},
-we know that all Earley items in Marpa's sets are consistent.
+we know that all Earley items in \Marpa's sets are consistent.
 In Section \ref{s:scan-complete},
 we showed that generation 0 is complete --
 it contains Earley items
@@ -3237,7 +3239,7 @@ as a memoization.)
 By the outer induction hypothesis we know that,
 for every traditional Earley item in the previous
 Earley set,
-there is at least one corresponding Marpa Earley item.
+there is at least one corresponding \Marpa Earley item.
 We see from the pseudocode, therefore,
 that for each \Veim{working}
 that \Marpa{} performs its reduction operation on a complete set
@@ -3245,7 +3247,7 @@ of correct mainstems.
 Therefore \Marpa{} performs its reduction operations on a
 complete set of operand pairs.
 
-Comparing the Marpa pseudocode (Section \ref{p:reduction-op})
+Comparing the \Marpa pseudocode (Section \ref{p:reduction-op})
 with the Earley reduction operation (Section \ref{s:reduction})
 and using
 Observations~\ref{o:confirmed-AHFA-complete}
@@ -3271,7 +3273,7 @@ in the case where there is a Leo reduction.
 In Section \ref{s:leo-consistent},
 we found that where \Leo{} would create
 the \type{EIMT} $[\Vdr{top}, \Vorig{top}]$,
-Marpa adds
+\Marpa adds
 $[\Vah{top}, \Vorig{top}]$
 such that $\Vdr{top} \in \Vah{top}$.
 Since \Vdr{top} is a completed rule,
@@ -3308,9 +3310,9 @@ Having shown its step, we have the outer induction,
 and the theorem.
 \qedsymbol
 
-\subsection{Marpa is correct}
+\subsection{\Marpa is correct}
 
-We are now is a position to show that Marpa is correct.
+We are now is a position to show that \Marpa is correct.
 \begin{theorem}
 \textup{ $\myL{\Marpa,\Cg} = \myL{\Cg}$ }
 \end{theorem}
@@ -3340,13 +3342,13 @@ The theorem follows from
 the previous two equalities.
 \end{proof}
 
-\section{Marpa recognizer complexity}
+\section{\Marpa recognizer complexity}
 \label{s:complexity}
 
 \subsection{Complexity of each Earley item}
 
 For the complexity proofs,
-we consider only Marpa grammars without nulling
+we consider only \Marpa grammars without nulling
 symbols.
 We showed that this rewrite
 is without loss of generality
@@ -3469,7 +3471,7 @@ where \var{c} is a constant that depends on the grammar.
 
 \begin{proof}
 We know from Theorem \ref{t:table-correct}
-that every Marpa Earley item corresponds to one of
+that every \Marpa Earley item corresponds to one of
 \Leo's traditional Earley items.
 If an \type{EIM} corresponds to an \type{EIMT},
 the AHFA state of the \type{EIM} contains the
@@ -3478,7 +3480,7 @@ while their origins are identical.
 Even in the worst case, a dotted rule cannot
 appear in every AHFA state,
 so that
-the number of Marpa items corresponding to a single
+the number of \Marpa items corresponding to a single
 traditional Earley item must be less
 than $\size{\Cfa}$.
 Therefore,
@@ -3992,7 +3994,7 @@ By Theorem \ref{t:O1-links-per-eim},
 and Theorem \ref{t:ambiguous-tries}.
 \end{proof}
 
-\section{The Marpa input model}
+\section{The \Marpa input model}
 \label{s:input}
 
 In this paper,
@@ -4047,7 +4049,7 @@ properly inside at least one token.
 Here ``properly inside'' means after the token's start earleme
 and before the token's end earleme.
 
-In the Marpa input stream, tokens
+In the \Marpa input stream, tokens
 may interweave and overlap freely,
 but gaps are not allowed.
 That is, for all \Vloc{i} such
@@ -4062,14 +4064,14 @@ such that
 	 \Vloc{start} \le \Vloc{i} < \Vloc{start}+\var{length}.
 \end{gather*}
 
-The intent of Marpa's generalized input model is to allow
+The intent of \Marpa's generalized input model is to allow
 users to define alternative input models for special
 applications.
 An example that arises in current practice is natural
 language, features of which are most
 naturally expressed with ambiguous tokens.
 The traditional input stream can be seen as the special case of
-the Marpa input model where
+the \Marpa input model where
 for all \Vsym{x}, \Vsym{y}, \Vloc{x}, \Vloc{y},
 \var{xlength}, \var{ylength},
 if we have both of
@@ -4083,7 +4085,7 @@ then we have both of
      \Vloc{x} = \Vloc{y} \implies \Vsym{x} = \Vsym{y}.
 \end{gather*}
 
-The correctness results hold for Marpa input streams,
+The correctness results hold for \Marpa input streams,
 but to preserve the time complexity bounds,
 restrictions must be imposed.
 In stating them,
@@ -4118,7 +4120,7 @@ Restrictions \ref{e:restriction1}
 and \ref{e:restriction2}
 impose little or no obstacle
 to the practical use
-of Marpa's generalized input model.
+of \Marpa's generalized input model.
 And with them,
 the complexity results for \Marpa{} stand.
 
