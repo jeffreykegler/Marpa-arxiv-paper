@@ -2866,7 +2866,7 @@ then there exists \Vah{to} such that
 \section{\Marpa is correct}
 \label{s:correct}
 
-\subsection{\Marpa's Earley sets grow at worst linearly}
+\subsection{\textnormal{\Marpa}'s Earley sets grow at worst linearly}
 
 \begin{theorem}\label{t:es-count}
 For a context-free grammar,
@@ -2879,7 +2879,7 @@ and a parse location \Vloc{i},
 \end{theorem}
 
 \begin{proof}
-\type{EIM}'s have the form $[\Vah{x}, \Vorig{x}]$.
+\type{EIM}'s have the form $\tuple{\Vah{x}, \Vorig{x}}$.
 \Vorig{x} is the origin of the \type{EIM},
 which in \Marpa cannot be after the current
 Earley set  at \Vloc{i},
@@ -2898,7 +2898,7 @@ the maximum size of Earley set \Vloc{i} is therefore
 \end{equation*}
 \end{proof}
 
-\subsection{\Marpa's Earley sets are correct}
+\subsection{\textnormal{\Marpa}'s Earley sets are correct}
 
 \begin{theorem}\label{t:table-correct}
 \textnormal{\Marpa}'s Earley sets are correct.
@@ -3311,7 +3311,7 @@ Having shown its step, we have the outer induction,
 and the theorem.
 \qedsymbol
 
-\subsection{\Marpa is correct}
+\subsection{\textnormal{\Marpa} is correct}
 
 We are now is a position to show that \Marpa is correct.
 \begin{theorem}
@@ -3701,7 +3701,7 @@ where \var{c} is a constant that depends on \Cg{},
 \end{equation*}
 Changing the index from \V{j} to \V{i},
 and abbreviating the count of all Earley items according to the convention
-of \eqref{eq:abbr-all-eims-count} on 
+of \eqref{eq:abbr-all-eims-count} on
 page \pageref{eq:abbr-all-eims-count}, we have
 \begin{equation*}
   \V{tries} \leq \V{c} \mult \Rtablesize{\Marpa}.\qedhere
