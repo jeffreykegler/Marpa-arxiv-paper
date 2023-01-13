@@ -4089,8 +4089,10 @@ possibly dependent on the grammar \Cg{},
 that every token length be less than \var{c},
 \begin{equation}
 \label{e:restriction1}
-\forall \, \token{\tuple{\Vsym{x}, \Vloc{x}, \var{length}}},
-\; \var{length} < \var{c},
+\begin{gathered}
+\univQ{ \VTtyped{sym}{SYM}, \VTtyped{x}{LOC}, \Vtyped{length}{\naturals}}{ \\
+  \token{\tuple{\V{sym},\V{j},\V{length}}} \in \V{tokens} \implies \var{length} < \var{c}}
+\end{gathered}
 \end{equation}
 and that
 the cardinality of the set of tokens starting at any
