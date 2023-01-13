@@ -87,9 +87,10 @@
 \newcommand{\lambdaQOp}{\mathop{\lambda}}
 \newcommand{\lambdaQ}[2]{\quantify{\lambdaQOp}{#1}{#2}}
 
-% collection builder, or descriptor
-\newcommand{\setQOp}{\mathop{\mathsection}}
-\newcommand{\setQ}[2]{\quantify{\setQOp}{#1}{#2}}
+% collection builder variant, or descriptor
+\newcommand{\setQvOp}{\mathop{\mathsection}}
+\newcommand{\setQv}[2]{\quantify{\setQOp}{#1}{#2}}
+\newcommand{\setB}[2]{\lbrace #1 \suchthat #2 \rbrace}
 
 \newcommand{\existUniqQOp}{\mathop{\exists{!}}}
 \newcommand{\existUniqQ}[2]{\quantify{\existUniqQOp}{#1}{#2}}
@@ -4086,28 +4087,37 @@ let it be understood that
 We require that,
 for some constant \var{c},
 possibly dependent on the grammar \Cg{},
-that every token length be less than \var{c},
+that every token length be less than a constant,
+call it \var{c1}:
 \begin{equation}
 \label{e:restriction1}
 \begin{gathered}
 \univQ{ \VTtyped{sym}{SYM}, \VTtyped{x}{LOC}, \Vtyped{length}{\naturals}}{ \\
-  \token{\tuple{\V{sym},\V{j},\V{length}}} \in \V{tokens} \implies \var{length} < \var{c}}
+  \token{\tuple{\V{sym},\V{j},\V{length}}} \in \V{tokens} \implies \var{length} < \var{c1}}.
 \end{gathered}
 \end{equation}
-and that
+We also require that
 the cardinality of the set of tokens starting at any
 one location
-be less than \var{c},
+be less than a constant, call it \var{c2}:
 \begin{equation}
 \label{e:restriction2}
- \forall \Vloc{i}, \;
- \Bigl|
- \bigl \lbrace
-	\token{\tuple{ \Vsym{x}, \Vloc{x}, \var{length} }} \bigm|
-	\Vloc{x} = \Vloc{i}
-  \bigr \rbrace
-  \Bigr| < \var{c}
+\begin{gathered}
+    \univQ{ \VTtyped{j}{LOC} }{ \\
+	\left|\,\left\lbrace\,
+	    \begin{gathered}
+	    \VTtyped{t}{TOK} \suchthat \\
+	    \existQ{ \VTtyped{sym}{SYM}, \Vtyped{length}{\naturals}} { \\
+		\V{t} = \tuple{\V{sym},\V{j},\V{length}} \land \V{t} \in \V{tokens}
+		}
+	    \end{gathered}
+	  \,\right\rbrace\,\right|
+	    < \V{c2}
+    }
+\end{gathered}
 \end{equation}
+Because the number of symbols is a constant depending on the grammar,
+\eqref{e:restriction2} follows from \eqref{e:restriction1}.
 Restrictions \ref{e:restriction1}
 and \ref{e:restriction2}
 impose little or no obstacle
