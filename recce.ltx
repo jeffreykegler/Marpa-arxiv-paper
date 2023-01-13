@@ -3758,7 +3758,7 @@ We did not use the fact that the grammar was unambiguous in counting
 the possibilities for \Vsym{transition} or \Veim{tributary}, but
 we did make use of it in determining the count of possibilities
 for \Veim{mainstem}.
-We know still know that
+We still know that
 \begin{equation*}
 \Veim{mainstem} \in \Ves{tributary-origin},
 \end{equation*}
@@ -3767,16 +3767,18 @@ where
 Worst case, every \type{EIM} in \Ves{tributary-origin} is a possible
 match, so that
 the number of possibilities for \Veim{mainstem} now grows to
-\size{\Ves{tributary-origin}}, and
+\bigsize{\Vtable{tributary-origin}}, and
 \begin{equation*}
-\var{reduction-tries} =
-\bigsize{\Ves{tributary-origin}} \mult \Vsize{symbols} \mult \bigsize{\Etable{\V{j}}}.
+\begin{gathered}
+\var{reduction-tries} = \\
+    \bigsize{\Vtable{tributary-origin}} \mult \Vsize{symbols} \mult \bigsize{\Etable{\V{j}}}.
+\end{gathered}
 \end{equation*}
 
 We know that $\var{tributary-origin} \le \var{j}$,
 so that by Theorem \ref{t:es-count},
 \begin{equation*}
-\size{\Ves{tributary-origin}} \mult \size{\Etable{\V{j}}} = \order{\var{j}^2}.
+\size{\Vtable{tributary-origin}} \mult \size{\Etable{\V{j}}} = \order{\var{j}^2}.
 \end{equation*}
 Adding \var{other-tries}
 and summing over the Earley sets,
