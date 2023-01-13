@@ -1000,9 +1000,10 @@ and we abbreviate the expression for this by omitting
 the quantifier, so that
 \begin{equation}
 \label{eq:abbr-all-eims-count}
-\Rtablesize{\alg{Recce}}
-=
-\sum\seqB{\Vtyped{i}{\naturals} < \Vsize{w}}{\bigl| \mymathop{table}[\alg{Recce},\V{i}] \bigr|}.
+\begin{gathered}
+\Rtablesize{\alg{Recce}} \defined \\
+  \sum\seqB{\Vtyped{i}{\naturals} < \Vsize{w}}{\bigl| \mymathop{table}[\alg{Recce},\V{i}] \bigr|}.
+\end{gathered}
 \end{equation}
 For example,
 \Rtablesize{\Marpa} is the total number
@@ -1014,7 +1015,7 @@ there was a unique acceptance symbol,
 \Vsym{accept}, in \Cg{}.
 The input \Cw{} is accepted if and only if,
 \begin{equation*}
-\bigl[[\Vsym{accept} \de \Vsym{start} \mydot], 0\bigr] \in \bigEtable{\Vsize{\Cw}}
+\tuple{\tuple{\Vsym{accept} \de \Vsym{start} \mydot}, 0} \in \bigEtable{\Vsize{\Cw}}
 \end{equation*}
 
 \section{Confluences}
@@ -1208,7 +1209,7 @@ of the reduction operation.
     \begin{array}{c}
 	\Veimt{mainstem} \in \Ves{current} \\
 	\Postdot{\V{mainstem}} = \Vsym{lhs} \\
-	\bigl[ \Vsym{lhs} \de \Vstr{rhs} \bigr] \in \Crules  \\
+	\tuple{ \Vsym{lhs} \de \Vstr{rhs} } \in \Crules  \\
     \end{array}
 }{
   \begin{array}{c}
@@ -1856,23 +1857,6 @@ confluence of a top \type{EIMT}.
 We note that top of a Leo stack may have more than
 one confluence, and that the others may be either Leo or ordinary confluences.
 Algorithm \ref{alg:leo-expansion} must be run for each of the Leo confluences.
-
-% workingLIM = lim0
-% previousCompletion = baseEIM
-% currentES <font face="serif">is the ES for</font> top
-% while workingLIM is well-defined
-% do
-%     <font face="serif"># LIMs always have exactly one confluence</font>
-%     [ previousLIM, workingBase ] = confluence(workingLIM)
-%     <font face="serif">Let</font> completion <font face="serif">be a new EIM such that</font>
-%         DR(completion) = Next(DR(workingBase))
-%         Origin(completion) = Origin(workingBase)
-%     <font face="serif">Add</font> completion <font face="serif">to</font> currentES.
-%     <font face="serif">Add the confluence</font> [ workingBase, previousCompletion ]<!--
-%         --> <font face="serif">to the confluence set of</font> completion.
-%     workingLIM = previousLIM
-%     previousCompletion = completion
-% done
 
 \section{The Aycock-Horspool finite automaton}
 \label{s:AHFA}
@@ -2628,7 +2612,7 @@ the Earley set at \Vloc{x}.
 
 Consider the case where \Marpa is building \Ves{j}
 and wants to check whether Earley item
-$\Veim{x} = [\Vah{x}, \Vorig{x}]$ is new.
+$\Veim{x} = \tuple{\Vah{x}, \Vorig{x}}$ is new.
 \Marpa{} looks at
 \begin{equation*}
 \Vloc{time-stamp} = \PSL{\Ves{x}}{\ID{\Vah{x}}},
@@ -3768,7 +3752,7 @@ Looking again at \var{reduction-tries}
 for the case of ambiguous grammars,
 we need to look again at the triple
 \begin{equation*}
-[\Veim{mainstem}, \Vsym{transition}, \Veim{tributary}].
+\tuple{\Veim{mainstem}, \Vsym{transition}, \Veim{tributary}}.
 \end{equation*}
 We did not use the fact that the grammar was unambiguous in counting
 the possibilities for \Vsym{transition} or \Veim{tributary}, but
@@ -3789,7 +3773,7 @@ the number of possibilities for \Veim{mainstem} now grows to
 \bigsize{\Ves{tributary-origin}} \mult \Vsize{symbols} \mult \bigsize{\Etable{\V{j}}}.
 \end{equation*}
 
-In the worst case $\var{tributary-origin} \simeq \var{j}$,
+We know that $\var{tributary-origin} \le \var{j}$,
 so that by Theorem \ref{t:es-count},
 \begin{equation*}
 \size{\Ves{tributary-origin}} \mult \size{\Etable{\V{j}}} = \order{\var{j}^2}.
@@ -4017,7 +4001,7 @@ with a set of tokens,
 whose elements are triples of symbol,
 start location and length:
 \begin{equation*}
-    [\Vsym{t}, \Vloc{start}, \var{length}]
+    \tuple{\Vsym{t}, \Vloc{start}, \var{length}}
 \end{equation*}
 such that
 $\var{length} \ge 1$
@@ -4060,7 +4044,7 @@ That is, for all \Vloc{i} such
 that $0 \le \Vloc{i} < \size{\Cw}$,
 there must exist
 \begin{equation*}
-	 \var{token} = [\Vsym{t}, \Vloc{start}, \var{length}]
+	 \var{token} = \tuple{\Vsym{t}, \Vloc{start}, \var{length}}
 \end{equation*}
 such that
 \begin{gather*}
@@ -4080,8 +4064,8 @@ for all \Vsym{x}, \Vsym{y}, \Vloc{x}, \Vloc{y},
 \var{xlength}, \var{ylength},
 if we have both of
 \begin{align*}
-    [\Vsym{x}, \Vloc{x}, \var{xlength}] & \in \var{tokens} \quad \text{and} \\
-    [\Vsym{y}, \Vloc{y}, \var{ylength}] & \in \var{tokens},
+    \tuple{\Vsym{x}, \Vloc{x}, \var{xlength}} & \in \var{tokens} \quad \text{and} \\
+    \tuple{\Vsym{y}, \Vloc{y}, \var{ylength}} & \in \var{tokens},
 \end{align*}
 then we have both of
 \begin{gather*}
@@ -4095,7 +4079,7 @@ restrictions must be imposed.
 In stating them,
 let it be understood that
 \begin{equation*}
-	\token{[ \Vsym{x}, \Vloc{x}, \var{length} ]} \in \var{tokens}
+	\token{\tuple{\Vsym{x}, \Vloc{x}, \var{length} }} \in \var{tokens}
 \end{equation*}
 We require that,
 for some constant \var{c},
@@ -4103,7 +4087,7 @@ possibly dependent on the grammar \Cg{},
 that every token length be less than \var{c},
 \begin{equation}
 \label{e:restriction1}
-\forall \, \token{[\Vsym{x}, \Vloc{x}, \var{length}]},
+\forall \, \token{\tuple{\Vsym{x}, \Vloc{x}, \var{length}}},
 \; \var{length} < \var{c},
 \end{equation}
 and that
@@ -4115,7 +4099,7 @@ be less than \var{c},
  \forall \Vloc{i}, \;
  \Bigl|
  \bigl \lbrace
-	\token{[ \Vsym{x}, \Vloc{x}, \var{length} ]} \bigm|
+	\token{\tuple{ \Vsym{x}, \Vloc{x}, \var{length} }} \bigm|
 	\Vloc{x} = \Vloc{i}
   \bigr \rbrace
   \Bigr| < \var{c}
