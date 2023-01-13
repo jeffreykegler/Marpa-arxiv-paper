@@ -998,11 +998,12 @@ We often want the count of all the Earley items
 in a table,
 and we abbreviate the expression for this by omitting
 the quantifier, so that
-$$
+\begin{equation}
+\label{eq:abbr-all-eims-count}
 \Rtablesize{\alg{Recce}}
 =
 \sum\seqB{\Vtyped{i}{\naturals} < \Vsize{w}}{\bigl| \mymathop{table}[\alg{Recce},\V{i}] \bigr|}.
-$$
+\end{equation}
 For example,
 \Rtablesize{\Marpa} is the total number
 of Earley items in all the Earley sets of
@@ -3595,12 +3596,12 @@ Consider the number of reductions attempted.
 \Marpa{} attempts to add an Earley reduction result
 once for every triple
 \begin{equation*}
-[\Veim{mainstem}, \Vsym{transition}, \Veim{tributary}].
+\tuple{\Veim{mainstem}, \Vsym{transition}, \Veim{tributary}}.
 \end{equation*}
 where
 \begin{equation*}
 \begin{split}
-& \Veim{tributary} = [ \Vah{tributary}, \Vloc{tributary-origin} ]  \\
+& \Veim{tributary} = \tuple{ \Vah{tributary}, \Vloc{tributary-origin} }  \\
 \land \quad & \Vdr{tributary} \in \Vah{tributary} \\
  \land \quad & \Vsym{transition} = \LHS{\Vdr{tributary}}. \\
 \end{split}
@@ -3612,7 +3613,7 @@ The number of possibilities for \Vsym{transition} is clearly at most
 the number of symbols in \Cg{}.
 We have $\Veim{tributary} \in \Ves{j}$,
 and therefore there are at most
-$\bigsize{\Ves{j}}$ choices for \Veim{tributary}.
+$\bigsize{\Etable{\V{j}}}$ choices for \Veim{tributary}.
 
 We can show that the number of possible choices of
 \Veim{mainstem} is at most
@@ -3648,14 +3649,14 @@ each \Veim{tributary} are
 \qquad \text{choices of \Veim{mainstem}} \\
 \mult \; & \Vsize{symbols} &&
 \qquad \text{choices of \Vsym{transition}} \\
-\mult \; & \size{\Ves{j}} &&
+\mult \; & \bigsize{\Etable{\V{j}}} &&
 \qquad \text{choices of \Veim{tributary}} \\
 \end{alignedat}
 \end{equation*}
 
 The number of reduction attempts will therefore be at most
 \begin{equation*}
-\var{reduction-tries} \leq \Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}.
+\var{reduction-tries} \leq \Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Etable{\V{j}}}.
 \end{equation*}
 
 Summing
@@ -3678,11 +3679,11 @@ the size of the input,
 \var{max-AHFA} \mult \bigsize{\Vtable{j}}
 } &&
 \qquad \text{\type{LIM}'s} \\
-+ \; & 2 \mult \sum\limits_{i=1}^{n}{
++ \; & 2 \mult \sum\limits_{j=1}^{n}{
 \bigsize{\Etable{\var{j} \subtract 1}}
 } &&
 \qquad \text{scanned \type{EIM}'s} \\
-+ \; & 2 \mult \sum\limits_{i=0}^{n}{\Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}} &&
++ \; & 2 \mult \sum\limits_{j=0}^{n}{\Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Etable{\V{j}}}} &&
 \qquad \text{reduction \type{EIM}'s}.
 \end{alignedat}
 \end{equation*}
@@ -3693,15 +3694,18 @@ Since \var{max-AHFA} and \Vsize{symbols} are both constants
 that depend only on \Cg{},
 if we collect the terms of the summation,
 we will find a constant \var{c}
-such that
+such that,
+where \var{c} is a constant that depends on \Cg{},
 \begin{equation*}
-\var{tries} \leq \var{c} \mult \sum\limits_{i=0}^{n}{\bigsize{\Vtable{j}}},
+\var{tries} \leq \var{c} \mult \sum\limits_{j=0}^{n}{\bigsize{\EEtable{\Marpa}{\V{j}}}}.
 \end{equation*}
-and
+Changing the index from \V{j} to \V{i},
+and abbreviating the count of all Earley items according to the convention
+of \eqref{eq:abbr-all-eims-count} on 
+page \pageref{eq:abbr-all-eims-count}, we have
 \begin{equation*}
-\var{tries} \leq \var{c} \mult \Rtablesize{\Marpa},
+  \V{tries} \leq \V{c} \mult \Rtablesize{\Marpa}.\qedhere
 \end{equation*}
-where \var{c} is a constant that depends on \Cg{}.\qedhere
 \end{proof}
 
 As a reminder,
@@ -3782,13 +3786,13 @@ the number of possibilities for \Veim{mainstem} now grows to
 \size{\Ves{tributary-origin}}, and
 \begin{equation*}
 \var{reduction-tries} =
-\bigsize{\Ves{tributary-origin}} \mult \Vsize{symbols} \mult \bigsize{\Ves{j}}.
+\bigsize{\Ves{tributary-origin}} \mult \Vsize{symbols} \mult \bigsize{\Etable{\V{j}}}.
 \end{equation*}
 
 In the worst case $\var{tributary-origin} \simeq \var{j}$,
 so that by Theorem \ref{t:es-count},
 \begin{equation*}
-\size{\Ves{tributary-origin}} \mult \size{\Ves{j}} = \order{\var{j}^2}.
+\size{\Ves{tributary-origin}} \mult \size{\Etable{\V{j}}} = \order{\var{j}^2}.
 \end{equation*}
 Adding \var{other-tries}
 and summing over the Earley sets,
