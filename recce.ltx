@@ -12,7 +12,6 @@
 
 % Re hbox's, see
 % https://tex.stackexchange.com/questions/241343/what-is-the-meaning-of-fussy-sloppy-emergencystretch-tolerance-hbadness
-\emergencystretch=3em
 \raggedbottom
 
 \newcommand{\todo}[1]{\par{\large\bf Todo: #1}\par}
@@ -266,6 +265,12 @@
 \newcommand{\firstRReqref}{UNDEFINED!}
 \newcommand{\lastRReqref}{UNDEFINED!}
 
+% I like to silence underfull hbox messages.
+% This is syntactic sugar for doing that.
+\newenvironment{MYsloppy}[1][3em]{\par\tolerance9999 \emergencystretch#1\relax}{\par}
+\newenvironment{MYsloppyB}[2]{\par\tolerance9999 \emergencystretch#1 \hbadness#2\relax}{\par}
+\newenvironment{MYsloppyC}[3]{\par\tolerance#3 \emergencystretch#1 \hbadness#2\relax}{\par}
+
 \begin{document}
 
 \date{\today.  Revision 3.}
@@ -337,6 +342,7 @@ Marpa's goal of being a practical parser:
 If a grammar is in a class of grammar currently in practical use,
 Marpa parses it in linear time.
 
+\begin{MYsloppy}
 Error-detection properties are
 extremely important for practical parsing,
 but have been overlooked in the past.
@@ -346,6 +352,7 @@ and goes well beyond that:
 it is fully aware of the state of the parse,
 and can report this to the user while tokens are
 being scanned.
+\end{MYsloppy}
 
 Marpa allows the lexer to check its list
 of acceptable tokens before a token is scanned.
@@ -688,9 +695,11 @@ is such that
 and
 $$ \Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}. $$
 
+\begin{MYsloppy}
 Our definition of the rightmost non-nulling symbol of a string,
 $\RightNN{\Vstr{x}}$,
 is
+\end{MYsloppy}
 $$ \RightNN{\Vstr{x}} \defined \Vsym{rnn} $$
 where
 \[\begin{gathered}
@@ -699,8 +708,10 @@ where
       \land \; \Nullable{\V{post}} \land \neg \Nulling{\V{rnn}}
     }
 \end{gathered}\]
+\begin{MYsloppy}
 Our definition of the rightmost non-nulling symbol of a rule,
 $\RightNN{\Vrule{r}}$, is
+\end{MYsloppy}
 \begin{equation*}
 \RightNN{\Vrule{r}} \defined \RightNN{\RHS{\V{r}}}.
 \end{equation*}
@@ -1093,6 +1104,7 @@ to the Earley set.
 \section{Operations of the Earley algorithm}
 \label{s:earley-ops}
 
+\begin{MYsloppy}
 For any Earley operation there is a
 current parse location, \Vloc{current}, and
 a current Earley set, \Ves{current}.
@@ -1101,6 +1113,7 @@ we often write \Ves{i} for
 the Earley set at \Vloc{i},
 and \es{(\var{exp})} for the Earley set
 at the location given by the expression \var{exp}.
+\end{MYsloppy}
 
 We write the set of confluences of a PIMT
 \Vpimt{p} in Earley set \V{es} as
@@ -1481,6 +1494,7 @@ This means that if a penult \Veimt{pen} shares a postdot symbol
 with an non-penult \Veimt{np} in the same Earley set,
 then \Veimt{pen} is {\bf not} Leo unique.
 
+\begin{MYsloppy}
 If \Veimt{eim} in
 \eqref{e:def-leo-unique}
 is Leo unique in an \type{ES},
@@ -1492,6 +1506,7 @@ there is exactly one dotted rule, call it \V{dr},
 and exactly one rule, call it \V{r}.
 We call \Vdr{dr}, the dotted rule for \Vsym{transition} in \Ves{es}.
 We call \Vrule{r}, the rule for \Vsym{transition} in \Ves{es}.
+\end{MYsloppy}
 
 An \type{EIMT} \Veimt{x}
 is \dfn{Leo eligible}
@@ -1672,8 +1687,10 @@ the \type{LIMT} \Vlimt{limt} indicates that
 \begin{equation*}
 \typed{\tuple{\DR{\Vlimt{limt}}, \Origin{\Vlimt{limt}}}}{\type{EIMT}}
 \end{equation*}
+\begin{MYsloppy}
 is to be added on Leo reductions over
 the symbol $\Transition{\Vlimt{limt}}$.
+\end{MYsloppy}
 
 Pedantically, \type{LIMT}'s are not members of Earley sets,
 so we introduce a partial function from pairs of location
@@ -2203,6 +2220,7 @@ Overhead is charged to the parse.
 All these resource charges are obviously \Oc.
 
 \subsection{Ruby Slippers parsing}
+\begin{MYsloppy}
 The top-level code of
 Algorithm~\ref{alg:top-level}
 (p.~\pageref{alg:top-level})
@@ -2217,6 +2235,7 @@ This means that the scanning operation has available, in
 the Earley sets,
 full information about the current state of the parse,
 including which tokens are acceptable during the scanning phase.
+\end{MYsloppy}
 
 
 \begin{algorithm}[ht]
@@ -2909,6 +2928,7 @@ We leave it as an exercise to show, as the
 basis of the induction, that
 \EEtable{\Marpa}{0} is complete and consistent.
 
+\begin{MYsloppyC}{3em}{2000}{5000}
 To show the outer induction step, we show first
 consistency, then completeness.
 We show consistency by
@@ -2918,6 +2938,7 @@ The inner induction hypothesis is that
 as so far built,
 is consistent with respect to
 \EVtable{\Leo}{i}.
+\end{MYsloppyC}
 
 As the basis of the inner induction,
 an empty \Marpa Earley set is
@@ -2980,7 +3001,7 @@ Otherwise, let
 \begin{equation*}
 \Veim{predicted} = \tuple{\Vah{predicted}, \Vloc{i}}.
 \end{equation*}
-\begin{sloppypar}
+\begin{MYsloppyC}{10em}{8000}{5000}
 We see that \Veim{predicted} is consistent with respect
 to \EVtable{\Leo}{i},
 by the definition of Earley prediction (Section~\ref{d:prediction}) and
@@ -2989,7 +3010,7 @@ Consistency is invariant under union and,
 since \EVtable{\Marpa}{i} is consistent by the inner induction,
 \EVtable{\Marpa}{i} remains consistent after
 \Veim{predicted} is added.
-\end{sloppypar}
+\end{MYsloppyC}
 
 \subsubsection{Earley reduction is consistent}
 \label{s:reduction-consistent}
@@ -3036,11 +3057,13 @@ whether or not a \Veim{predicted} is added.
 \subsubsection{Leo reduction is consistent}
 \label{s:leo-consistent}
 
+\begin{MYsloppy}
 We now show consistency for \Marpa{}'s
 reduction operation,
 in the case where there is a Leo reduction.
 If there is a Leo reduction, it is signaled by the
 presence of \Vlim{mainstem},
+\end{MYsloppy}
 \begin{equation*}
 \Vlim{mainstem} = \tuple{ \Vah{top}, \Vsym{lhs}, \Vorig{top} }
 \end{equation*}
@@ -3213,7 +3236,7 @@ the completeness of Earley items
 in generation \var{n}.
 
 Let
-$\Veim{working} \in \Ves{i}$
+$$\Veim{working} \in \Ves{i}$$
 be the Earley item
 currently being considered as a potential tributary for
 an Earley reduction operation.
@@ -3254,13 +3277,16 @@ and the case of reduction completeness.
 \subsubsection{Leo reduction is complete}
 \label{s:leo-complete}
 
+\begin{MYsloppy}
 We now show completeness for \Marpa{}'s reduction operation,
 in the case where there is a Leo reduction.
 In Section \ref{s:leo-consistent},
 we found that where \Leo{} would create
-the \type{EIMT} $\tuple{\Vdr{top}, \Vorig{top}}$,
+the \type{EIMT}
+\end{MYsloppy}
+$$\tuple{\Vdr{top}, \Vorig{top}},$$
 \Marpa adds
-$\tuple{\Vah{top}, \Vorig{top}}$
+$$\tuple{\Vah{top}, \Vorig{top}}$$
 such that $\Vdr{top} \in \Vah{top}$.
 Since \Vdr{top} is a completed rule,
 there are no predictions.
@@ -3270,6 +3296,7 @@ by the definition of completeness.
 \subsubsection{Prediction is complete}
 \label{s:prediction-complete}
 
+\begin{MYsloppy}
 Predictions result only from items in the same Earley set.
 In Sections \ref{s:scan-complete},
 \ref{s:reduction-complete}
@@ -3279,6 +3306,7 @@ for every prediction that would result
 from an item added to \EVtable{\Leo}{i},
 a corresponding prediction
 was added to \EVtable{\Marpa}{i}.
+\end{MYsloppy}
 
 \subsubsection{Finishing the proof}
 Having shown the cases in Sections
@@ -3298,7 +3326,8 @@ and the theorem.
 
 \subsection{\textnormal{\Marpa} is correct}
 
-We are now is a position to show that \Marpa is correct.
+We are now in a position to show that \Marpa is correct.
+
 \begin{theorem}
 \textup{ $\myL{\Marpa,\Cg} = \myL{\Cg}$ }
 \end{theorem}
@@ -3626,8 +3655,10 @@ This shows the reductio
 and that the number of choices for \Veim{mainstem},
 compatible with \Vorig{tributary}, is as most \Vsize{fa}.
 
-Collecting the results we see that the possibilities for
+\begin{MYsloppy}
+Collecting the results, we see that the possibilities for
 each \Veim{tributary} are
+\end{MYsloppy}
 \begin{equation*}
 \begin{alignedat}{2}
 & \Vsize{fa} &&
@@ -3765,7 +3796,9 @@ We still know that
 \end{equation*}
 where
 \Vloc{tributary-origin} is the origin of \Veim{tributary}.
-Worst case, every \type{EIM} in \Ves{tributary-origin} is a possible
+Worst case, every
+$$ \type{EIM} in \Ves{tributary-origin} $$
+is a possible
 match, so that
 the number of possibilities for \Veim{mainstem} now grows to
 \bigsize{\Vtable{tributary-origin}}, and
@@ -4127,6 +4160,8 @@ And with them,
 the complexity results for \Marpa{} stand.
 
 \bibliographystyle{plain}
+
+\hbadness=5000
 
 \begin{thebibliography}{10}
 
