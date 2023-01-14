@@ -1104,7 +1104,7 @@ to the Earley set.
 \section{Operations of the Earley algorithm}
 \label{s:earley-ops}
 
-\begin{MYsloppy}
+\begin{MYsloppyB}{3em}{3000}
 For any Earley operation there is a
 current parse location, \Vloc{current}, and
 a current Earley set, \Ves{current}.
@@ -1113,7 +1113,7 @@ we often write \Ves{i} for
 the Earley set at \Vloc{i},
 and \es{(\var{exp})} for the Earley set
 at the location given by the expression \var{exp}.
-\end{MYsloppy}
+\end{MYsloppyB}
 
 We write the set of confluences of a PIMT
 \Vpimt{p} in Earley set \V{es} as
@@ -1494,7 +1494,7 @@ This means that if a penult \Veimt{pen} shares a postdot symbol
 with an non-penult \Veimt{np} in the same Earley set,
 then \Veimt{pen} is {\bf not} Leo unique.
 
-\begin{MYsloppy}
+\begin{MYsloppyB}{3em}{2000}
 If \Veimt{eim} in
 \eqref{e:def-leo-unique}
 is Leo unique in an \type{ES},
@@ -1506,7 +1506,7 @@ there is exactly one dotted rule, call it \V{dr},
 and exactly one rule, call it \V{r}.
 We call \Vdr{dr}, the dotted rule for \Vsym{transition} in \Ves{es}.
 We call \Vrule{r}, the rule for \Vsym{transition} in \Ves{es}.
-\end{MYsloppy}
+\end{MYsloppyB}
 
 An \type{EIMT} \Veimt{x}
 is \dfn{Leo eligible}
@@ -1687,10 +1687,9 @@ the \type{LIMT} \Vlimt{limt} indicates that
 \begin{equation*}
 \typed{\tuple{\DR{\Vlimt{limt}}, \Origin{\Vlimt{limt}}}}{\type{EIMT}}
 \end{equation*}
-\begin{MYsloppy}
 is to be added on Leo reductions over
-the symbol $\Transition{\Vlimt{limt}}$.
-\end{MYsloppy}
+the symbol
+$$\Transition{\Vlimt{limt}}.$$
 
 Pedantically, \type{LIMT}'s are not members of Earley sets,
 so we introduce a partial function from pairs of location
@@ -1935,16 +1934,17 @@ An Aycock-Horspool Earley item is a duple
 \end{equation*}
 where $\Vah{y}$ is an AHFA state.
 
-\Marpa{} uses
+\Marpa uses
 Earley items of the form
 created by Aycock and Horspool.
 A \Marpa Earley item has type \type{EIM},
 and a \Marpa Earley item is often referred to as an \type{EIM}.
 
+\begin{MYsloppy}
 Aycock and Horspool did not consider
 Leo's modifications,
-but \Marpa{} incorporates them,
-and \Marpa{} also changes its Leo items to use AHFA states.
+but \Marpa incorporates them,
+and \Marpa also changes its Leo items to use AHFA states.
 Marpa's Leo items (\type{LIM}'s) are triples
 of the form
 \begin{equation*}
@@ -1954,6 +1954,7 @@ where \Vsym{transition} and \Vorig{top}
 are as in the traditional Leo items,
 and \Vah{top} is an AHFA state.
 A \Marpa Leo item has type \type{LIM}.
+\end{MYsloppy}
 
 \cite{AH2002} also defines
 a partial transition function for
@@ -2005,11 +2006,14 @@ that
 \end{equation*}
 where
 \Vdr{complete} is a completed rule.
-Let \Vrule{c} be the rule of \Vdr{complete},
-and \var{cp} its dot position,
+Let
 \begin{equation*}
-\Vdr{complete} = \tuple{ \Vrule{c}, \var{cp} }.
+\begin{gathered}
+\Vrule{c} = \Rule{\Vdr{complete}} \text{and } \V{cp} = \Pos{\V{complete}}, \\
+\text{so that } \Vdr{complete} = \tuple{ \Vrule{c}, \var{cp} }.
+\end{gathered}
 \end{equation*}
+We note that
 $\var{cp} > 0$ because, in \Marpa{}
 grammars, completions are never
 predictions.
@@ -2084,8 +2088,7 @@ $\Vrule{c} = \Vrule{o}$.
 
 By the two inner reductio's,
 we have both
-$\Vrule{c} \neq \Vrule{o}$
-and $\Vrule{c} = \Vrule{o}$,
+$$\Vrule{c} \neq \Vrule{o} \text{ and } \Vrule{c} = \Vrule{o},$$
 which completes the outer reduction to absurdity.
 For the outer reductio, we assumed that
 \Vdr{other}
@@ -3655,20 +3658,20 @@ This shows the reductio
 and that the number of choices for \Veim{mainstem},
 compatible with \Vorig{tributary}, is as most \Vsize{fa}.
 
-\begin{MYsloppy}
-Collecting the results, we see that the possibilities for
-each \Veim{tributary} are
-\end{MYsloppy}
-\begin{equation*}
-\begin{alignedat}{2}
-& \Vsize{fa} &&
-\qquad \text{choices of \Veim{mainstem}} \\
-\mult \; & \Vsize{symbols} &&
-\qquad \text{choices of \Vsym{transition}} \\
-\mult \; & \bigsize{\Etable{\V{j}}} &&
-\qquad \text{choices of \Veim{tributary}} \\
-\end{alignedat}
-\end{equation*}
+\begin{MYsloppyB}{3em}{2000}
+Collecting the results, we see that
+the number of possible choices for
+each \Veim{tributary} is
+\begin{gather*}
+\Vsize{fa} \mult \Vsize{symbols} \mult \bigsize{\Etable{\V{j}}}, \\
+\text{where } \Vsize{fa}
+  \text{is the number of possible choices for \Veim{mainstem}}, \\
+\Vsize{symbols}
+  \text{is the number of possible choices for \Vsym{transition}, and} \\
+\bigsize{\Etable{\V{j}}}
+  \text{is the number of possible choices for \Veim{tributary}.}
+\end{gather*}
+\end{MYsloppyB}
 
 The number of reduction attempts will therefore be at most
 \begin{equation*}
