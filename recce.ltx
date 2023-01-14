@@ -268,7 +268,11 @@
 % I like to silence underfull hbox messages.
 % This is syntactic sugar for doing that.
 \newenvironment{MYsloppy}[1][3em]{\par\tolerance9999 \emergencystretch#1\relax}{\par}
+% This form allows the resetting of hbadness, which may be necessary to
+% shut up an "underfull" warning.
 \newenvironment{MYsloppyB}[2]{\par\tolerance9999 \emergencystretch#1 \hbadness#2\relax}{\par}
+% This form is for a trick:  Tolerances are evaluated line by line, so a tolerance
+% less than 9999 may produce a better looking paragraph and reduce the "badness".
 \newenvironment{MYsloppyC}[3]{\par\tolerance#3 \emergencystretch#1 \hbadness#2\relax}{\par}
 
 \begin{document}
