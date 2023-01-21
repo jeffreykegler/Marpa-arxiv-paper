@@ -480,7 +480,7 @@ for the ``mid'' divider ($\mid$).
 A useful feature of Farmer~2012~\cite{Farmer2012} is his notion of ill-definedness.
 For example, the value of partial functions may be ill-defined for
 some arguments in their domain.
-In fact, Farmer's handling of ill-definedness is the traditional one,
+Farmer's handling of ill-definedness is the traditional one,
 and was well-entrenched,
 but he was first to describe and formalize it.\footnote{%
 See Farmer 2004~\cite{Farmer2004}.
@@ -494,6 +494,10 @@ In this paper we say that these values are defined, but ill-defined.
 }
 
 We write $\unicorn$ for ill-defined.
+A value is \dfn{well-defined} iff it is not ill-defined.
+We write $\V{x}\isWellDef$ to say that \V{x} is well-defined,
+and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined.
+
 Traditionally, and in this paper,
 any formula with an ill-defined operand is false.
 This means that a equality both of whose operands are ill-defined
@@ -501,11 +505,8 @@ is false, so that $\neg \; (\unicorn = \unicorn)$.
 For cases where this is inconvenient,
 we introduce a new relation, $\simeq$, such that
 $$
-  \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} = \unicorn \land \V{b} = \unicorn).
+  \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} \isIllDef \land \V{b} \isIllDef ).
 $$
-A value is \dfn{well-defined} iff it is not ill-defined.
-We write $\V{x}\isWellDef$ to say that \V{x} is well-defined,
-and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined,
 
 \Needspace{5\baselineskip}
 We define a tuple recursively:
