@@ -544,7 +544,7 @@ sequences of length 42 of values from the set \V{C}.
 We say that
 $$ \V{domSet} \tfnMMap \V{C} \defined
    \bigl\{ \V{fn} \bigm|
-       \left( \exists \; \V{D} \in \V{domset} \; \middle| \; \V{fn} \in \V{D} \tfnMap \V{C}
+       \left( \exists \; \V{D} \in \V{domSet} \; \middle| \; \V{fn} \in \V{D} \tfnMap \V{C}
        \right) \bigr\}
 $$
 so that $\naturals \tfnMMap \V{C}$
@@ -1133,7 +1133,7 @@ consists of
 We note that when we said the confluence and parse item were ``added'' just now,
 that they are added to sets, and that an ``add'' is a no-op for an object that is
 already an element of the set.
-Implementions must take care not to allow duplicate confluences in confluence sets,
+Implementations must take care not to allow duplicate confluences in confluence sets,
 and duplicate Earley items in Earley sets.
 
 Each location starts with an empty Earley set.
@@ -1180,7 +1180,7 @@ The mainstem and tributary of the confluence are both ill-defined.
 }{
     \begin{array}{c}
 	\VTtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
-	\VTtyped{\tuple{\Veim{mainsteam}, (
+	\VTtyped{\tuple{\Veim{mainstem}, (
 	   \Cw\bigl[ \Vloc{current} \subtract 1 \bigr]_\type{SYM}
 	) }}{CFLU}
     \end{array}
@@ -1211,7 +1211,7 @@ of the confluence, and of the scanning operation.
 }{
     \begin{array}{c}
 	\VTtyped{ \tuple{ \Next{\Veimt{mainstem}}, \Origin{\var{mainstem}} }}{EIMT} \\
-	\VTtyped{\tuple{\Veim{mainsteam}, \Veim{tributary} }}{CFLU}
+	\VTtyped{\tuple{\Veim{mainstem}, \Veim{tributary} }}{CFLU}
     \end{array}
 }
 \end{equation*}
@@ -1232,7 +1232,7 @@ of the reduction operation.
 }{
   \begin{array}{c}
       \VTtyped{ \tuple{ \tuple{ \Vsym{lhs} \de \mydot \Vstr{rhs} }, \Vloc{current} }}{EIMT} \\
-      \VTtyped{\tuple{\Veimt{mainsteam}, \unicorn }}{CFLU}
+      \VTtyped{\tuple{\Veimt{mainstem}, \unicorn }}{CFLU}
   \end{array}
 }
 \end{equation*}
