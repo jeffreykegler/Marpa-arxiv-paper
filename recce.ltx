@@ -708,13 +708,11 @@ Our definition of the rightmost non-nulling symbol of a string,
 $\RightNN{\Vstr{x}}$,
 is
 \end{MYsloppy}
-$$ \RightNN{\Vstr{x}} \defined \Vsym{rnn} $$
-where
 \[\begin{gathered}
+\RightNN{\Vstr{x}} \defined \; \iotaQ{ \VTtyped{rnn}{SYM} }{ \\
     \existQ{ \VTtyped{pre}{STR}, \; \VTtyped{post}{STR} \;}{ \\
-      \Vstr{x} = \V{pre} \cat \Vsym{rnn} \cat \V{post} \\
-      \land \; \Nullable{\V{post}} \land \neg \Nulling{\V{rnn}}
-    }
+      \Vstr{x} = \V{pre} \cat \V{rnn} \cat \V{post} \land \Nullable{\V{post}} \land \neg \Nulling{\V{rnn}}.
+    } }
 \end{gathered}\]
 \begin{MYsloppy}
 Our definition of the rightmost non-nulling symbol of a rule,
