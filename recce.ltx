@@ -399,7 +399,8 @@ Section
 of this paper.
 Section \ref{s:rewrite} deals with \Marpa's
 grammar rewrites.
-Sections \ref{s:earley} and \ref{s:earley-ops}
+Sections \ref{s:earley}, \ref{s:confluences},
+and \ref{s:earley-ops}
 introduce Earley's algorithm.
 Section \ref{s:leo} describes Leo's modification
 to Earley's algorithm.
@@ -1035,6 +1036,7 @@ The input \Cw{} is accepted if and only if,
 \end{equation*}
 
 \section{Confluences}
+\label{s:confluences}
 
 An Earley item is also called a \dfn{parse item}.
 For \Marpa, we will define another kind of parse item,
