@@ -513,12 +513,14 @@ We define a tuple recursively:
 \begin{itemize}
 \item An ordered pair is a 2-tuple, or duple,
 for example $\tuple{7,11}$.
+The first element of a 2-tuple is its \dfn{head}.
+The second element of a 2-tuple is its \dfn{tail}.
 \item The ordered pair of a set \V{h},
 and an \V{n}-tuple, call it \V{tupA},
 is an ($\V{n}+1$)-tuple, call it \V{tupB}.
+\V{h} is the \dfn{head} of \V{tupB}.
+\V{tupA} is the \dfn{tail} of \V{tupB}.
 \end{itemize}
-We say that \V{h} is the \dfn{head} of \V{tupB}.
-We say that \V{tupA} is the \dfn{tail} of \V{tupB}.
 
 We write tuples using angle brackets.
 The head of a tuple \V{S} can be written \Hd{S}.
@@ -552,13 +554,13 @@ $$
 so that $\naturals \tfnMMap \V{C}$
 is the set of finite sequences of values from the set \V{C}.
 
-We write \Vsize{\V{seq}} for cardinality, or length,
+We write \Vsize{\V{seq}} for the cardinality, or length,
 of the sequence \V{seq}.
 \VVelement{seq}{i} is the \var{i}'th value of the sequence \V{seq},
 and is well-defined when
 $0 \le \V{i} < \Vsize{seq}$.
 We write often specify a sequence by giving its elements inside
-brackets:
+brackets.
 For example,
 $$\seq{\, \V{a}, \; 42, \; \seq{} \, }$$
 is the sequence of length
