@@ -1101,10 +1101,9 @@ We sometimes refer to the confluences and their elements
 as the \dfn{links} of parse items,
 reflecting that fact that they are typically implemented
 as pointers, or ``links''.
-We also sometimes refer to confluence sets,
-and confluences as a
-\dfn{causation} of a parse item,
-because the confluence is the reason for
+We also sometimes refer to confluences as
+\dfn{causations} of a parse item,
+because each confluence is the reason for
 the Earley algorithm to add the parse item
 to the Earley set.
 
@@ -1137,7 +1136,7 @@ We note that when we said the confluence and parse item were ``added'' just now,
 that they are added to sets, and that an ``add'' is a no-op for an object that is
 already an element of the set.
 Implementations must take care not to allow duplicate confluences in confluence sets,
-and duplicate Earley items in Earley sets.
+and not to allow duplicate Earley items in Earley sets.
 
 Each location starts with an empty Earley set.
 For the purposes of this description of
