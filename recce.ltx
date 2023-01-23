@@ -1933,8 +1933,9 @@ the size of Earley sets could be reduced,
 and conjectured that this would
 make Earley's algorithm faster in practice.
 
+\begin{MYsloppy}
 As a reminder,
-the original Earley items (type{EIMT}'s)
+the original Earley items (\type{EIMT}'s)
 were duples, $\tuple{\Vdr{x}, \Vorig{x}}$,
 where \Vdr{x} is a dotted rule.
 An Aycock-Horspool Earley item is a duple
@@ -1942,6 +1943,7 @@ An Aycock-Horspool Earley item is a duple
 \tuple{\Vah{y}, \Vorig{y}},
 \end{equation*}
 where $\Vah{y}$ is an AHFA state.
+\end{MYsloppy}
 
 \Marpa uses
 Earley items of the form
