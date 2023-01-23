@@ -542,9 +542,9 @@ We define the natural numbers, \naturals, to include zero.
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
 $\V{D} \tfnMap \V{C}$ is the set of total functions from domain \V{D} to codomain \V{C}.
 It follows that $\naturals \tfnMap \V{C}$ is the set of
-infinite sequences of values from the set \V{C};
+infinite sequences of terms from the set \V{C};
 and that $42 \tfnMap \V{C}$ is the set of
-sequences of length 42 of values from the set \V{C}.
+sequences of length 42 of terms from the set \V{C}.
 We say that
 $$ \V{domSet} \tfnMMap \V{C} \defined
    \bigl\{ \V{fn} \bigm|
@@ -552,11 +552,11 @@ $$ \V{domSet} \tfnMMap \V{C} \defined
        \right) \bigr\}
 $$
 so that $\naturals \tfnMMap \V{C}$
-is the set of finite sequences of values from the set \V{C}.
+is the set of finite sequences of terms from the set \V{C}.
 
 We write \Vsize{\V{seq}} for the cardinality, or length,
 of the sequence \V{seq}.
-\VVelement{seq}{i} is the \var{i}'th value of the sequence \V{seq},
+\VVelement{seq}{i} is the \var{i}'th term of the sequence \V{seq},
 and is well-defined when
 $0 \le \V{i} < \Vsize{seq}$.
 We write often specify a sequence by giving its terms inside
@@ -564,7 +564,7 @@ brackets.
 For example,
 $$\seq{\, \V{a}, \; 42, \; \seq{} \, }$$
 is the sequence of length
-3 whose values are, in order, \V{a}, the number 42, and the empty sequence.
+3 whose terms are, in order, \V{a}, the number 42, and the empty sequence.
 
 The last index of the sequence \V{seq} is \Vlastix{seq},
 so that \VlastElement{seq} is the last term of \V{seq}.
@@ -638,7 +638,7 @@ in which the left hand side of all but the first
 is the right hand side of its predecessor,
 is a \dfn{derivation}.
 We say that the symbol \V{x} \dfn{induces}
-the string of length 1 whose only value is that symbol,
+the string of length 1 whose only term is that symbol,
 that is, the string \seq{\Vsym{x}}.
 Pedantically, the terms of derivations,
 and the arguments of concatenations like
@@ -1082,20 +1082,20 @@ Continuing the hydrological analogy,
 a sequence of parse items in which all but the
 first is the successor of its mainstem
 is called a \dfn{trunk}.
-The first value in the sequence is the \dfn{top} of the \dfn{trunk},
-and the last value is the \dfn{bottom} of the trunk.
-Sequence values which are neither top or bottom are
-\dfn{interior} values of the trunk.
+The first term in the sequence is the \dfn{top} of the \dfn{trunk},
+and the last term is the \dfn{bottom} of the trunk.
+Sequence terms which are neither top or bottom are
+\dfn{interior} terms of the trunk.
 
 Similarly, we can define a \dfn{tributary sequence}
 as a sequence in which all but the first is the successor of
 its tributary.
 Once again,
-the first value in the tributary
+the first term in the tributary
 sequence is the \dfn{top} of the \dfn{trunk},
-and the last value is the \dfn{bottom} of the trunk.
-Tributary sequence values which are neither top or bottom are
-\dfn{interior} values of the trunk.
+and the last term is the \dfn{bottom} of the trunk.
+Tributary sequence terms which are neither top or bottom are
+\dfn{interior} terms of the trunk.
 
 We sometimes refer to the confluences and their inflows
 as the \dfn{links} of parse items,
