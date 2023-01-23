@@ -513,8 +513,8 @@ We define a tuple recursively:
 \begin{itemize}
 \item An ordered pair is a 2-tuple, or duple,
 for example $\tuple{7,11}$.
-The first element of a 2-tuple is its \dfn{head}.
-The second element of a 2-tuple is its \dfn{tail}.
+The first entry of a 2-tuple is its \dfn{head}.
+The second entry of a 2-tuple is its \dfn{tail}.
 \item The ordered pair of a set \V{h},
 and an \V{n}-tuple, call it \V{tupA},
 is an ($\V{n}+1$)-tuple, call it \V{tupB}.
@@ -559,7 +559,7 @@ of the sequence \V{seq}.
 \VVelement{seq}{i} is the \var{i}'th value of the sequence \V{seq},
 and is well-defined when
 $0 \le \V{i} < \Vsize{seq}$.
-We write often specify a sequence by giving its elements inside
+We write often specify a sequence by giving its terms inside
 brackets.
 For example,
 $$\seq{\, \V{a}, \; 42, \; \seq{} \, }$$
@@ -567,7 +567,7 @@ is the sequence of length
 3 whose values are, in order, \V{a}, the number 42, and the empty sequence.
 
 The last index of the sequence \V{seq} is \Vlastix{seq},
-so that \VlastElement{seq} is the last element of \V{seq}.
+so that \VlastElement{seq} is the last term of \V{seq}.
 \Vlastix{seq} is ill-defined for the empty sequence,
 that is, if $\Vsize{seq} = 0$.
 If \V{seq} is not the empty sequence, then
@@ -640,7 +640,7 @@ is a \dfn{derivation}.
 We say that the symbol \V{x} \dfn{induces}
 the string of length 1 whose only value is that symbol,
 that is, the string \seq{\Vsym{x}}.
-Pedantically, the elements of derivations,
+Pedantically, the terms of derivations,
 and the arguments of concatenations like
 $\Vstr{s1} \cat \Vstr{s2}$
 must be strings.
@@ -957,7 +957,7 @@ The origin is the location where recognition of the rule
 started.
 For convenience, the type \type{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
-the origin element of an Earley item.
+the origin entry of an Earley item.
 
 We find it convenient to apply dotted rule concepts to
 \type{EIMT}'s,
@@ -1054,7 +1054,7 @@ more than one reason to add a parse item to an Earley set.
 Each reason is called a \dfn{confluence}.
 
 A \dfn{confluence} is a duple,
-whose elements are called \dfn{inflows}.
+whose entries are called \dfn{inflows}.
 The first inflow of a confluence is the \dfn{mainstem},
 and is either a parse item or ill-defined.
 The second inflow of a confluence is the \dfn{tributary},
@@ -1097,7 +1097,7 @@ and the last value is the \dfn{bottom} of the trunk.
 Tributary sequence values which are neither top or bottom are
 \dfn{interior} values of the trunk.
 
-We sometimes refer to the confluences and their elements
+We sometimes refer to the confluences and their inflows
 as the \dfn{links} of parse items,
 reflecting that fact that they are typically implemented
 as pointers, or ``links''.
@@ -1547,8 +1547,8 @@ More precisely, \V{eim1} is a Leo tributary of \V{eim2} iff
 \]
 
 A \dfn{Leo tributary sequence} is a tributary sequence in which
-every element except the top is a tributary of its successor.
-Every element of a Leo tributary sequence is in the same Earley set,
+every term except the top is a tributary of its successor.
+Every term of a Leo tributary sequence is in the same Earley set,
 so that it is intuitive to
 visualize a Leo tributary sequence as a vertical stack.
 
@@ -1560,8 +1560,8 @@ all of the following are true:
 \item The top and bottom are distinct.
 \end{itemize}
 
-A Leo stack must have at least two elements,
-and all but the bottom element will be a Leo completion.
+A Leo stack must have at least two terms,
+and all but the bottom term will be a Leo completion.
 Joop Leo's technique for eliminating useless items from an Earley table
 was based on the following insight:
 \begin{center}
