@@ -2690,10 +2690,11 @@ to add a duplicate Earley item to the Earley sets
 is \Oc.
 \end{observation}
 
-For evaluation purposes, \Marpa{} adds a link to
-each \type{EIM} that records each attempt to
+For evaluation purposes, \Marpa{} adds a confluence to
+each \type{EIM} for every attempt to
 add that \type{EIM},
-whether originally or as a duplicate.
+even if that \type{EIM}
+is a duplicate.
 Traditionally, complexity results treat parsers
 as recognizers, and such costs are ignored.
 This will be an issue when the space complexity
@@ -2702,7 +2703,7 @@ for unambiguous grammars is considered.
 \begin{observation}
 The space charged to an attempt
 to add a duplicate Earley item to the Earley sets
-is \Oc{} if links are included,
+is \Oc{} if the confluences are included,
 zero otherwise.
 \end{observation}
 
