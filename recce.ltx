@@ -1806,7 +1806,10 @@ there is a Leo memoization.
 
 \subsection{Leo memoization}
 
-We are now ready to define an inference rule which holds if
+We are now ready to define the inference rules
+for Leo memoization.
+We define one rule
+that holds if
 a \type{LIMT} mainstem can be found for the tributary \type{EIMT}
 in \Ves{current},
 \begin{equation*}
@@ -1833,7 +1836,7 @@ and another inference rule that holds if
 }{
     \begin{array}{c}
 	\VTtyped{ \tuple{\DR{\Veimt{trib}}, \Penult{\V{trib}}, \Origin{\V{trib}}}}{LIMT} \\
-	\VTtyped{\tuple{\unicorn,\Veimt{trib}}}{CFLU}
+	\VTtyped{\tuple{\unicorn,\Veimt{trib}}}{CFLU}.
     \end{array}
 }
 \end{equation*}
