@@ -3460,13 +3460,13 @@ All space in \textnormal{\Marpa} can be allocated
 to the Earley items,
 in such a way that each Earley item
 requires \Oc{} space and,
-if links are not considered,
+if confluences are not considered,
 each attempt to add a duplicate
 Earley item adds no additional space.
 \end{theorem}
 
-\begin{theorem}\label{t:O1-links-per-eim}
-If links are considered,
+\begin{theorem}\label{t:O1-confluences-per-eim}
+If confluences are considered,
 all space in \textnormal{\Marpa} can be allocated
 to the Earley items
 in such a way that each Earley item
@@ -3478,7 +3478,7 @@ requires \Oc{} space.
 \begin{proof}[Proof of Theorems
 \ref{t:O1-time-per-eim},
 \ref{t:O1-space-per-eim},
-and \ref{t:O1-links-per-eim}]
+and \ref{t:O1-confluences-per-eim}]
 These theorems follows from the observations
 in Section \ref{s:pseudocode}
 and from Lemma \ref{l:nulling-rewrite}.
@@ -3984,7 +3984,7 @@ the number of attempts that \Marpa{} will make to add
 where \var{c3} is a constant that depends on \Cg{}.
 Therefore,
 by Theorems \ref{t:O1-time-per-eim}
-and \ref{t:O1-links-per-eim},
+and \ref{t:O1-confluences-per-eim},
 the time and space complexity of \Marpa{} for LR-regular
 grammars is
 \begin{equation*}
@@ -4010,7 +4010,7 @@ the number of attempts that \Marpa{} will make to add
 where \var{c} is a constant that depends on \Cg{}.
 Therefore,
 by Theorems \ref{t:O1-time-per-eim}
-and \ref{t:O1-links-per-eim},
+and \ref{t:O1-confluences-per-eim},
 the time and space complexity of \Marpa{}
 for unambiguous grammars is \order{\var{n}^2}.
 \end{proof}
@@ -4028,7 +4028,7 @@ and Theorem \ref{t:ambiguous-tries}.
 \begin{theorem}\label{t:cfg-space}
 For every context-free grammar,
 \textnormal{\Marpa} runs in $\order{\var{n}^2}$ space,
-if it does not tracks links.
+if it does not track confluences.
 \end{theorem}
 
 \begin{proof}
@@ -4038,23 +4038,23 @@ and Theorem \ref{t:eim-count}.
 
 Traditionally only the space result stated for a parsing algorithm
 is that
-without links, as in \ref{t:cfg-space}.
+without confluences, as in \ref{t:cfg-space}.
 This is sufficiently relevant
 if the parser is only used as a recognizer.
 In practice, however,
 algorithms like \Marpa{}
 are typically used in anticipation
 of an evaluation phase,
-for which links are necessary.
+for which confluences are necessary.
 
 \begin{theorem}
 For every context-free grammar,
 \textnormal{\Marpa} runs in $\order{\var{n}^3}$ space,
-including the space for tracking links.
+including the space for tracking confluences.
 \end{theorem}
 
 \begin{proof}
-By Theorem \ref{t:O1-links-per-eim},
+By Theorem \ref{t:O1-confluences-per-eim},
 and Theorem \ref{t:ambiguous-tries}.
 \end{proof}
 
