@@ -2934,13 +2934,24 @@ The level 1 induction is usually called the inner induction.
 Level 2 induction is referred to by number.
 
 The outer induction is on the Earley sets.
-The outer induction hypothesis is that all Earley sets
-\EVtable{\Marpa}{i},
-$0 \le \Vloc{i} \le \Vloc{n}$,
-are complete and consistent,
+The induction variable is \Vloc{i},
+and the outer induction hypothesis is that every Earley set
+\EVtable{\Marpa}{j},
+where $\Vloc{j} < \Vloc{i}$,
+is complete and consistent,
 and therefore correct.
+For the outer induction step we need to show
+that every Earley set
+\EVtable{\Marpa}{k},
+$\Vloc{k} \le \Vloc{i}$,
+is complete and consistent.
+
+Since we have correctness for the Earley sets at locations
+less than \Vloc{i} by the outer induction hypothesis,
+all we need to show for the step of the outer induction is that the Earley set
+\EVtable{\Marpa}{i} is correct.
 We leave it as an exercise to show, as the
-basis of the induction, that
+basis of the outer induction, that
 \EEtable{\Marpa}{0} is complete and consistent.
 
 \begin{MYsloppyC}{3em}{2000}{5000}
