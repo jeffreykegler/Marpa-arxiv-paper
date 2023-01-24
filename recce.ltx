@@ -3198,7 +3198,7 @@ with the Earley scanning operation (Section \ref{d:scan})
 and using
 Observations~\ref{o:confirmed-AHFA-complete}
 and \ref{o:predicted-AHFA-complete},
-we see that a Earley item will be added to
+we see that an Earley item will be added to
 \EVtable{\Marpa}{i} corresponding to every scanned Earley item
 of \EVtable{\Leo}{i}.
 We also see,
@@ -3233,22 +3233,36 @@ Consider, for the purposes of the level 2 induction,
 the reductions of \Leo{} to occur in generations.
 Let the scanned Earley items be generation 0.
 An \type{EIMT} produced by a reduction is generation $\var{n} + 1$
-if its tributary Earley item was generation was \var{n}.
+if its tributary Earley item was in generation \var{n}.
 Predicted Earley items do not need to be assigned generations.
 In \Marpa grammars they can never contain completions,
 and therefore can never act as the tributary of a reduction.
 
-The induction hypothesis for the level 2 induction
-is that for some \var{n},
-the Earley items of \EVtable{\Marpa}{i} for generations 0 through \var{n}
-are complete and consistent.
-From Section \ref{s:sets-consistent},
-we know that all Earley items in \Marpa's sets are consistent.
+The level 2 induction is on generations.
 In Section \ref{s:scan-complete},
 we showed that generation 0 is complete --
 it contains Earley items
 corresponding to all of the generation 0 \type{EIMT}'s of \Leo.
 This is the basis of the level 2 induction.
+
+The generation variable for the level 2 induction is \V{g}.
+The induction hypothesis for the step of level 2 induction
+is that for some \var{g},
+the Earley items of \EVtable{\Marpa}{i}
+for the generations prior to \V{g}
+are correct (that is, complete and consistent).
+For the step we need to show that
+the Earley items of \EVtable{\Marpa}{i} for the generation up to \V{g}
+are correct.
+Since we have the correctness of the generation prior to \V{g}
+by the induction hypothesis,
+all that we need to show for the step will be that
+the Earley items of \EVtable{\Marpa}{i} for generation \V{g}
+are correct.
+
+From Section \ref{s:sets-consistent},
+we know that all Earley items in \Marpa's sets are consistent.
+Therefore, to show correctness, we have only to show completeness.
 
 Since we stipulated that \Marpa{} adds Earley items
 at the end of each set,
